@@ -156,7 +156,7 @@ const Hero = () => {
 
               <p className="text-lg text-gray-700 dark:text-gray-300 mb-8 leading-relaxed">
                 I create beautiful, responsive, and user-friendly web applications with modern technologies.
-                Passionate about delivering exceptional digital experiences that solve real-world problems.
+                Passionate about delivering exceptional digital experiences that solve real-world problems...
               </p>
 
               <div className="flex flex-wrap gap-x-3 mb-8">

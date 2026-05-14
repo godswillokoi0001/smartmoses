@@ -143,15 +143,7 @@ function App() {
                 Creative Technologist & Digital Brand Builder for founders, creators, and premium brands.
               </p>
             </div>
-            <nav className="flex flex-wrap gap-3 text-sm text-slate-300">
-              <a href="#about" className="transition hover:text-white">About</a>
-              <a href="#services" className="transition hover:text-white">Services</a>
-              <a href="#work" className="transition hover:text-white">Work</a>
-              <a href="#contact" className="rounded-full border border-white/10 bg-white/5 px-4 py-2 transition hover:border-cyan-300/40 hover:text-white">
-                Contact
-              </a>
-            </nav>
-          </div>
+              <nav className="flex flex-wrap justify-center gap-3 text-sm text-slate-300 sm:justify-end">
         </header>
 
         <main>

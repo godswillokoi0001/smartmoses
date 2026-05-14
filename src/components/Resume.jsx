@@ -107,7 +107,7 @@ const Resume = () => {
                 </button>
               </div>
               <p className="text-center text-gray-600 dark:text-gray-400">
-                My CV includes my professional experience, education, skills, and achievements.
+                My CV includes my professional experience, education, skills, and achievements...
               </p>
             </div>
           </div>

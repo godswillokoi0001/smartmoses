@@ -10,6 +10,7 @@
   }
 
   body {
+    margin: 0;
     @apply bg-[#050507] text-slate-100;
     background-image:
       radial-gradient(circle at 20% 10%, rgba(56, 189, 248, 0.08), transparent 18%),
@@ -71,5 +72,14 @@
 
   .section-divider {
     background: linear-gradient(90deg, rgba(34, 211, 238, 0.22), rgba(168, 85, 247, 0.12));
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
