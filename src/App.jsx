@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion'
 
 const sectionMotion = {
-  initial: { opacity: 0, y: 28 },
+  initial: { opacity: 0, y: 32 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, amount: 0.2 },
-  transition: { duration: 0.8, ease: 'easeOut' },
+  transition: { duration: 0.85, ease: 'easeOut' },
 }
 
 const trustPoints = [
@@ -135,7 +135,7 @@ function App() {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(56,189,248,0.12),_transparent_18%),radial-gradient(circle_at_20%_10%,_rgba(168,85,247,0.08),_transparent_14%)]" />
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 pb-24 pt-8 sm:px-8 lg:px-10">
-        <header className="sticky top-0 z-20 mx-auto mb-16 w-full rounded-3xl border border-white/10 bg-slate-950/70 px-6 py-4 backdrop-blur-xl sm:px-8">
+        <header className="sticky top-0 z-30 mx-auto mb-16 w-full rounded-[2rem] border border-white/10 bg-slate-950/75 px-6 py-5 shadow-2xl shadow-slate-950/20 backdrop-blur-2xl sm:px-8">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <p className="text-sm uppercase tracking-[0.34em] text-cyan-300/70">Smart Moses</p>
@@ -155,37 +155,37 @@ function App() {
           </header>
         <main>
           <motion.section
-            className="overflow-hidden rounded-[2.5rem] border border-white/10 bg-slate-950/80 p-8 shadow-[0_40px_120px_rgba(15,23,42,0.35)] backdrop-blur-xl sm:p-12 lg:p-16"
+            className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-slate-950/90 p-8 shadow-[0_40px_120px_rgba(0,0,0,0.45)] backdrop-blur-xl sm:p-12 lg:p-16"
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: 'easeOut' }}
           >
-            <div className="grid gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-64 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.14),transparent_40%)]" />
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.03),transparent_55%)]" />
+            <div className="relative grid gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
               <div className="space-y-8">
-                <p className="inline-flex rounded-full border border-cyan-300/20 bg-cyan-300/5 px-4 py-2 text-xs uppercase tracking-[0.32em] text-cyan-200/90">
+                <p className="inline-flex items-center gap-3 rounded-full border border-cyan-400/20 bg-cyan-400/10 px-4 py-2 text-xs uppercase tracking-[0.35em] text-cyan-200/90 shadow-[0_20px_80px_rgba(56,189,248,0.06)]">
                   Creative Technologist & Digital Brand Builder
                 </p>
                 <div className="space-y-6">
-                  <h1 className="max-w-3xl text-5xl font-semibold leading-[1.02] tracking-[-0.04em] text-white sm:text-6xl">
+                  <h1 className="max-w-4xl text-5xl font-black leading-[0.98] tracking-[-0.05em] text-white sm:text-[4.65rem] lg:text-[5.5rem]">
                     Smart Moses builds modern digital experiences that merge creativity, strategy, and technology for brands, businesses, and creators.
                   </h1>
-                  <p className="max-w-2xl text-lg leading-8 text-slate-300 sm:text-xl">
-                    In a digital world filled with noise, generic websites, and forgettable brands, clarity has become a competitive advantage.
-                    The goal is not just to make things look good. The goal is to create digital experiences that communicate clearly, build trust instantly, and move people to take action.
-                    From websites and landing pages to branding visuals and content systems, every project is approached with strategy, precision, and intentional execution.
+                  <p className="max-w-3xl text-lg leading-8 text-slate-300/90 sm:text-xl">
+                    In a digital world filled with noise, generic websites, and forgettable brands, clarity has become a competitive advantage. The goal is not just to make things look good, but to create digital experiences that communicate clearly, build trust instantly, and move people to take action.
                   </p>
                 </div>
 
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
                   <a
                     href="#contact"
-                    className="inline-flex items-center justify-center rounded-full bg-cyan-400 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300"
+                    className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-3 text-sm font-semibold text-slate-950 shadow-[0_24px_60px_rgba(56,189,248,0.25)] transition duration-300 hover:shadow-[0_28px_80px_rgba(56,189,248,0.3)]"
                   >
                     Start a Project
                   </a>
                   <a
                     href="#work"
-                    className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm font-semibold text-slate-100 transition hover:border-cyan-300/40 hover:text-white"
+                    className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm font-semibold text-slate-100 transition duration-300 hover:border-cyan-300/40 hover:text-white"
                   >
                     View Selected Work
                   </a>
@@ -193,14 +193,15 @@ function App() {
 
                 <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                   {trustPoints.map(item => (
-                    <div key={item} className="rounded-3xl border border-white/10 bg-slate-900/50 px-5 py-4 text-sm text-slate-300 shadow-[0_10px_30px_rgba(15,23,42,0.25)]">
+                    <div key={item} className="rounded-3xl border border-white/10 bg-white/5 px-5 py-4 text-sm text-slate-200 shadow-[0_20px_60px_rgba(15,23,42,0.18)] backdrop-blur-xl">
                       {item}
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="relative overflow-hidden rounded-[2.25rem] border border-white/10 bg-slate-900/80 p-6 shadow-[0_40px_120px_rgba(15,23,42,0.4)] sm:p-8">
+              <div className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-slate-900/80 p-6 shadow-[0_40px_120px_rgba(15,23,42,0.4)] sm:p-8">
+                <div className="absolute inset-x-0 top-0 h-44 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.14),transparent_40%)]" />
                 <div className="absolute -right-10 top-8 h-40 w-40 rounded-full bg-cyan-400/10 blur-3xl" />
                 <div className="absolute -left-10 bottom-8 h-36 w-36 rounded-full bg-violet-500/10 blur-3xl" />
                 <div className="relative rounded-[2rem] border border-white/10 bg-slate-950/80 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
@@ -208,8 +209,13 @@ function App() {
                   <div className="relative flex h-full flex-col gap-6">
                     <div className="space-y-3">
                       <p className="text-xs uppercase tracking-[0.35em] text-cyan-300/80">Premium portrait direction</p>
-                      <div className="h-72 rounded-[2rem] border border-white/10 bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 shadow-[inset_0_-10px_40px_rgba(15,23,42,0.5)]">
-                        <div className="h-full w-full rounded-[2rem] bg-[radial-gradient(circle_at_30%_20%,_rgba(56,189,248,0.18),transparent_38%),radial-gradient(circle_at_80%_10%,_rgba(168,85,247,0.14),transparent_30%)]" />
+                      <div className="relative h-72 overflow-hidden rounded-[2rem] border border-white/10 shadow-[inset_0_-10px_40px_rgba(15,23,42,0.5)]">
+                        <img
+                          src="/images/me.jpeg"
+                          alt="Smart Moses portrait"
+                          className="h-full w-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,_rgba(56,189,248,0.18),transparent_38%),radial-gradient(circle_at_80%_10%,_rgba(168,85,247,0.14),transparent_30%)]" />
                       </div>
                     </div>
                     <div className="grid gap-4 sm:grid-cols-2">
@@ -233,33 +239,33 @@ function App() {
             className="mt-20 rounded-[2rem] border border-white/10 bg-slate-950/80 p-8 shadow-[0_40px_100px_rgba(15,23,42,0.22)] backdrop-blur-xl sm:p-12"
             {...sectionMotion}
           >
-            <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+            <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
               <div className="space-y-7">
-                <p className="text-xs uppercase tracking-[0.34em] text-cyan-300/80">Building Digital Experiences That Actually Connect</p>
+                <p className="text-xs uppercase tracking-[0.34em] text-cyan-300/80">Brand-led digital design</p>
                 <h2 className="text-4xl font-semibold tracking-[-0.03em] text-white sm:text-5xl">
-                  Building Digital Experiences That Actually Connect
+                  Strategic experiences built for premium growth.
                 </h2>
                 <p className="max-w-2xl text-lg leading-8 text-slate-300">
-                  In a landscape full of quiet websites, the strongest brands are the ones that feel intentional, strategic, and emotionally intelligent. I craft experiences that speak directly to founders, creators, and premium teams who want digital products that feel elevated and effective.
+                  I design purposeful products and refined interfaces for businesses that value clarity, polished storytelling, and measurable digital momentum. Every page is designed to feel elevated, confident, and unmistakably premium.
                 </p>
               </div>
 
               <div className="grid gap-5 sm:grid-cols-2">
-                <div className="rounded-[2rem] border border-white/10 bg-slate-900/70 p-6 shadow-[0_20px_40px_rgba(15,23,42,0.25)]">
-                  <p className="text-sm uppercase tracking-[0.28em] text-cyan-300/80">Workspace</p>
-                  <p className="mt-4 text-base leading-7 text-slate-300">A refined digital workshop that pairs design systems, strategic concepts, and production-ready assets.</p>
+                <div className="rounded-[2rem] border border-white/10 bg-slate-900/70 p-6 shadow-[0_20px_40px_rgba(15,23,42,0.25)] transition hover:-translate-y-0.5">
+                  <p className="text-sm uppercase tracking-[0.28em] text-cyan-300/80">Positioning</p>
+                  <p className="mt-4 text-base leading-7 text-slate-300">Refined identity systems that anchor digital products in a clear market position.</p>
                 </div>
-                <div className="rounded-[2rem] border border-white/10 bg-slate-900/70 p-6 shadow-[0_20px_40px_rgba(15,23,42,0.25)]">
-                  <p className="text-sm uppercase tracking-[0.28em] text-cyan-300/80">Creative systems</p>
-                  <p className="mt-4 text-base leading-7 text-slate-300">Visual storytelling delivered through brand mockups, interface compositions, and motion-ready content.</p>
+                <div className="rounded-[2rem] border border-white/10 bg-slate-900/70 p-6 shadow-[0_20px_40px_rgba(15,23,42,0.25)] transition hover:-translate-y-0.5">
+                  <p className="text-sm uppercase tracking-[0.28em] text-cyan-300/80">Interface craft</p>
+                  <p className="mt-4 text-base leading-7 text-slate-300">Deliberate UI systems with premium spacing, motion, and clear visual hierarchy.</p>
                 </div>
-                <div className="rounded-[2rem] border border-white/10 bg-slate-900/70 p-6 shadow-[0_20px_40px_rgba(15,23,42,0.25)]">
-                  <p className="text-sm uppercase tracking-[0.28em] text-cyan-300/80">Design rhythm</p>
-                  <p className="mt-4 text-base leading-7 text-slate-300">Simple grid layouts, soft gradients, and elevated spacing that feel calm, deliberate, and premium.</p>
+                <div className="rounded-[2rem] border border-white/10 bg-slate-900/70 p-6 shadow-[0_20px_40px_rgba(15,23,42,0.25)] transition hover:-translate-y-0.5">
+                  <p className="text-sm uppercase tracking-[0.28em] text-cyan-300/80">Creative strategy</p>
+                  <p className="mt-4 text-base leading-7 text-slate-300">Narrative-led assets that make product stories feel modern, premium, and easy to understand.</p>
                 </div>
-                <div className="rounded-[2rem] border border-white/10 bg-slate-900/70 p-6 shadow-[0_20px_40px_rgba(15,23,42,0.25)]">
-                  <p className="text-sm uppercase tracking-[0.28em] text-cyan-300/80">Execution</p>
-                  <p className="mt-4 text-base leading-7 text-slate-300">From concept to delivery, every digital touchpoint is built to perform and feel unmistakably premium.</p>
+                <div className="rounded-[2rem] border border-white/10 bg-slate-900/70 p-6 shadow-[0_20px_40px_rgba(15,23,42,0.25)] transition hover:-translate-y-0.5">
+                  <p className="text-sm uppercase tracking-[0.28em] text-cyan-300/80">Delivery</p>
+                  <p className="mt-4 text-base leading-7 text-slate-300">End-to-end execution that balances craftsmanship, speed, and polished digital delivery.</p>
                 </div>
               </div>
             </div>
@@ -271,7 +277,7 @@ function App() {
                 <p className="text-xs uppercase tracking-[0.34em] text-cyan-300/80">What Gets Built</p>
                 <h2 className="mt-4 text-4xl font-semibold tracking-[-0.03em] text-white sm:text-5xl">What Gets Built</h2>
                 <p className="mt-4 max-w-2xl text-lg leading-8 text-slate-300">
-                  Premium service offerings designed to help ambitious founders and brands create digital experiences that feel polished, intentional, and conversion-ready.
+                  Services crafted for founders and teams who want digital products that look premium, feel effortless, and convert with confidence.
                 </p>
               </div>
 
@@ -279,16 +285,18 @@ function App() {
                 {services.map(service => (
                   <motion.article
                     key={service.title}
-                    className="group rounded-[2rem] border border-white/10 bg-slate-950/75 p-8 shadow-[0_30px_80px_rgba(15,23,42,0.22)] transition hover:-translate-y-1 hover:border-cyan-300/30"
+                    className="group rounded-[2rem] border border-white/10 bg-slate-950/75 p-8 shadow-[0_30px_80px_rgba(15,23,42,0.22)] transition duration-300 hover:-translate-y-1 hover:border-cyan-300/30 hover:bg-slate-900/80"
                     whileHover={{ y: -4 }}
                     transition={{ type: 'spring', stiffness: 180, damping: 20 }}
                   >
-                    <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-cyan-400/10 text-cyan-300">
-                      <span className="text-xl font-semibold">•</span>
+                    <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-400/20 to-slate-900 text-cyan-300 shadow-[0_20px_40px_rgba(56,189,248,0.12)]">
+                      <span className="text-2xl font-semibold">•</span>
                     </div>
                     <h3 className="text-2xl font-semibold text-white">{service.title}</h3>
                     <p className="mt-4 text-slate-300">{service.description}</p>
-                    <p className="mt-6 text-sm font-medium uppercase tracking-[0.22em] text-cyan-300/80">{service.highlight}</p>
+                    <div className="mt-6 rounded-3xl bg-slate-900/85 p-4 text-sm text-cyan-200/90">
+                      <p className="font-semibold">{service.highlight}</p>
+                    </div>
                   </motion.article>
                 ))}
               </div>
@@ -324,9 +332,15 @@ function App() {
                           <p className="mt-3 text-slate-300">{project.solution}</p>
                         </div>
                       </div>
-                      <div className="rounded-3xl bg-slate-950/60 p-5">
-                        <p className="text-xs uppercase tracking-[0.28em] text-cyan-300/80">Outcome</p>
-                        <p className="mt-3 text-slate-300">{project.outcome}</p>
+                      <div className="grid gap-4 md:grid-cols-2">
+                        <div className="rounded-3xl bg-slate-950/60 p-5">
+                          <p className="text-xs uppercase tracking-[0.28em] text-cyan-300/80">Outcome</p>
+                          <p className="mt-3 text-slate-300">{project.outcome}</p>
+                        </div>
+                        <div className="rounded-3xl bg-slate-950/60 p-5">
+                          <p className="text-xs uppercase tracking-[0.28em] text-cyan-300/80">Impact</p>
+                          <p className="mt-3 text-slate-300">Built for clarity, speed, and memorable digital discovery.</p>
+                        </div>
                       </div>
                       <p className="text-sm uppercase tracking-[0.28em] text-slate-400">Tools used</p>
                       <div className="flex flex-wrap gap-3 text-sm text-slate-300">
@@ -340,11 +354,11 @@ function App() {
                       <div className="relative grid gap-6">
                         <div className="rounded-[1.75rem] border border-white/10 bg-slate-900/90 p-6">
                           <p className="text-sm uppercase tracking-[0.28em] text-cyan-300/80">Desktop preview</p>
-                          <div className="mt-5 h-52 rounded-[1.5rem] bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950" />
+                          <div className="mt-5 h-52 rounded-[1.5rem] bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 shadow-[inset_0_0_50px_rgba(15,23,42,0.4)]" />
                         </div>
                         <div className="rounded-[1.75rem] border border-white/10 bg-slate-900/90 p-5">
                           <p className="text-sm uppercase tracking-[0.28em] text-cyan-300/80">Mobile view</p>
-                          <div className="mt-5 h-40 rounded-[1.5rem] bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950" />
+                          <div className="mt-5 h-40 rounded-[1.5rem] bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 shadow-[inset_0_0_40px_rgba(15,23,42,0.35)]" />
                         </div>
                       </div>
                     </div>
