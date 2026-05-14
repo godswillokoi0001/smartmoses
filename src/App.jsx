@@ -136,16 +136,23 @@ function App() {
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 pb-24 pt-8 sm:px-8 lg:px-10">
         <header className="sticky top-0 z-20 mx-auto mb-16 w-full rounded-3xl border border-white/10 bg-slate-950/70 px-6 py-4 backdrop-blur-xl sm:px-8">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <p className="text-sm uppercase tracking-[0.34em] text-cyan-300/70">Smart Moses</p>
-              <p className="mt-2 max-w-xl text-sm leading-6 text-slate-300">
-                Creative Technologist & Digital Brand Builder for founders, creators, and premium brands.
-              </p>
-            </div>
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="text-sm uppercase tracking-[0.34em] text-cyan-300/70">Smart Moses</p>
+                <p className="mt-2 max-w-xl text-sm leading-6 text-slate-300">
+                  Creative Technologist & Digital Brand Builder for founders, creators, and premium brands.
+                </p>
+              </div>
               <nav className="flex flex-wrap justify-center gap-3 text-sm text-slate-300 sm:justify-end">
-        </header>
-
+                <a href="#about" className="transition hover:text-white">About</a>
+                <a href="#services" className="transition hover:text-white">Services</a>
+                <a href="#work" className="transition hover:text-white">Work</a>
+                <a href="#contact" className="rounded-full border border-white/10 bg-white/5 px-4 py-2 transition hover:border-cyan-300/40 hover:text-white">
+                  Contact
+                </a>
+              </nav>
+            </div>
+          </header>
         <main>
           <motion.section
             className="overflow-hidden rounded-[2.5rem] border border-white/10 bg-slate-950/80 p-8 shadow-[0_40px_120px_rgba(15,23,42,0.35)] backdrop-blur-xl sm:p-12 lg:p-16"
