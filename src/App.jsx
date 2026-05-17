@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform, AnimatePresence, useMotionValue, useSpring } from 'framer-motion'
 import { useRef, useState, useEffect, useCallback } from 'react'
+import PricingPage from './PricingPage.jsx'
 
 /* ═══════════════════════════════════════
    DESIGN TOKENS
@@ -992,6 +993,9 @@ function FooterLink({ href, children }) {
    ROOT
 ═══════════════════════════════════════ */
 export default function App() {
+  const path = typeof window !== 'undefined' ? window.location.pathname : ''
+  const showPricing = path.endsWith('/pricingpage')
+
   return (
     <>
       <style>{`
@@ -1154,19 +1158,23 @@ export default function App() {
         }
       `}</style>
 
-      <div style={{ position: 'relative', minHeight: '100vh', background: '#03030A' }}>
-        <CursorGlow />
-        <Nav />
-        <Hero />
-        <About />
-        <Services />
-        <Work />
-        <Why />
-        <Testimonials />
-        <Process />
-        <CTA />
-        <Footer />
-      </div>
+      {showPricing ? (
+        <PricingPage />
+      ) : (
+        <div style={{ position: 'relative', minHeight: '100vh', background: '#03030A' }}>
+          <CursorGlow />
+          <Nav />
+          <Hero />
+          <About />
+          <Services />
+          <Work />
+          <Why />
+          <Testimonials />
+          <Process />
+          <CTA />
+          <Footer />
+        </div>
+      )}
     </>
   )
 }
