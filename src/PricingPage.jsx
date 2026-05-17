@@ -242,7 +242,7 @@ function PackageCard({ pkg, index }) {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
         <span
           style={{
-            fontFamily: "'Cormorant Garamond', 'Georgia', serif",
+            fontFamily: "'Syne', system-ui, sans-serif",
             fontSize: 13,
             letterSpacing: "0.25em",
             color: pkg.accent,
@@ -274,7 +274,7 @@ function PackageCard({ pkg, index }) {
       <div>
         <h3
           style={{
-            fontFamily: "'Cormorant Garamond', 'Georgia', serif",
+            fontFamily: "'Syne', system-ui, sans-serif",
             fontSize: "clamp(1.5rem, 2.5vw, 1.9rem)",
             fontWeight: 700,
             color: "#F4F0E8",
@@ -288,7 +288,7 @@ function PackageCard({ pkg, index }) {
         <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
           <span
             style={{
-              fontFamily: "'Cormorant Garamond', 'Georgia', serif",
+            fontFamily: "'Syne', system-ui, sans-serif",
               fontSize: "clamp(2rem, 4vw, 2.6rem)",
               fontWeight: 700,
               background: `linear-gradient(135deg, ${pkg.accent}, #ff9356)`,
@@ -463,7 +463,7 @@ function ServiceCategory({ category }) {
         <span style={{ fontSize: 18 }}>{category.icon}</span>
         <h3
           style={{
-            fontFamily: "'Cormorant Garamond', Georgia, serif",
+            fontFamily: "'Syne', system-ui, sans-serif",
             fontSize: "1.25rem",
             fontWeight: 700,
             color: "#F4F0E8",
@@ -492,7 +492,7 @@ function ServiceCategory({ category }) {
                 fontSize: 14,
                 fontWeight: 600,
                 color: "#E8692A",
-                fontFamily: "'Cormorant Garamond', Georgia, serif",
+            fontFamily: "'Syne', system-ui, sans-serif",
                 letterSpacing: "0.02em",
               }}
             >
@@ -617,7 +617,7 @@ function SectionLabel({ number, label }) {
     <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: "1rem" }}>
       <span
         style={{
-          fontFamily: "'Cormorant Garamond', Georgia, serif",
+                fontFamily: "'Syne', system-ui, sans-serif",
           fontSize: 12,
           letterSpacing: "0.3em",
           color: "#E8692A",
@@ -648,12 +648,12 @@ export default function PricingPage() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;700&display=swap');
 
         * { box-sizing: border-box; }
 
         .pricing-root {
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+          font-family: 'DM Sans', system-ui, sans-serif;
           background: #080C12;
           color: #F4F0E8;
           min-height: 100vh;
@@ -764,7 +764,7 @@ export default function PricingPage() {
 
             <h1
               style={{
-                fontFamily: "'Cormorant Garamond', Georgia, serif",
+                fontFamily: "'Syne', system-ui, sans-serif",
                 fontSize: "clamp(2.8rem, 7vw, 5.5rem)",
                 fontWeight: 700,
                 color: "#F4F0E8",
@@ -828,7 +828,7 @@ export default function PricingPage() {
                 <div key={stat.label} style={{ textAlign: "center" }}>
                   <p
                     style={{
-                      fontFamily: "'Cormorant Garamond', Georgia, serif",
+                  fontFamily: "'Syne', system-ui, sans-serif",
                       fontSize: "2.2rem",
                       fontWeight: 700,
                       color: "#E8692A",
@@ -854,7 +854,7 @@ export default function PricingPage() {
             <div style={{ marginBottom: "3rem" }}>
               <h2
                 style={{
-                  fontFamily: "'Cormorant Garamond', Georgia, serif",
+                  fontFamily: "'Syne', system-ui, sans-serif",
                   fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)",
                   fontWeight: 700,
                   color: "#F4F0E8",
@@ -883,7 +883,7 @@ export default function PricingPage() {
             <div style={{ marginBottom: "3rem" }}>
               <h2
                 style={{
-                  fontFamily: "'Cormorant Garamond', Georgia, serif",
+                fontFamily: "'Syne', system-ui, sans-serif",
                   fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)",
                   fontWeight: 700,
                   color: "#F4F0E8",
@@ -912,7 +912,7 @@ export default function PricingPage() {
             <div style={{ marginBottom: "2.5rem" }}>
               <h2
                 style={{
-                  fontFamily: "'Cormorant Garamond', Georgia, serif",
+                  fontFamily: "'Syne', system-ui, sans-serif",
                   fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)",
                   fontWeight: 700,
                   color: "#F4F0E8",
@@ -949,7 +949,7 @@ export default function PricingPage() {
               <div>
                 <h2
                   style={{
-                    fontFamily: "'Cormorant Garamond', Georgia, serif",
+                    fontFamily: "'Syne', system-ui, sans-serif",
                     fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)",
                     fontWeight: 700,
                     color: "#F4F0E8",
@@ -995,7 +995,7 @@ export default function PricingPage() {
             <SectionLabel number="05" label="Let's Talk" />
             <h2
               style={{
-                fontFamily: "'Cormorant Garamond', Georgia, serif",
+                fontFamily: "'Syne', system-ui, sans-serif",
                 fontSize: "clamp(2rem, 5vw, 3.8rem)",
                 fontWeight: 700,
                 color: "#F4F0E8",

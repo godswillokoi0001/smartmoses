@@ -193,7 +193,7 @@ function FireBtn({ href, children, onClick }) {
       onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
       style={{
         display: 'inline-flex', alignItems: 'center', gap: 9,
-        borderRadius: 12, padding: '14px 28px',
+        borderRadius: 12, padding: '14px 16px',
         background: gradFire,
         color: '#0A0005',
         fontSize: 11, fontWeight: 700, letterSpacing: '0.06em',
@@ -218,7 +218,7 @@ function GhostBtn({ href, children }) {
       onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
       style={{
         display: 'inline-flex', alignItems: 'center', gap: 8,
-        borderRadius: 12, padding: '14px 28px',
+        borderRadius: 12, padding: '14px 16px',
         border: `1px solid ${hov ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.09)'}`,
         background: hov ? 'rgba(255,255,255,0.055)' : 'transparent',
         color: hov ? T.white : T.muted,
@@ -259,7 +259,7 @@ function Nav() {
     >
       <div style={{
         pointerEvents: 'all',
-        width: 'calc(100% - 32px)', maxWidth: 1100,
+        width: 'calc(100% - 32px)', maxWidth: 1250,
         background: scrolled ? 'rgba(3,3,10,0.88)' : 'rgba(3,3,10,0.4)',
         border: `1px solid ${scrolled ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.04)'}`,
         borderRadius: 18,
@@ -271,13 +271,7 @@ function Nav() {
           {/* Logo */}
           <a href="#" style={{ textDecoration: 'none' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <div style={{ width: 32, height: 32, borderRadius: 9, background: gradFire, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <span style={{ fontSize: 13, color: '#0A0005', fontWeight: 900, fontFamily: FONT_H }}>SM</span>
-              </div>
-              <div>
-                <p style={{ fontFamily: FONT_H, fontSize: 13, fontWeight: 700, letterSpacing: '0.04em', color: T.white, lineHeight: 1 }}>Smart Moses</p>
-                <p style={{ fontSize: 8, color: T.dim, letterSpacing: '0.26em', textTransform: 'uppercase', marginTop: 2, fontFamily: FONT_B }}>Creative Technologist</p>
-              </div>
+              <img src="/2 png.png" alt="" srcset="" className='w-32 md:w-40'/>
             </div>
           </a>
 
@@ -358,10 +352,10 @@ function Hero() {
   const ref = useRef(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
   const yParallax = useTransform(scrollYProgress, [0, 1], ['0%', '15%'])
-  const fadeOut   = useTransform(scrollYProgress, [0, 0.7], [1, 0])
+  const fadeOut = useTransform(scrollYProgress, [0, 0.7], [1, 1])
 
   return (
-    <section ref={ref} style={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', paddingTop: 120, paddingBottom: 80, overflow: 'hidden' }}>
+    <section ref={ref} style={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', paddingTop: 120, paddingBottom: 200, overflow: 'hidden' }}>
       {/* Background */}
       <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
         {/* Gradient orbs */}
@@ -383,13 +377,13 @@ function Hero() {
             </motion.div>
 
             <motion.div {...fadeUp(0.22)} style={{ marginBottom: 28 }}>
-              <h1 style={{ fontFamily: FONT_H, fontSize: 'clamp(3rem,8vw,6rem)', lineHeight: 0.92, letterSpacing: '-0.04em', color: T.white }}>
+              <h1 style={{ fontFamily: FONT_H, fontSize: 'clamp(2.6rem,8vw,6rem)', lineHeight: 0.92, letterSpacing: '-0.04em', color: T.white }}>
                 Crafting<br />
                 <span style={{ background: gradFire, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-                  cinematic
+                  Premium
                 </span>
                 <br />
-                <span style={{ color: 'rgba(255,255,255,0.35)' }}>digital brands.</span>
+                <span style={{ color: 'rgba(255, 255, 255, 0.5)' }}>digital brands.</span>
               </h1>
             </motion.div>
 
@@ -402,15 +396,7 @@ function Hero() {
               <GhostBtn href="#work">View case studies</GhostBtn>
             </motion.div>
 
-            {/* Stat row */}
-            <motion.div {...fadeUp(0.56)} style={{ display: 'flex', flexWrap: 'wrap', gap: 0, borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: 32 }}>
-              {STATS.map((s, i) => (
-                <div key={s.val} style={{ paddingRight: 32, marginRight: 32, borderRight: i < STATS.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none', marginBottom: 16 }}>
-                  <p style={{ fontFamily: FONT_H, fontSize: 'clamp(1.5rem,3vw,2rem)', fontWeight: 800, color: T.white, lineHeight: 1 }}>{s.val}</p>
-                  <p style={{ fontSize: 9, color: T.dim, textTransform: 'uppercase', letterSpacing: '0.22em', marginTop: 5, fontFamily: FONT_B }}>{s.label}</p>
-                </div>
-              ))}
-            </motion.div>
+
           </div>
 
           {/* RIGHT — Profile Card */}
@@ -423,9 +409,9 @@ function Hero() {
             {/* Halo glow */}
             <div style={{ position: 'absolute', inset: -24, borderRadius: '2.4rem', background: 'linear-gradient(135deg,rgba(255,80,0,0.14),rgba(34,211,238,0.07),rgba(129,140,248,0.06))', filter: 'blur(32px)', pointerEvents: 'none' }} />
 
-            <div style={{ position: 'relative', borderRadius: 28, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.09)', background: T.surface, boxShadow: '0 80px 160px rgba(0,0,0,0.75)' }}>
+            <div style={{ position: 'relative', zIndex: 20, borderRadius: 28, overflow: 'visible', border: '1px solid rgba(255,255,255,0.09)', background: T.surface, boxShadow: '0 80px 160px rgba(0,0,0,0.75)' }}>
               {/* Image area */}
-              <div style={{ position: 'relative', height: 'clamp(220px,34vw,320px)', overflow: 'hidden', background: '#08081A' }}>
+              <div style={{ position: 'relative', height: 'clamp(450px,34vw,320px)', overflow: 'hidden', background: '#08081A' }}>
                 <div style={{ position: 'absolute', inset: 0, zIndex: 10, background: 'linear-gradient(to bottom, transparent 45%, #070710 100%)' }} />
                 <div style={{ position: 'absolute', inset: 0, zIndex: 9, background: 'linear-gradient(130deg, rgba(255,80,0,0.1), transparent 55%)' }} />
                 {/* Placeholder gradient as image bg */}
@@ -444,26 +430,9 @@ function Hero() {
                     <p style={{ fontFamily: FONT_H, fontSize: 15, fontWeight: 700, color: T.white, lineHeight: 1.2 }}>Smart Moses</p>
                     <p style={{ fontSize: 9, color: T.dim, textTransform: 'uppercase', letterSpacing: '0.24em', marginTop: 4, fontFamily: FONT_B }}>Creative Technologist</p>
                   </div>
-                  <div style={{ width: 36, height: 36, borderRadius: 9, background: gradFire, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <span style={{ fontSize: 11, color: '#0A0005', fontWeight: 900, fontFamily: FONT_H }}>SM</span>
+                  <div style={{ width: 36, height: 36, borderRadius: 9, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <img src="/favicon.png" alt="" srcset="" />
                   </div>
-                </div>
-
-                {/* Metrics row */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                  {[{ val: '+42%', label: 'Lead Growth', accent: T.orange }, { val: '3yr+', label: 'Experience', accent: T.sky }].map(s => (
-                    <div key={s.val} style={{ padding: '16px', borderRadius: 12, border: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)', position: 'relative', overflow: 'hidden' }}>
-                      <div style={{ position: 'absolute', top: 0, right: 0, width: 60, height: 60, borderRadius: '50%', background: `${s.accent}12`, filter: 'blur(20px)', pointerEvents: 'none' }} />
-                      <p style={{ fontFamily: FONT_H, fontSize: '1.5rem', fontWeight: 800, color: T.white, lineHeight: 1 }}>{s.val}</p>
-                      <p style={{ fontSize: 9, color: T.dim, marginTop: 5, fontFamily: FONT_B, letterSpacing: '0.18em', textTransform: 'uppercase' }}>{s.label}</p>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Focus */}
-                <div style={{ padding: '14px 16px', borderRadius: 12, border: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.015)' }}>
-                  <p style={{ fontSize: 8, textTransform: 'uppercase', letterSpacing: '0.34em', color: `${T.orange}80`, marginBottom: 5, fontFamily: FONT_B }}>Current Focus</p>
-                  <p style={{ fontSize: 11, color: T.text, lineHeight: 1.7, fontFamily: FONT_B }}>Building premium digital experiences for ambitious founders and studios.</p>
                 </div>
               </div>
             </div>
@@ -474,6 +443,7 @@ function Hero() {
               transition={{ duration: 0.9, delay: 1.15, ease }}
               style={{
                 position: 'absolute', top: -14, right: -14,
+                zIndex: 50,
                 padding: '10px 16px', borderRadius: 14,
                 border: '1px solid rgba(255,107,26,0.22)',
                 background: 'rgba(3,3,10,0.96)',
@@ -489,7 +459,17 @@ function Hero() {
             </motion.div>
           </motion.div>
         </div>
+                    {/* Stat row */}
+            <motion.div {...fadeUp(0.56)} style={{ display: 'flex', flexWrap: 'wrap', gap: 0, borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: 32 }}>
+              {STATS.map((s, i) => (
+                <div key={s.val} style={{ paddingRight: 32, marginRight: 12, borderRight: i < STATS.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none', marginBottom: 16 }}>
+                  <p style={{ fontFamily: FONT_H, fontSize: 'clamp(1.5rem,3vw,2rem)', fontWeight: 800, color: T.white, lineHeight: 1 }}>{s.val}</p>
+                  <p style={{ fontSize: 9, color: T.dim, textTransform: 'uppercase', letterSpacing: '0.22em', marginTop: 5, fontFamily: FONT_B }}>{s.label}</p>
+                </div>
+              ))}
+            </motion.div>
       </motion.div>
+      
     </section>
   )
 }
@@ -499,12 +479,12 @@ function Hero() {
 ═══════════════════════════════════════ */
 function About() {
   return (
-    <section id="about" style={{ padding: '100px 0', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+    <section id="about" style={{ padding: '100px 0', borderTop: '1px solid rgba(255,255,255,0.05)' }} >
       <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px' }}>
         <div className="two-col">
           <motion.div {...fadeUp()}>
             <Chip>About the practice</Chip>
-            <h2 style={{ fontFamily: FONT_H, fontSize: 'clamp(1.8rem,3.5vw,3rem)', lineHeight: 1.02, letterSpacing: '-0.035em', color: T.white, marginBottom: 22 }}>
+            <h2 style={{ fontFamily: FONT_H, fontSize: 'clamp(1.6rem,3.5vw,2.5rem)', lineHeight: 1.02, letterSpacing: '-0.035em', color: T.white, marginBottom: 22 }}>
               I turn ambitious brands into digital experiences with clarity, craft, and lasting impact.
             </h2>
             <p style={{ fontSize: 14, lineHeight: 1.9, color: T.muted, maxWidth: 440, marginBottom: 36, fontFamily: FONT_B }}>
@@ -940,10 +920,7 @@ function Footer() {
         <div className="footer-grid" style={{ marginBottom: 40 }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
-              <div style={{ width: 28, height: 28, borderRadius: 8, background: gradFire, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <span style={{ fontSize: 9, color: '#0A0005', fontWeight: 900, fontFamily: FONT_H }}>SM</span>
-              </div>
-              <p style={{ fontFamily: FONT_H, fontSize: 14, fontWeight: 700, color: 'rgba(255,255,255,0.85)' }}>Smart Moses</p>
+             <img src="/2 png.png" alt="" srcset="" className='w-32 md:w-40'/>
             </div>
             <p style={{ fontSize: 12, color: T.muted, lineHeight: 1.85, maxWidth: 300, fontFamily: FONT_B }}>
               Creative Technologist & Digital Brand Builder — building modern digital experiences through design, development, and visual storytelling.
@@ -959,7 +936,7 @@ function Footer() {
             <div>
               <p style={{ fontSize: 8, textTransform: 'uppercase', letterSpacing: '0.34em', color: T.muted, marginBottom: 18, fontFamily: FONT_B }}>Connect</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 11 }}>
-                <FooterLink href="mailto:hello@smartmoses.com">hello@smartmoses.com</FooterLink>
+                <FooterLink href="mailto:hello@smartmoses.com">smartmoses@gmail.com</FooterLink>
                 <a href="#contact" style={{ fontSize: 12, color: `${T.orange}88`, textDecoration: 'none', fontFamily: FONT_B, transition: 'color 0.2s' }}
                   onMouseEnter={e => e.currentTarget.style.color = T.orange}
                   onMouseLeave={e => e.currentTarget.style.color = `${T.orange}88`}>

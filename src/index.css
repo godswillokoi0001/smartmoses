@@ -3,8 +3,9 @@
 @tailwind utilities;
 
 @layer base {
+
   html {
-    font-family: 'Poppins', system-ui, sans-serif;
+    font-family: 'DM Sans', system-ui, sans-serif;
     scroll-behavior: smooth;
     background-color: #050507;
   }
@@ -50,7 +51,8 @@
   h4,
   h5,
   h6 {
-    font-family: 'Sora', system-ui, sans-serif;
+    font-family: 'Syne', system-ui, sans-serif;
+    font-weight: 700;
   }
 
   img {
