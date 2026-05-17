@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/pricingpage", "destination": "/" },
+    { "source": "/(.*)", "destination": "/" }
+  ]
+}
