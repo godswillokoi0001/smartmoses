@@ -26,7 +26,7 @@ const PACKAGES = [
     outcome:
       "Helps brands establish a cleaner and more professional digital presence consistently.",
     tag: null,
-    accent: "#E8692A",
+    accent: "#FF7E5F",
   },
   {
     id: 2,
@@ -53,7 +53,7 @@ const PACKAGES = [
     outcome:
       "Creates a stronger and more premium digital identity that improves trust and engagement.",
     tag: null,
-    accent: "#D45A1A",
+    accent: "#F2613F",
   },
   {
     id: 3,
@@ -81,7 +81,7 @@ const PACKAGES = [
     outcome:
       "Builds a highly polished and professional digital presence that positions the brand more competitively online.",
     tag: null,
-    accent: "#BF4F10",
+    accent: "#F2613F",
   },
   {
     id: 4,
@@ -109,7 +109,7 @@ const PACKAGES = [
     outcome:
       "Transforms the overall perception, communication quality, and digital authority of the brand.",
     tag: "Most Strategic",
-    accent: "#A03D00",
+    accent: "#F2613F",
   },
 ];
 
@@ -195,8 +195,8 @@ function PackageCard({ pkg, index }) {
       style={{
         position: "relative",
         background: isSignature
-          ? "linear-gradient(145deg, #0f1623 0%, #1a1f2e 50%, #0f1623 100%)"
-          : "linear-gradient(145deg, #0d1117 0%, #161b26 100%)",
+          ? "linear-gradient(145deg, rgba(26,36,66,0.88) 0%, rgba(26,36,66,0.88) 50%, rgba(26,36,66,0.88) 100%)"
+          : "linear-gradient(145deg, rgba(17,26,52,0.72) 0%, rgba(17,26,52,0.72) 100%)",
         border: isSignature
           ? `1px solid ${pkg.accent}60`
           : "1px solid rgba(255,255,255,0.07)",
@@ -242,7 +242,7 @@ function PackageCard({ pkg, index }) {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
         <span
           style={{
-            fontFamily: "'Syne', system-ui, sans-serif",
+            fontFamily: "'Sora', system-ui, sans-serif",
             fontSize: 13,
             letterSpacing: "0.25em",
             color: pkg.accent,
@@ -255,7 +255,7 @@ function PackageCard({ pkg, index }) {
         {pkg.tag && (
           <span
             style={{
-              background: `linear-gradient(135deg, ${pkg.accent}, #ff9356)`,
+              background: `linear-gradient(135deg, ${pkg.accent}, #FEB47B)`,
               color: "#fff",
               fontSize: 11,
               fontWeight: 600,
@@ -274,10 +274,10 @@ function PackageCard({ pkg, index }) {
       <div>
         <h3
           style={{
-            fontFamily: "'Syne', system-ui, sans-serif",
+            fontFamily: "'Sora', system-ui, sans-serif",
             fontSize: "clamp(1.5rem, 2.5vw, 1.9rem)",
             fontWeight: 700,
-            color: "#F4F0E8",
+            color: "#EDF1F8",
             margin: "0 0 0.75rem",
             lineHeight: 1.1,
             letterSpacing: "-0.01em",
@@ -288,10 +288,10 @@ function PackageCard({ pkg, index }) {
         <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
           <span
             style={{
-            fontFamily: "'Syne', system-ui, sans-serif",
+            fontFamily: "'Sora', system-ui, sans-serif",
               fontSize: "clamp(2rem, 4vw, 2.6rem)",
               fontWeight: 700,
-              background: `linear-gradient(135deg, ${pkg.accent}, #ff9356)`,
+              background: `linear-gradient(135deg, ${pkg.accent}, #FEB47B)`,
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
@@ -411,7 +411,7 @@ function PackageCard({ pkg, index }) {
           width: "100%",
           padding: "14px 0",
           background: isSignature
-            ? `linear-gradient(135deg, ${pkg.accent}, #ff9356)`
+            ? `linear-gradient(135deg, ${pkg.accent}, #FEB47B)`
             : "transparent",
           border: isSignature ? "none" : `1px solid ${pkg.accent}50`,
           borderRadius: 10,
@@ -450,23 +450,23 @@ function ServiceCategory({ category }) {
   return (
     <div
       style={{
-        background: "linear-gradient(145deg, #0d1117, #161b26)",
+        background: "linear-gradient(145deg, rgba(17,26,52,0.72), rgba(17,26,52,0.72))",
         border: "1px solid rgba(255,255,255,0.07)",
         borderRadius: 16,
         padding: "2rem",
         transition: "border-color 0.3s ease",
       }}
-      onMouseEnter={(e) => (e.currentTarget.style.borderColor = "rgba(232,105,42,0.3)")}
+      onMouseEnter={(e) => (e.currentTarget.style.borderColor = "rgba(255,126,95,0.3)")}
       onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.07)")}
     >
       <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: "1.5rem" }}>
         <span style={{ fontSize: 18 }}>{category.icon}</span>
         <h3
           style={{
-            fontFamily: "'Syne', system-ui, sans-serif",
+            fontFamily: "'Sora', system-ui, sans-serif",
             fontSize: "1.25rem",
             fontWeight: 700,
-            color: "#F4F0E8",
+            color: "#EDF1F8",
             margin: 0,
           }}
         >
@@ -491,8 +491,8 @@ function ServiceCategory({ category }) {
               style={{
                 fontSize: 14,
                 fontWeight: 600,
-                color: "#E8692A",
-            fontFamily: "'Syne', system-ui, sans-serif",
+                color: "#FF7E5F",
+            fontFamily: "'Sora', system-ui, sans-serif",
                 letterSpacing: "0.02em",
               }}
             >
@@ -517,8 +517,8 @@ function AddonCard({ addon }) {
         cursor: "default",
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.borderColor = "rgba(232,105,42,0.3)";
-        e.currentTarget.style.background = "rgba(232,105,42,0.04)";
+        e.currentTarget.style.borderColor = "rgba(255,126,95,0.3)";
+        e.currentTarget.style.background = "rgba(255,126,95,0.04)";
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
@@ -526,9 +526,9 @@ function AddonCard({ addon }) {
       }}
     >
       <div style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
-        <span style={{ color: "#E8692A", fontSize: 16, lineHeight: 1.4, flexShrink: 0 }}>+</span>
+        <span style={{ color: "#FF7E5F", fontSize: 16, lineHeight: 1.4, flexShrink: 0 }}>+</span>
         <div>
-          <p style={{ fontSize: 14, fontWeight: 600, color: "#F4F0E8", margin: "0 0 4px" }}>
+          <p style={{ fontSize: 14, fontWeight: 600, color: "#EDF1F8", margin: "0 0 4px" }}>
             {addon.name}
           </p>
           <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", margin: 0, lineHeight: 1.5 }}>
@@ -564,7 +564,7 @@ function FaqItem({ faq }) {
           textAlign: "left",
         }}
       >
-        <span style={{ fontSize: 15, color: "#F4F0E8", fontWeight: 500, lineHeight: 1.4 }}>
+        <span style={{ fontSize: 15, color: "#EDF1F8", fontWeight: 500, lineHeight: 1.4 }}>
           {faq.q}
         </span>
         <span
@@ -573,11 +573,11 @@ function FaqItem({ faq }) {
             width: 24,
             height: 24,
             borderRadius: "50%",
-            border: "1px solid rgba(232,105,42,0.4)",
+            border: "1px solid rgba(255,126,95,0.4)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            color: "#E8692A",
+            color: "#FF7E5F",
             fontSize: 16,
             transition: "transform 0.25s ease",
             transform: open ? "rotate(45deg)" : "rotate(0deg)",
@@ -617,17 +617,17 @@ function SectionLabel({ number, label }) {
     <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: "1rem" }}>
       <span
         style={{
-                fontFamily: "'Syne', system-ui, sans-serif",
+                fontFamily: "'Sora', system-ui, sans-serif",
           fontSize: 12,
           letterSpacing: "0.3em",
-          color: "#E8692A",
+          color: "#FF7E5F",
           textTransform: "uppercase",
           fontWeight: 500,
         }}
       >
         {number}
       </span>
-      <div style={{ flex: 1, height: 1, background: "rgba(232,105,42,0.25)" }} />
+      <div style={{ flex: 1, height: 1, background: "rgba(255,126,95,0.25)" }} />
       <span
         style={{
           fontSize: 11,
@@ -648,14 +648,16 @@ export default function PricingPage() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;700&display=swap');
+        
 
         * { box-sizing: border-box; }
 
         .pricing-root {
-          font-family: 'DM Sans', system-ui, sans-serif;
-          background: #080C12;
-          color: #F4F0E8;
+          font-family: 'Inter', system-ui, sans-serif;
+          background: linear-gradient(135deg, #0A1128 0%, #1C2541 100%);
+          background-attachment: fixed;
+          background-repeat: no-repeat;
+          color: #EDF1F8;
           min-height: 100vh;
         }
 
@@ -709,7 +711,7 @@ export default function PricingPage() {
               width: 700,
               height: 400,
               background:
-                "radial-gradient(ellipse at center, rgba(232,105,42,0.08) 0%, transparent 65%)",
+                "radial-gradient(ellipse at center, rgba(255,126,95,0.08) 0%, transparent 65%)",
               pointerEvents: "none",
             }}
           />
@@ -733,11 +735,11 @@ export default function PricingPage() {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: 8,
-                border: "1px solid rgba(232,105,42,0.3)",
+                border: "1px solid rgba(255,126,95,0.3)",
                 borderRadius: 100,
                 padding: "6px 18px",
                 marginBottom: "2rem",
-                background: "rgba(232,105,42,0.06)",
+                background: "rgba(255,126,95,0.06)",
               }}
             >
               <span
@@ -745,7 +747,7 @@ export default function PricingPage() {
                   width: 6,
                   height: 6,
                   borderRadius: "50%",
-                  background: "#E8692A",
+                  background: "#FF7E5F",
                   display: "inline-block",
                 }}
               />
@@ -753,7 +755,7 @@ export default function PricingPage() {
                 style={{
                   fontSize: 12,
                   letterSpacing: "0.18em",
-                  color: "#E8692A",
+                  color: "#FF7E5F",
                   textTransform: "uppercase",
                   fontWeight: 600,
                 }}
@@ -764,10 +766,10 @@ export default function PricingPage() {
 
             <h1
               style={{
-                fontFamily: "'Syne', system-ui, sans-serif",
+                fontFamily: "'Sora', system-ui, sans-serif",
                 fontSize: "clamp(2.8rem, 7vw, 5.5rem)",
                 fontWeight: 700,
-                color: "#F4F0E8",
+                color: "#EDF1F8",
                 lineHeight: 1.05,
                 letterSpacing: "-0.02em",
                 margin: "0 0 1.5rem",
@@ -776,7 +778,7 @@ export default function PricingPage() {
               Pricing &{" "}
               <span
                 style={{
-                  background: "linear-gradient(135deg, #E8692A, #ff9356)",
+                  background: "linear-gradient(135deg, #FF7E5F, #FEB47B)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -828,10 +830,10 @@ export default function PricingPage() {
                 <div key={stat.label} style={{ textAlign: "center" }}>
                   <p
                     style={{
-                  fontFamily: "'Syne', system-ui, sans-serif",
+                  fontFamily: "'Sora', system-ui, sans-serif",
                       fontSize: "2.2rem",
                       fontWeight: 700,
-                      color: "#E8692A",
+                      color: "#FF7E5F",
                       margin: "0 0 4px",
                       lineHeight: 1,
                     }}
@@ -854,10 +856,10 @@ export default function PricingPage() {
             <div style={{ marginBottom: "3rem" }}>
               <h2
                 style={{
-                  fontFamily: "'Syne', system-ui, sans-serif",
+                  fontFamily: "'Sora', system-ui, sans-serif",
                   fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)",
                   fontWeight: 700,
-                  color: "#F4F0E8",
+                  color: "#EDF1F8",
                   margin: "0 0 0.75rem",
                   letterSpacing: "-0.015em",
                 }}
@@ -883,10 +885,10 @@ export default function PricingPage() {
             <div style={{ marginBottom: "3rem" }}>
               <h2
                 style={{
-                fontFamily: "'Syne', system-ui, sans-serif",
+                fontFamily: "'Sora', system-ui, sans-serif",
                   fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)",
                   fontWeight: 700,
-                  color: "#F4F0E8",
+                  color: "#EDF1F8",
                   margin: "0 0 0.75rem",
                   letterSpacing: "-0.015em",
                 }}
@@ -912,10 +914,10 @@ export default function PricingPage() {
             <div style={{ marginBottom: "2.5rem" }}>
               <h2
                 style={{
-                  fontFamily: "'Syne', system-ui, sans-serif",
+                  fontFamily: "'Sora', system-ui, sans-serif",
                   fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)",
                   fontWeight: 700,
-                  color: "#F4F0E8",
+                  color: "#EDF1F8",
                   margin: "0 0 0.75rem",
                   letterSpacing: "-0.015em",
                 }}
@@ -949,10 +951,10 @@ export default function PricingPage() {
               <div>
                 <h2
                   style={{
-                    fontFamily: "'Syne', system-ui, sans-serif",
+                    fontFamily: "'Sora', system-ui, sans-serif",
                     fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)",
                     fontWeight: 700,
-                    color: "#F4F0E8",
+                    color: "#EDF1F8",
                     margin: "0 0 0.75rem",
                     letterSpacing: "-0.015em",
                     lineHeight: 1.1,
@@ -987,7 +989,7 @@ export default function PricingPage() {
               position: "absolute",
               inset: 0,
               background:
-                "radial-gradient(ellipse 80% 60% at 50% 100%, rgba(232,105,42,0.07) 0%, transparent 70%)",
+                "radial-gradient(ellipse 80% 60% at 50% 100%, rgba(255,126,95,0.07) 0%, transparent 70%)",
               pointerEvents: "none",
             }}
           />
@@ -995,10 +997,10 @@ export default function PricingPage() {
             <SectionLabel number="05" label="Let's Talk" />
             <h2
               style={{
-                fontFamily: "'Syne', system-ui, sans-serif",
+                fontFamily: "'Sora', system-ui, sans-serif",
                 fontSize: "clamp(2rem, 5vw, 3.8rem)",
                 fontWeight: 700,
-                color: "#F4F0E8",
+                color: "#EDF1F8",
                 margin: "0.5rem auto 1.5rem",
                 letterSpacing: "-0.02em",
                 lineHeight: 1.1,
@@ -1008,7 +1010,7 @@ export default function PricingPage() {
               Every Brand Is Different.{" "}
               <span
                 style={{
-                  background: "linear-gradient(135deg, #E8692A, #ff9356)",
+                  background: "linear-gradient(135deg, #FF7E5F, #FEB47B)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -1041,7 +1043,7 @@ export default function PricingPage() {
               <button
                 style={{
                   padding: "14px 32px",
-                  background: "linear-gradient(135deg, #E8692A, #ff9356)",
+                  background: "linear-gradient(135deg, #FF7E5F, #FEB47B)",
                   border: "none",
                   borderRadius: 10,
                   color: "#fff",
@@ -1067,9 +1069,9 @@ export default function PricingPage() {
                 style={{
                   padding: "14px 32px",
                   background: "transparent",
-                  border: "1px solid rgba(232,105,42,0.4)",
+                  border: "1px solid rgba(255,126,95,0.4)",
                   borderRadius: 10,
-                  color: "#E8692A",
+                  color: "#FF7E5F",
                   fontSize: 15,
                   fontWeight: 600,
                   letterSpacing: "0.04em",
@@ -1078,13 +1080,13 @@ export default function PricingPage() {
                   transition: "all 0.2s ease",
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "rgba(232,105,42,0.1)";
-                  e.currentTarget.style.borderColor = "#E8692A";
+                  e.currentTarget.style.background = "rgba(255,126,95,0.1)";
+                  e.currentTarget.style.borderColor = "#FF7E5F";
                   e.currentTarget.style.transform = "translateY(-2px)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = "transparent";
-                  e.currentTarget.style.borderColor = "rgba(232,105,42,0.4)";
+                  e.currentTarget.style.borderColor = "rgba(255,126,95,0.4)";
                   e.currentTarget.style.transform = "translateY(0)";
                 }}
               >
