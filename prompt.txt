@@ -1,0 +1,428 @@
+# SMART MOSES PORTFOLIO — STRATEGIC REDESIGN & IMPROVEMENT
+
+You are acting as a senior product designer, creative director, and senior frontend developer.
+
+Your task is to improve my existing personal portfolio website, not build a completely new project.
+
+**Repository:** https://github.com/godswillokoi0001/smartmoses.git
+
+**Live website:** https://smartmoses.vercel.app
+
+First, inspect the entire codebase, understand the existing design, architecture, components, content, assets, and functionality. Then implement the improvements directly.
+
+Do not stop at giving recommendations. Make the actual changes.
+
+## 1. THE PRIMARY OBJECTIVE
+
+My name is Smart Moses.
+
+My primary professional positioning is:
+
+**Web Designer & Developer**
+
+I want this portfolio to position me for:
+
+* Frontend development jobs.
+* Web development jobs.
+* Web design opportunities.
+* Freelance clients on Upwork and Fiverr.
+* Professional opportunities through Indeed and LinkedIn.
+
+I also have experience in graphic design, branding, and video editing.
+
+However, these are supporting creative capabilities, not my primary professional identity.
+
+The website must communicate that I am a Web Designer & Developer first, with a broader creative background that strengthens my work.
+
+Do not position me primarily as a Creative Technologist, Digital Brand Builder, Graphic Designer, or Video Editor.
+
+My company, Smotiva Digital, handles broader digital brand-building services. This portfolio represents me as an individual professional.
+
+## 2. VISUAL DIRECTION
+
+I like the existing dark premium aesthetic with mint/turquoise accents.
+
+Preserve this visual identity but elevate the overall execution.
+
+Design direction:
+
+* Premium editorial design.
+* Sophisticated dark charcoal-green background.
+* Restrained mint/turquoise accents.
+* Expressive typography.
+* Strong visual hierarchy.
+* Generous but intentional whitespace.
+* Asymmetrical compositions.
+* Large, visually compelling project presentations.
+* Subtle and purposeful interactions.
+* Consistent spacing and alignment.
+
+Suggested palette:
+
+Background: #0B1513
+Accent: #63D6BE
+Primary text: #F2F5F3
+Secondary text: #A0AEA9
+Borders: #243631
+
+Refine where necessary.
+
+### CRITICAL DESIGN REQUIREMENT
+
+The website must NOT look AI-generated.
+
+Avoid generic portfolio templates, excessive rounded cards, random gradients, glowing blobs, unnecessary glassmorphism, cartoon avatars, excessive animations, decorative elements without purpose, and repetitive bento layouts.
+
+Do not redesign everything just for the sake of changing it.
+
+Retain existing components and visual elements that are already good.
+
+Focus on improving composition, typography, project presentation, content hierarchy, and professional credibility.
+
+The result should feel like a thoughtfully art-directed portfolio designed by a skilled human designer.
+
+## 3. HOMEPAGE STRUCTURE
+
+Organize the homepage around this hierarchy:
+
+1. Navigation
+2. Hero
+3. Selected Work
+4. Professional Experience
+5. Core Capabilities
+6. About Me
+7. Technical Skills
+8. Contact
+9. Footer
+
+Keep the experience focused. Do not introduce unnecessary sections simply to make the website longer.
+
+## 4. NAVIGATION
+
+Brand: Smart Moses
+
+Navigation:
+
+Home
+Work
+Experience
+About
+Contact
+
+Include a prominent but refined:
+
+**Download Résumé**
+
+Ensure every navigation link works correctly.
+
+Maintain a clean, responsive mobile navigation.
+
+## 5. HERO SECTION
+
+Replace the existing generic hero content with stronger professional positioning.
+
+Eyebrow:
+
+WEB DESIGNER & DEVELOPER
+
+Headline:
+
+"I design and build digital experiences that help businesses move forward."
+
+Supporting copy:
+
+"I create modern websites and functional web applications, combining thoughtful design with practical frontend development to turn ideas into meaningful digital experiences."
+
+Primary CTA:
+
+View My Work
+
+Secondary CTA:
+
+Download Résumé
+
+Use an actual professional photograph if one exists in the repository.
+
+If no photograph is available, do not invent a cartoon character or fake portrait. Instead, create a distinctive typography-led or interface-inspired visual composition.
+
+Remove unsupported claims such as "8+ years of web development experience" unless they can be verified from my actual professional history.
+
+Maintain the premium character of the existing hero while making it more personal and visually distinctive.
+
+## 6. SELECTED WORK — PRIORITY SECTION
+
+This should be one of the strongest sections of the website.
+
+I want to showcase my three strongest professional projects, not a large collection of ordinary project cards.
+
+Inspect the repository and existing project information before deciding how to present them.
+
+Prioritize these projects where their existing implementations and assets are available:
+
+1. Rayto Prolog
+2. Freshcart
+3. Logistics Application
+
+The Vendor Marketplace can be considered if it provides stronger evidence of my capabilities than one of the above.
+
+Do not automatically include unfinished or weaker projects.
+
+For each selected project, provide:
+
+* Project name.
+* Category.
+* Concise description.
+* My actual contribution.
+* Relevant technologies.
+* Strong visual presentation.
+* Working project link where available.
+* Case study link where available.
+
+Use real project screenshots and assets.
+
+Do not generate fake screenshots or claim functionality that does not exist.
+
+Distinguish completed projects from ongoing projects and prototypes.
+
+### Visual execution
+
+Do not use three identical cards.
+
+Create three distinctive, editorial project presentations.
+
+Use large project imagery, carefully controlled image ratios, interesting alignment, and excellent typography.
+
+The projects should receive substantial visual space.
+
+A visitor should immediately understand the quality and nature of my work.
+
+## 7. PROFESSIONAL EXPERIENCE
+
+Add a dedicated Experience section.
+
+This is important because I am targeting employment opportunities, not just freelance clients.
+
+Inspect existing content and available information before writing experience entries.
+
+Use relevant professional experience, including where applicable:
+
+* Azawire.
+* Disolnet.
+* Smotiva Digital.
+* Relevant independent development work.
+
+Do not invent employment dates, responsibilities, achievements, or job titles.
+
+Present each experience with:
+
+* Organization or project.
+* Actual role.
+* Timeframe, if verified.
+* Two to four concise responsibility/contribution statements.
+
+Prioritize web development and relevant technical contributions.
+
+My creative experience should provide additional context without overshadowing my web development positioning.
+
+Use a refined professional timeline or editorial layout, not a generic résumé card collection.
+
+## 8. RÉSUMÉ DOWNLOAD
+
+This is a required feature.
+
+Inspect the repository for an existing résumé PDF.
+
+If one exists:
+
+* Make it accessible from the navigation.
+* Include a Download Résumé CTA in the hero.
+* Ensure the download works correctly.
+* Use a clean, descriptive filename where possible.
+
+If no résumé exists:
+
+* Create the appropriate public asset location and prepare the implementation for a résumé PDF.
+* Do not create a fabricated résumé or invent my qualifications.
+* Clearly identify the missing asset so I can provide it.
+
+The résumé must be easy to access on both desktop and mobile.
+
+## 9. CORE CAPABILITIES
+
+Keep this section focused on my primary professional work.
+
+Heading:
+
+"What I Do"
+
+Present three capabilities:
+
+**Web Design & Development**
+
+Designing and building modern, responsive websites that communicate clearly and provide meaningful experiences.
+
+**Frontend Development**
+
+Turning ideas and designs into interactive, responsive interfaces using structured frontend code.
+
+**Web Applications**
+
+Building functional digital experiences with practical workflows, user interactions, and business-focused functionality.
+
+Use a refined editorial composition rather than generic icon cards.
+
+## 10. ABOUT ME
+
+Keep this section concise, natural, and professional.
+
+Use this as the content foundation:
+
+"I'm Smart Moses, a Web Designer and Developer with a creative background and a strong interest in building meaningful digital experiences.
+
+My journey across visual design, content production, and web development has shaped how I approach digital work.
+
+I don't see a website as just a collection of pages. I see it as a tool for communication, interaction, and business growth.
+
+My experience in graphic design, branding, and video production gives me an additional creative perspective, helping me approach digital experiences with a stronger understanding of visual communication, storytelling, and brand consistency.
+
+Today, my primary focus is web design and development, creating thoughtful interfaces and practical digital solutions."
+
+Keep the writing conversational and confident.
+
+Avoid generic corporate language and exaggerated claims.
+
+## 11. TECHNICAL SKILLS
+
+Create a clean, credible technical skills section.
+
+Use only technologies already present in the project or technologies I can genuinely defend.
+
+Organize them into appropriate categories.
+
+For example:
+
+Frontend:
+HTML, CSS, JavaScript, React, Tailwind CSS.
+
+Tools:
+Git, GitHub, VS Code.
+
+Deployment:
+Vercel.
+
+Do not invent skills.
+
+Do not use arbitrary proficiency percentages.
+
+Do not overwhelm the section with technology logos.
+
+## 12. CONTACT SECTION
+
+Heading:
+
+"Have an idea worth building?"
+
+Supporting copy:
+
+"Whether you're looking for someone to design and develop a website, build a digital product, or join your team, I'd love to hear what you're working on."
+
+CTA:
+
+Let's Start a Conversation
+
+Include actual contact information from the existing project.
+
+Provide functional links to my email, LinkedIn, and GitHub where available.
+
+Do not invent contact details.
+
+## 13. FOOTER
+
+Keep it minimal.
+
+Smart Moses
+Web Designer & Developer
+
+Relevant navigation and social links.
+
+Copyright information.
+
+Include résumé access if appropriate.
+
+## 14. RESPONSIVE DESIGN
+
+Review and optimize the entire website for:
+
+* Desktop.
+* Laptop.
+* Tablet.
+* Mobile.
+
+Do not simply shrink desktop components.
+
+Ensure mobile layouts are deliberately composed, readable, and visually balanced.
+
+Check for horizontal overflow, overlapping content, broken image ratios, navigation issues, and inaccessible buttons.
+
+## 15. TECHNICAL REQUIREMENTS
+
+Preserve the existing technology stack unless there is a compelling reason to change it.
+
+Do not unnecessarily rewrite working code.
+
+Maintain clean components and reusable styling.
+
+Ensure:
+
+* All buttons work.
+* All navigation links work.
+* Project links are accurate.
+* Résumé download works when the asset exists.
+* Images load correctly.
+* SEO metadata is appropriate.
+* Accessibility is considered.
+* Performance remains good.
+* No console errors.
+* No broken routes.
+* No fabricated content.
+
+Do not leave placeholder buttons or fake interactions.
+
+## 16. FINAL REVIEW
+
+After implementation, review the entire website as a professional designer and recruiter.
+
+Ask:
+
+1. Is my primary identity immediately clear?
+2. Does the website communicate Web Designer & Developer rather than a general creative?
+3. Are my three strongest projects presented convincingly?
+4. Is my professional experience visible?
+5. Can visitors download my résumé easily?
+6. Does my creative background support my positioning without competing with it?
+7. Does the visual design feel premium and intentional?
+8. Does it avoid the typical AI-generated aesthetic?
+9. Does it work beautifully on mobile?
+10. Does the website itself demonstrate professional design and frontend ability?
+
+Fix any weaknesses you identify.
+
+Do not stop after making superficial styling changes.
+
+Implement the actual improvements, test the result, and summarize what was changed.
+
+**FINAL DIRECTION:**
+
+Build a focused, premium, human-designed portfolio that positions Smart Moses as a capable Web Designer & Developer.
+
+Let the projects demonstrate ability.
+
+Let experience establish credibility.
+
+Let the résumé support employment applications.
+
+Let graphic design and video editing strengthen the creative story without distracting from the main professional identity.
+
+The website should make the right person think:
+
+"This is someone I can confidently consider for a web design or frontend development opportunity."

@@ -1,0 +1,9 @@
+Smart Moses — Web Designer &amp; Developer
+I design and build digital experiences that help businesses move forward. Modern, responsive websites and functional web applications built with React, JavaScript, and Tailwind CSS.
+
+Featured work: Shamurr (e-commerce), Gericht (restaurant website), Godswill Okoi — Social Media.
+Professional experience includes Frontend Developer at Technolix Digitals, ICT Manager at Disolnet Technologies, and Director / Editor at Disolmedia.
+Based in Nigeria. Available for freelance and collaborative projects.
+
+Contact: censusokoi515@gmail.com
+GitHub: https://github.com/godswillokoi0001/smartmoses

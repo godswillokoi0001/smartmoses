@@ -2,14 +2,12 @@ import { useScroll, useTransform, AnimatePresence, motion } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
 import {
   ArrowRight, ArrowUpRight, ChevronDown, Menu, X, Mail,
-  Sparkles, Target, Monitor, Layers, Code2, Wrench, Rocket,
-  Palette, PenTool, Video, FileText, MapPin,
+  Sparkles, Target, Monitor, Layers, Code2, Wrench, Rocket, MapPin,
 } from 'lucide-react'
 import PricingPage from './PricingPage.jsx'
 import {
-  siHtml5, siCss, siJavascript, siTypescript, siSass, siReact, siNextdotjs,
-  siTailwindcss, siVite, siGit, siGithub, siNodedotjs, siNpm, siEslint,
-  siPrettier, siFigma, siVercel,
+  siHtml5, siCss, siSass, siJavascript, siTypescript, siReact, siTailwindcss,
+  siVite, siGit, siGithub, siEslint, siPrettier, siFigma, siVercel,
 } from 'simple-icons'
 
 /* ═══════════════════════════════════════
@@ -57,10 +55,130 @@ function useReducedMotion() {
    CONTENT
 ═══════════════════════════════════════ */
 const NAV_LINKS = [
+  { label: 'Home',       href: '#top' },
   { label: 'Work',       href: '#work' },
-  { label: 'About',      href: '#about' },
   { label: 'Experience', href: '#experience' },
+  { label: 'About',      href: '#about' },
   { label: 'Contact',    href: '#contact' },
+]
+
+/* Contact details are taken from the project's own history — see
+   src/components/Footer.jsx and src/components/App.jsx in commit 37cd57d.
+   Nothing here is invented. LinkedIn is intentionally absent: the only
+   reference to it anywhere in the repo was a bare "https://linkedin.com"
+   with no username, which would be a dead link. */
+const EMAIL = 'censusokoi515@gmail.com'
+const GITHUB_URL = 'https://github.com/godswillokoi0001'
+
+/* Real projects, recovered from src/components/Projects.jsx at commit
+   37cd57d — all three have working live URLs. These are the same
+   presentation images the project shipped with (editorial stock, not
+   device screenshots); replace with real captures when available. */
+const PROJECTS = [
+  {
+    name: 'Shamurr',
+    category: 'E-commerce · Frontend',
+    year: '2025',
+    description:
+      'A storefront for the Shamurr fashion brand, built so browsing, category navigation and checkout stay frictionless on a phone.',
+    contribution:
+      'Implemented the catalogue, category structure and the purchase flow end to end, and translated the brand identity into a consistent responsive interface.',
+    technologies: ['React', 'CSS', 'E-commerce'],
+    href: 'https://shamurr.com.ng/',
+    image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1400&q=80',
+    ratio: '21 / 9',
+    align: 'left',
+  },
+  {
+    name: 'Gericht',
+    category: 'Restaurant · UI/UX',
+    year: '2025',
+    description:
+      'An immersive site for a high-end restaurant, with a dynamic homepage, detailed menu sections, an awards showcase and a full photo gallery.',
+    contribution:
+      'Designed the page structure and visual system, then built the menu and gallery interactions — handling typography, spacing and imagery for a premium tone.',
+    technologies: ['React', 'CSS3', 'UI/UX Design'],
+    href: 'https://astounding-dodol-f6646a.netlify.app/',
+    image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1400&q=80',
+    ratio: '16 / 11',
+    align: 'right',
+  },
+  {
+    name: 'Godswill Okoi — Social Media',
+    category: 'Marketing Site',
+    year: '2024',
+    description:
+      'A single-page portfolio presenting services, client-focused value propositions, transparent pricing and a direct contact route.',
+    contribution:
+      'Built the layout and responsive behaviour, and structured the pricing and service content so prospective clients could self-qualify before reaching out.',
+    technologies: ['HTML5', 'CSS3', 'JavaScript'],
+    href: 'https://social-media-manager-godswill-okoi.netlify.app/',
+    image: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=1400&q=80',
+    ratio: '4 / 3',
+    align: 'left',
+  },
+]
+
+/* Timeline transcribed from src/components/About.jsx at commit 37cd57d,
+   where it was explicitly "populated from your CV". Dates, titles and
+   organisations are reproduced as recorded — nothing added. */
+const EXPERIENCE = [
+  {
+    period: '2023 — 2025',
+    role: 'Frontend Developer',
+    org: 'Technolix Digitals',
+    location: 'Azawire-HQ, Abuja, Nigeria',
+    web: true,
+    points: [
+      'Built and maintained responsive, user-facing web interfaces using React and Tailwind CSS.',
+      'Turned design intent into production frontends, keeping components structured and maintainable.',
+      'Worked inside a digital team delivering client web products.',
+    ],
+  },
+  {
+    period: '2023 — 2025',
+    role: 'ICT Manager',
+    org: 'Disolnet Technologies Ltd.',
+    location: 'Cross River State, Nigeria',
+    points: [
+      'Oversaw daily operations and led a team delivering IT solutions.',
+      'Managed staff duties and service delivery across the organisation.',
+      'Conducted hands-on computer training for staff and clients.',
+    ],
+  },
+  {
+    period: '2024 — 2025',
+    role: 'Director | Editor',
+    org: 'Disolmedia',
+    location: 'Cross River State, Nigeria',
+    web: false,
+    points: [
+      'Directed and edited video content for brand and client projects.',
+      'Owned production quality and storytelling across engagements.',
+    ],
+  },
+  {
+    period: '2022 — 2023',
+    role: 'Graphics Designer | Video Editor | Instructor',
+    org: 'Disolmedia',
+    location: 'Cross River State, Nigeria',
+    web: false,
+    points: [
+      'Created visual and video content for brand projects.',
+      'Taught computer literacy and design tools to students.',
+    ],
+  },
+  {
+    period: '2018 — 2022',
+    role: 'ICT Manager',
+    org: 'Cyber Craft Technologies and Computer',
+    location: 'Cross River State, Nigeria',
+    web: false,
+    points: [
+      'Managed daily operations at a computer centre, keeping service delivery smooth.',
+      'Provided practical, hands-on computer training to the public.',
+    ],
+  },
 ]
 
 const CAPABILITIES = [
@@ -68,13 +186,13 @@ const CAPABILITIES = [
     idx: '01',
     icon: Monitor,
     title: 'Web Design & Development',
-    body: 'Designing and building modern, responsive websites that communicate clearly and create meaningful experiences across devices.',
+    body: 'Designing and building modern, responsive websites that communicate clearly and provide meaningful experiences.',
   },
   {
     idx: '02',
     icon: Code2,
     title: 'Frontend Development',
-    body: 'Translating ideas and designs into interactive interfaces through structured, maintainable frontend code.',
+    body: 'Turning ideas and designs into interactive, responsive interfaces using structured frontend code.',
   },
   {
     idx: '03',
@@ -82,29 +200,16 @@ const CAPABILITIES = [
     title: 'Web Applications',
     body: 'Building functional digital experiences with practical workflows, user interactions, and business-focused functionality.',
   },
-  {
-    idx: '04',
-    icon: Target,
-    title: 'Business-Focused Thinking',
-    body: 'Understanding the business behind the interface to create digital solutions that serve actual objectives.',
-  },
-]
-
-const SUPPORTING_SKILLS = [
-  { icon: Palette,         title: 'Graphic Design',      body: 'Layout, hierarchy, and visual composition that carry a brand consistently.' },
-  { icon: PenTool,         title: 'Branding',            body: 'Identity and consistency across every touchpoint a business puts out.' },
-  { icon: Video,           title: 'Video Editing',       body: 'Edited content that communicates an idea clearly and holds attention.' },
-  { icon: FileText,        title: 'Content Production',  body: 'Producing the words, visuals, and assets a project actually needs.' },
 ]
 
 /* ═══════════════════════════════════════
    BRAND LOGOS — official marks from Simple Icons.
    ═══════════════════════════════════════ */
 const BRAND = {
-  html5: siHtml5, css: siCss, javascript: siJavascript, typescript: siTypescript,
-  sass: siSass, react: siReact, nextdotjs: siNextdotjs, tailwindcss: siTailwindcss,
-  vite: siVite, git: siGit, github: siGithub, nodedotjs: siNodedotjs, npm: siNpm,
-  eslint: siEslint, prettier: siPrettier, figma: siFigma, vercel: siVercel,
+  html5: siHtml5, css: siCss, sass: siSass, javascript: siJavascript,
+  typescript: siTypescript, react: siReact, tailwindcss: siTailwindcss,
+  vite: siVite, git: siGit, github: siGithub, eslint: siEslint,
+  prettier: siPrettier, figma: siFigma, vercel: siVercel,
 }
 
 function hexLuminance(hex) {
@@ -139,6 +244,10 @@ function readableBrandColor(hex, bg = MARK_BG) {
   return contrastRatio(hex, bg) >= BRAND_MIN_CONTRAST ? hex : '#FFFFFF'
 }
 
+/* Every entry here is defensible: each is either present in this project's
+   own package.json, present in the previous Skills.jsx at commit 37cd57d,
+   or listed in the CV-derived services data. Next.js and Node.js were
+   removed for exactly that reason — they appeared in neither. */
 const SKILL_GROUPS = [
   {
     icon: Code2,
@@ -146,9 +255,9 @@ const SKILL_GROUPS = [
     items: [
       { slug: 'html5', name: 'HTML5' },
       { slug: 'css', name: 'CSS3' },
+      { slug: 'sass', name: 'Sass' },
       { slug: 'javascript', name: 'JavaScript' },
       { slug: 'typescript', name: 'TypeScript' },
-      { slug: 'sass', name: 'Sass' },
     ],
   },
   {
@@ -156,23 +265,19 @@ const SKILL_GROUPS = [
     label: 'Frameworks & Libraries',
     items: [
       { slug: 'react', name: 'React' },
-      { slug: 'nextdotjs', name: 'Next.js' },
       { slug: 'tailwindcss', name: 'Tailwind CSS' },
       { slug: 'framer-motion', name: 'Framer Motion', mono: 'FM' },
-      { slug: 'vite', name: 'Vite' },
     ],
   },
   {
     icon: Wrench,
-    label: 'Tooling & Runtime',
+    label: 'Tools & Workflow',
     items: [
       { slug: 'git', name: 'Git' },
       { slug: 'github', name: 'GitHub' },
-      { slug: 'nodedotjs', name: 'Node.js' },
-      { slug: 'npm', name: 'npm' },
+      { slug: 'vite', name: 'Vite' },
       { slug: 'eslint', name: 'ESLint' },
       { slug: 'prettier', name: 'Prettier' },
-      { slug: 'vscode', name: 'VS Code', mono: '{ }' },
     ],
   },
   {
@@ -184,15 +289,6 @@ const SKILL_GROUPS = [
     ],
   },
 ]
-
-const PROCESS = [
-  { num: '01', title: 'Understand', body: 'Understand the business, objectives, audience, and problem.' },
-  { num: '02', title: 'Design',    body: 'Establish structure, visual direction, and user experience.' },
-  { num: '03', title: 'Develop',   body: 'Build responsive interfaces and functional experiences.' },
-  { num: '04', title: 'Refine',    body: 'Test, improve, optimize, and prepare for delivery.' },
-]
-
-const EMAIL = 'smartmoses@gmail.com'
 
 /* ═══════════════════════════════════════
    FLOATING CONTACT LINKS
@@ -246,6 +342,30 @@ function Chip({ children, accent }) {
   )
 }
 
+/* Secondary/outline CTA — the "Let's Talk" button. */
+function GhostBtn({ href, children, onClick }) {
+  const [hov, setHov] = useState(false)
+  return (
+    <a href={href} onClick={onClick}
+      onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
+      style={{
+        display: 'inline-flex', alignItems: 'center', gap: 8,
+        borderRadius: 12, padding: '14px 20px',
+        border: `1px solid ${hov ? T.borderHov : T.border}`,
+        background: hov ? 'rgba(255,94,0,0.10)' : 'transparent',
+        color: hov ? T.white : T.muted,
+        fontSize: 11, fontWeight: 600, letterSpacing: '0.06em',
+        textTransform: 'uppercase',
+        fontFamily: FONT_B, textDecoration: 'none', flexShrink: 0,
+        transform: hov ? 'scale(1.03)' : 'scale(1)',
+        boxShadow: hov ? '0 0 20px rgba(255,94,0,0.28)' : 'none',
+        transition: 'all 0.25s cubic-bezier(0.22,1,0.36,1)',
+      }}>
+      {children}
+    </a>
+  )
+}
+
 function PrimaryBtn({ href, children, onClick }) {
   const [hov, setHov] = useState(false)
   return (
@@ -267,29 +387,6 @@ function PrimaryBtn({ href, children, onClick }) {
       <ArrowRight size={15} strokeWidth={2.5} aria-hidden="true"
         style={{ flexShrink: 0, transition: 'transform 0.25s cubic-bezier(0.22,1,0.36,1)',
           transform: hov ? 'translateX(3px)' : 'translateX(0)' }} />
-    </a>
-  )
-}
-
-function GhostBtn({ href, children }) {
-  const [hov, setHov] = useState(false)
-  return (
-    <a href={href}
-      onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
-      style={{
-        display: 'inline-flex', alignItems: 'center', gap: 8,
-        borderRadius: 12, padding: '14px 20px',
-        border: `1px solid ${hov ? T.borderHov : T.border}`,
-        background: hov ? 'rgba(255,94,0,0.10)' : 'transparent',
-        color: hov ? T.white : T.muted,
-        fontSize: 11, fontWeight: 600, letterSpacing: '0.06em',
-        textTransform: 'uppercase',
-        fontFamily: FONT_B, textDecoration: 'none', flexShrink: 0,
-        transform: hov ? 'scale(1.03)' : 'scale(1)',
-        boxShadow: hov ? '0 0 20px rgba(255,94,0,0.28)' : 'none',
-        transition: 'all 0.25s cubic-bezier(0.22,1,0.36,1)',
-      }}>
-      {children}
     </a>
   )
 }
@@ -497,12 +594,12 @@ function Hero() {
             </motion.div>
 
             <motion.div {...fadeUp(0.15)} style={{ marginBottom: 26 }}>
-              <h1 style={{ fontFamily: FONT_H, fontSize: 'clamp(2.3rem,6.2vw,4rem)', fontWeight: 700,
+              <h1 style={{ fontFamily: FONT_H, fontSize: 'clamp(2rem,6.2vw,3.5rem)', fontWeight: 700,
                 lineHeight: 1.02, letterSpacing: '-0.03em', color: T.white, maxWidth: 680 }}>
-                I build digital experiences that{' '}
+                I design and build digital experiences that{' '}
                 <span style={{ background: accentGrad, WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-                  make businesses stand out.
+                  help businesses move forward.
                 </span>
               </h1>
             </motion.div>
@@ -510,8 +607,8 @@ function Hero() {
             <motion.p {...fadeUp(0.25)}
               style={{ fontSize: 'clamp(14px,1.6vw,16px)', lineHeight: 1.85, color: T.muted,
                 maxWidth: 520, marginBottom: 36, fontFamily: FONT_B }}>
-              I design and develop modern websites and functional web applications, combining thoughtful
-              design with practical engineering to turn ideas into meaningful digital experiences.
+              I create modern websites and functional web applications, combining thoughtful design
+              with practical frontend development to turn ideas into meaningful digital experiences.
             </motion.p>
 
             <motion.div {...fadeUp(0.35)} style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
@@ -574,27 +671,70 @@ function Work() {
     <SectionShell id="work">
       <SectionHeading
         chip="Selected Work"
-        title="A collection of digital experiences shaped by"
-        accentWord="design thinking and technical execution."
-        lead="Case studies are being prepared and will be published here shortly. In the meantime, I am happy to walk you through relevant work directly."
+        title="Three projects that show how I"
+        accentWord="think and build."
+        lead="Real client and commissioned work, with links to the live sites."
       />
-      <motion.div {...fadeUp(0.1)}
-        style={{ padding: 'clamp(32px,5vw,56px)', borderRadius: 20, border: `1px solid ${T.border}`,
-          background: T.surface, display: 'flex', flexWrap: 'wrap', gap: 28,
-          alignItems: 'center', justifyContent: 'space-between' }}>
-        <div style={{ maxWidth: 520 }}>
-          <h3 style={{ fontFamily: FONT_H, fontSize: 'clamp(1.1rem,2.2vw,1.4rem)', fontWeight: 700,
-            color: T.white, marginBottom: 10, letterSpacing: '-0.02em' }}>
-            Want to see the work first?
-          </h3>
-          <p style={{ fontSize: 13, color: T.muted, lineHeight: 1.85, fontFamily: FONT_B }}>
-            Get in touch and I will share relevant projects, screenshots, and context for what you are
-            trying to build.
-          </p>
-        </div>
-        <PrimaryBtn href="#contact">Request Work Samples</PrimaryBtn>
-      </motion.div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(48px,7vw,88px)' }}>
+        {PROJECTS.map((p, i) => (
+          <ProjectEntry key={p.name} project={p} index={i} />
+        ))}
+      </div>
     </SectionShell>
+  )
+}
+
+/* Each project gets its own composition — alternating alignment, its own
+   image ratio and its own text block position — so the section reads as
+   three deliberate spreads rather than a repeated card grid. */
+function ProjectEntry({ project: p, index: i }) {
+  const flip = i % 2 === 1
+  return (
+    <motion.article {...fadeUp(0.05)}
+      className={`project-entry${flip ? ' is-flipped' : ''}`}>
+      <motion.div className="project-media"
+        initial={{ opacity: 0, scale: 1.03 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.9, ease }}>
+        <a href={p.href} target="_blank" rel="noopener noreferrer"
+          style={{ display: 'block', position: 'relative', aspectRatio: p.ratio,
+            borderRadius: 14, overflow: 'hidden', border: `1px solid ${T.border}`,
+            background: T.bgMid }}>
+          <img src={p.image} alt={`${p.name} — ${p.category}`} loading="lazy" decoding="async"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+          <span className="project-veil" />
+        </a>
+        <span className="project-index" aria-hidden="true">
+          {String(i + 1).padStart(2, '0')}
+        </span>
+      </motion.div>
+
+      <motion.div className="project-body" {...fadeUp(0.12)}>
+        <p className="project-meta">
+          <span>{p.category}</span>
+          <span className="project-dot" aria-hidden="true" />
+          <span>{p.year}</span>
+        </p>
+        <h3 className="project-title">{p.name}</h3>
+        <p className="project-desc">{p.description}</p>
+
+        <div className="project-contrib">
+          <p className="project-contrib-label">My contribution</p>
+          <p className="project-contrib-text">{p.contribution}</p>
+        </div>
+
+        <div className="project-foot">
+          <ul className="project-tech">
+            {p.technologies.map(t => <li key={t}>{t}</li>)}
+          </ul>
+          <a className="project-link" href={p.href} target="_blank" rel="noopener noreferrer">
+            View live site
+            <ArrowUpRight size={15} strokeWidth={2.4} aria-hidden="true" />
+          </a>
+        </div>
+      </motion.div>
+    </motion.article>
   )
 }
 
@@ -610,9 +750,7 @@ function Capabilities() {
         accentWord="Table"
         lead="The core of what I do, and the standard I hold it to."
       />
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 1,
-        background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.07)',
-        borderRadius: 16, overflow: 'hidden' }}>
+      <div className="cap-grid">
         {CAPABILITIES.map((c, i) => (
           <motion.div key={c.idx} {...fadeUp(i * 0.07)}
             whileHover={{ y: -4 }}
@@ -643,67 +781,8 @@ function Capabilities() {
 }
 
 /* ═══════════════════════════════════════
-   CREATIVE ADVANTAGE
-═══════════════════════════════════════ */
-function CreativeAdvantage() {
-  return (
-    <SectionShell id="advantage">
-      <div className="two-col">
-        <div className="sticky-col">
-          <motion.div {...fadeUp()}>
-            <Chip>A Creative Perspective</Chip>
-            <h2 style={{ fontFamily: FONT_H, fontSize: 'clamp(1.7rem,4vw,2.7rem)', lineHeight: 1.06,
-              letterSpacing: '-0.035em', color: T.white, marginBottom: 22 }}>
-              More Than Development.{' '}
-              <span style={{ color: T.dim }}>A Creative Perspective.</span>
-            </h2>
-            <p style={{ fontSize: 13.5, color: T.muted, lineHeight: 1.9, fontFamily: FONT_B, marginBottom: 18 }}>
-              My background in graphic design, branding, and video production gives me a broader
-              perspective on how digital experiences are created and communicated.
-            </p>
-            <p style={{ fontSize: 13.5, color: T.muted, lineHeight: 1.9, fontFamily: FONT_B }}>
-              These skills help me approach web development with a stronger understanding of visual
-              hierarchy, storytelling, brand consistency, and the way businesses connect with their
-              audiences.
-            </p>
-          </motion.div>
-        </div>
-
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          {SUPPORTING_SKILLS.map((s, i) => (
-            <motion.div key={s.title} {...fadeUp(i * 0.07)}
-              whileHover={{ x: 4 }}
-              transition={{ duration: 0.3, ease }}
-              className="skill-row"
-              style={{ padding: '22px 0', borderTop: `1px solid ${T.border}`,
-                display: 'flex', flexDirection: 'column', gap: 7 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 11 }}>
-                <IconTile icon={s.icon} size={32} />
-                <h3 style={{ fontFamily: FONT_B, fontSize: 13, fontWeight: 600, color: T.text,
-                  letterSpacing: '0.01em' }}>
-                  {s.title}
-                </h3>
-              </div>
-              <p style={{ fontSize: 12, color: T.dim, lineHeight: 1.8, fontFamily: FONT_B }}>
-                {s.body}
-              </p>
-            </motion.div>
-          ))}
-          <div style={{ borderTop: `1px solid ${T.border}`, paddingTop: 22 }}>
-            <p style={{ fontSize: 11.5, color: T.dim, lineHeight: 1.85, fontFamily: FONT_B, fontStyle: 'italic' }}>
-              These support my work as a Web Designer &amp; Developer — they are not separate
-              practices I lead with.
-            </p>
-          </div>
-        </div>
-      </div>
-    </SectionShell>
-  )
-}
-
-/* ═══════════════════════════════════════
-   TECHNICAL SKILLS
-═══════════════════════════════════════ */
+   TECH TILE
+   ═══════════════════════════════════════ */
 /* Brand-logo tile. Uses the official mark in its own brand colour;
    items with no official mark available render an honest monogram
    instead of a fabricated logo. */
@@ -737,9 +816,9 @@ function Skills() {
     <SectionShell id="skills">
       <SectionHeading
         chip="Technical Skills"
-        title="The tools I actually"
-        accentWord="work in daily."
-        lead="Grouped by what they are used for."
+        title="The tools I use to"
+        accentWord="build with."
+        lead="Grouped by what they are actually used for."
       />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
         {SKILL_GROUPS.map((g, i) => (
@@ -780,18 +859,29 @@ function Experience() {
         accentWord="how I think."
         lead="Professional engagements, freelance work, and independent projects."
       />
-      <motion.div {...fadeUp(0.1)}
-        style={{ padding: 'clamp(30px,4vw,48px)', border: `1px solid ${T.border}`, borderRadius: 18,
-          background: T.surface }}>
-        <p style={{ fontSize: 13.5, color: T.muted, lineHeight: 1.9, fontFamily: FONT_B, maxWidth: 640 }}>
-          A detailed timeline of roles, dates, and responsibilities is being written up and will be
-          published here shortly. I would rather leave this space accurate than fill it with
-          approximations — so in the meantime, ask me directly and I will give you the full picture.
-        </p>
-        <div style={{ marginTop: 26 }}>
-          <GhostBtn href="#contact">Ask Me About My Experience</GhostBtn>
-        </div>
-      </motion.div>
+      <ol className="timeline">
+        {EXPERIENCE.map((job, i) => (
+          <motion.li key={job.role} {...fadeUp(0.05 * i)} className="timeline-row">
+            <div className="timeline-rail" aria-hidden="true">
+              <span className="timeline-node" />
+            </div>
+            <div className="timeline-period">
+              {job.period}
+            </div>
+            <div className="timeline-body">
+              <h3 className="timeline-role">{job.role}</h3>
+              <p className="timeline-org">
+                {job.company}
+                {job.location ? <span className="timeline-org-sep" aria-hidden="true">·</span> : null}
+                {job.location ? <span className="timeline-loc">{job.location}</span> : null}
+              </p>
+              <ul className="timeline-points">
+                {job.points.map(pt => <li key={pt}>{pt}</li>)}
+              </ul>
+            </div>
+          </motion.li>
+        ))}
+      </ol>
     </SectionShell>
   )
 }
@@ -808,8 +898,8 @@ function About() {
             <Chip>About</Chip>
             <h2 style={{ fontFamily: FONT_H, fontSize: 'clamp(1.7rem,4vw,2.7rem)', lineHeight: 1.08,
               letterSpacing: '-0.035em', color: T.white }}>
-              Design-minded. Technology-driven.{' '}
-              <span style={{ color: T.dim }}>Purpose-focused.</span>
+              A developer who thinks like a{' '}
+              <span style={{ color: T.dim }}>designer.</span>
             </h2>
           </motion.div>
         </div>
@@ -818,11 +908,10 @@ function About() {
           style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
           {[
             "I'm Smart Moses, a Web Designer and Developer with a creative background and a strong interest in building meaningful digital experiences.",
-            'My journey across visual design, content production, and web development has shaped how I approach digital work.',
+            "My background in graphic design, content production, and web development shapes how I approach digital work — with attention to layout, clarity, and detail.",
             "I don't see a website as just a collection of pages. I see it as a tool for communication, interaction, and business growth.",
-            'I enjoy understanding how things work, solving problems, and turning ideas into experiences people can actually use.',
-            'Today, my primary focus is web design and development, with an emphasis on thoughtful interfaces, functional websites, and practical digital solutions.',
-            'I believe good technology should not only work well. It should make sense, communicate clearly, and serve a purpose.',
+            "Today my focus is web design and development: understanding the problem, structuring the content, designing the interface, and building it properly.",
+            "I care about the parts that are easy to skip — clear hierarchy, readable text, sensible spacing, and working code. Good technology should function well and make sense to the people using it.",
           ].map((para, i) => (
             <p key={i} style={{ fontSize: 14, color: i === 0 ? T.text : T.muted, lineHeight: 1.95,
             maxWidth: 600, fontFamily: FONT_B }}>
@@ -836,43 +925,8 @@ function About() {
 }
 
 /* ═══════════════════════════════════════
-   PROCESS
-═══════════════════════════════════════ */
-function Process() {
-  return (
-    <SectionShell id="process">
-      <SectionHeading
-        chip="How I Work"
-        title="From Understanding to"
-        accentWord="Execution."
-        lead="Four stages, in order, every time."
-      />
-      <div className="process-grid">
-        {PROCESS.map((step, i) => (
-          <motion.div key={step.num} {...fadeUp(i * 0.08)}
-            style={{ paddingTop: 26, borderTop: `2px solid ${i === 0 ? T.accent : T.border}`,
-              display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <span style={{ fontFamily: FONT_H, fontSize: 'clamp(1.8rem,3.4vw,2.4rem)', fontWeight: 700,
-              color: i === 0 ? T.accent : T.dim, lineHeight: 1, letterSpacing: '-0.03em' }}>
-              {step.num}
-            </span>
-            <h3 style={{ fontFamily: FONT_H, fontSize: 15, fontWeight: 600, color: T.white,
-              letterSpacing: '-0.01em' }}>
-              {step.title}
-            </h3>
-            <p style={{ fontSize: 12, color: T.muted, lineHeight: 1.85, fontFamily: FONT_B }}>
-              {step.body}
-            </p>
-          </motion.div>
-        ))}
-      </div>
-    </SectionShell>
-  )
-}
-
-/* ═══════════════════════════════════════
    CONTACT
-═══════════════════════════════════════ */
+   ═══════════════════════════════════════ */
 function Contact() {
   return (
     <SectionShell id="contact">
@@ -1274,17 +1328,259 @@ export default function App() {
         }
         .tech-tile:hover .tech-name { color: ${T.white}; }
 
-        .process-grid {
+        /* ---- SELECTED WORK: three distinct editorial spreads ---- */
+        .project-entry {
           display: grid;
           grid-template-columns: 1fr;
-          gap: 32px;
+          gap: 28px;
+          align-items: center;
         }
-        @media (min-width: 640px) {
-          .process-grid { grid-template-columns: repeat(2, 1fr); }
+        @media (min-width: 900px) {
+          .project-entry {
+            grid-template-columns: minmax(0, 1.18fr) minmax(0, 0.82fr);
+            gap: 52px;
+          }
+          /* Odd entries mirror, so consecutive projects never line up. */
+          .project-entry.is-flipped { grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr); }
+          .project-entry.is-flipped .project-media { order: 2; }
+          .project-entry.is-flipped .project-body { order: 1; }
         }
-        @media (min-width: 1024px) {
-          .process-grid { grid-template-columns: repeat(4, 1fr); }
+
+        .project-media { position: relative; min-width: 0; }
+
+        .project-veil {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          background: linear-gradient(180deg, rgba(8,9,10,0) 45%, rgba(8,9,10,0.55) 100%);
+          transition: background 0.5s ease;
         }
+        .project-media a:hover .project-veil {
+          background: linear-gradient(180deg, rgba(255,94,0,0.06) 0%, rgba(255,94,0,0.16) 100%);
+        }
+        .project-media img {
+          transition: transform 0.9s cubic-bezier(0.22,1,0.36,1), filter 0.5s ease;
+          filter: saturate(0.85) contrast(1.02);
+        }
+        .project-media a:hover img { transform: scale(1.045); filter: saturate(1) contrast(1.04); }
+
+        /* Oversized index numeral set into the image corner. */
+        .project-index {
+          position: absolute;
+          top: 14px;
+          left: 16px;
+          font-family: 'Syne', sans-serif;
+          font-size: 12px;
+          font-weight: 700;
+          letter-spacing: 0.16em;
+          color: rgba(255,255,255,0.62);
+          text-shadow: 0 2px 14px rgba(0,0,0,0.7);
+          pointer-events: none;
+        }
+
+        .project-body { min-width: 0; }
+
+        .project-meta {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          font-size: 9.5px;
+          text-transform: uppercase;
+          letter-spacing: 0.24em;
+          font-weight: 600;
+          color: ${T.accent};
+          margin-bottom: 16px;
+        }
+        .project-dot {
+          width: 3px; height: 3px;
+          border-radius: 50%;
+          background: ${T.dim};
+          flex-shrink: 0;
+        }
+
+        .project-title {
+          font-family: 'Syne', sans-serif;
+          font-size: clamp(1.4rem, 3vw, 2.05rem);
+          font-weight: 700;
+          line-height: 1.1;
+          letter-spacing: -0.035em;
+          color: ${T.white};
+          margin-bottom: 14px;
+        }
+
+        .project-desc {
+          font-family: 'Inter', sans-serif;
+          font-size: 13.5px;
+          line-height: 1.85;
+          color: ${T.muted};
+          margin-bottom: 22px;
+        }
+
+        /* Left rule + label: an editorial note, not another card. */
+        .project-contrib {
+          border-left: 2px solid ${T.accent};
+          padding-left: 16px;
+          margin-bottom: 26px;
+        }
+        .project-contrib-label {
+          font-size: 9px;
+          text-transform: uppercase;
+          letter-spacing: 0.24em;
+          font-weight: 600;
+          color: ${T.dim};
+          margin-bottom: 7px;
+        }
+        .project-contrib-text {
+          font-family: 'Inter', sans-serif;
+          font-size: 12.5px;
+          line-height: 1.8;
+          color: ${T.text};
+        }
+
+        .project-foot {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 18px;
+        }
+        .project-tech {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 7px;
+          list-style: none;
+          margin: 0;
+          padding: 0;
+        }
+        .project-tech li {
+          font-family: 'Inter', sans-serif;
+          font-size: 10px;
+          font-weight: 500;
+          letter-spacing: 0.06em;
+          color: ${T.dim};
+          border: 1px solid ${T.border};
+          border-radius: 6px;
+          padding: 5px 9px;
+          white-space: nowrap;
+        }
+
+        .project-link {
+          display: inline-flex;
+          align-items: center;
+          gap: 7px;
+          font-family: 'Inter', sans-serif;
+          font-size: 11px;
+          font-weight: 600;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+          color: ${T.accent};
+          text-decoration: none;
+          white-space: nowrap;
+          transition: color 0.25s, gap 0.25s;
+        }
+        .project-link:hover { color: ${T.white}; gap: 11px; }
+
+        /* ---- PROFESSIONAL EXPERIENCE: rail timeline ---- */
+        .timeline { list-style: none; margin: 0; padding: 0; }
+
+        .timeline-row {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 6px 26px;
+          padding-bottom: 42px;
+        }
+        @media (min-width: 860px) {
+          .timeline-row { grid-template-columns: 20px 150px minmax(0, 1fr); gap: 0 26px; }
+        }
+        .timeline-row:last-child { padding-bottom: 0; }
+
+        .timeline-rail { position: relative; display: none; }
+        @media (min-width: 860px) { .timeline-rail { display: block; } }
+        .timeline-rail::before {
+          content: '';
+          position: absolute;
+          left: 50%;
+          top: 6px;
+          bottom: -42px;
+          width: 1px;
+          background: ${T.border};
+          transform: translateX(-50%);
+        }
+        .timeline-row:last-child .timeline-rail::before { display: none; }
+        .timeline-node {
+          position: absolute;
+          left: 50%;
+          top: 5px;
+          width: 9px;
+          height: 9px;
+          border-radius: 50%;
+          background: ${T.accent};
+          transform: translateX(-50%);
+          box-shadow: 0 0 0 4px rgba(255,94,0,0.14);
+        }
+
+        .timeline-period {
+          font-family: 'Inter', sans-serif;
+          font-size: 10.5px;
+          font-weight: 600;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: ${T.accent};
+          padding-top: 1px;
+        }
+
+        .timeline-role {
+          font-family: 'Syne', sans-serif;
+          font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+          font-weight: 700;
+          line-height: 1.25;
+          letter-spacing: -0.02em;
+          color: ${T.white};
+          margin-bottom: 7px;
+        }
+        .timeline-org {
+          font-family: 'Inter', sans-serif;
+          font-size: 12.5px;
+          font-weight: 500;
+          color: ${T.text};
+          margin-bottom: 14px;
+        }
+        .timeline-org-sep { margin: 0 8px; color: ${T.dim}; }
+        .timeline-loc { color: ${T.dim}; font-weight: 400; }
+
+        .timeline-points { list-style: none; margin: 0; padding: 0;
+          display: flex; flex-direction: column; gap: 9px; }
+        .timeline-points li {
+          position: relative;
+          padding-left: 16px;
+          font-family: 'Inter', sans-serif;
+          font-size: 12.5px;
+          line-height: 1.8;
+          color: ${T.muted};
+          max-width: 640px;
+        }
+        .timeline-points li::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 10px;
+          width: 5px;
+          height: 1px;
+          background: ${T.accent};
+          opacity: 0.7;
+        }
+
+        /* ---- CORE CAPABILITIES: hairline-divided cells ---- */
+        .cap-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 1px;
+          background: rgba(255,255,255,0.07);
+          border: 1px solid rgba(255,255,255,0.07);
+          border-radius: 16px;
+          overflow: hidden;
+        }
+        @media (min-width: 720px) { .cap-grid { grid-template-columns: repeat(3, 1fr); } }
 
         .cta-grid {
           display: grid;
@@ -1327,17 +1623,15 @@ export default function App() {
         <PricingPage />
       ) : (
         <div style={{ position: 'relative', minHeight: '100vh' }}>
-          <Nav />
-          <Hero />
-          <Work />
-          <Capabilities />
-          <CreativeAdvantage />
-          <Skills />
-          <Experience />
-          <About />
-          <Process />
-          <Contact />
-          <Footer />
+      <Nav />
+      <Hero />
+      <Work />
+      <Experience />
+      <Capabilities />
+      <About />
+      <Skills />
+      <Contact />
+      <Footer />
           <FloatingContact />
         </div>
       )}
