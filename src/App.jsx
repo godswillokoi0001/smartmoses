@@ -524,13 +524,14 @@ function Capabilities() {
         lead="The core of what I do, and the standard I hold it to."
       />
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 1,
-        background: T.border, border: `1px solid ${T.border}`, borderRadius: 16, overflow: 'hidden' }}>
+        background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.07)',
+        borderRadius: 16, overflow: 'hidden' }}>
         {CAPABILITIES.map((c, i) => (
           <motion.div key={c.idx} {...fadeUp(i * 0.07)}
             whileHover={{ y: -4 }}
             transition={{ duration: 0.3, ease }}
             className="cap-cell"
-            style={{ padding: 'clamp(26px,3vw,36px)', background: 'rgba(255,255,255,0.04)',
+            style={{ padding: 'clamp(26px,3vw,36px)',
               display: 'flex', flexDirection: 'column', gap: 14 }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between',
               gap: 12 }}>
@@ -1067,7 +1068,16 @@ export default function App() {
         .cap-cell,
         .skill-card,
         .skill-row { transition: background 0.3s, border-color 0.3s, box-shadow 0.3s; }
-        .cap-cell:hover,
+
+        /* Capabilities sits on a gap-1 grid whose parent paints the
+           dividers, so the cells must be near-opaque and dark or the
+           parent slate bleeds through and the block reads light. */
+        .cap-cell { background: rgba(9,11,14,0.72); }
+        .cap-cell:hover {
+          background: rgba(255,94,0,0.055);
+          box-shadow: inset 0 0 0 1px rgba(255,94,0,0.28), 0 0 26px rgba(255,94,0,0.16);
+        }
+
         .skill-card:hover {
           background: rgba(255,94,0,0.05);
           border-color: ${T.borderHov};
