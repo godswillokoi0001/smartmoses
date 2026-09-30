@@ -6,6 +6,11 @@ import {
   Palette, PenTool, Video, FileText, MapPin,
 } from 'lucide-react'
 import PricingPage from './PricingPage.jsx'
+import {
+  siHtml5, siCss, siJavascript, siTypescript, siSass, siReact, siNextdotjs,
+  siTailwindcss, siVite, siGit, siGithub, siNodedotjs, siNpm, siEslint,
+  siPrettier, siFigma, siVercel,
+} from 'simple-icons'
 
 /* ═══════════════════════════════════════
    DESIGN TOKENS — near-black + vivid orange
@@ -92,10 +97,92 @@ const SUPPORTING_SKILLS = [
   { icon: FileText,        title: 'Content Production',  body: 'Producing the words, visuals, and assets a project actually needs.' },
 ]
 
+/* ═══════════════════════════════════════
+   BRAND LOGOS — official marks from Simple Icons.
+   ═══════════════════════════════════════ */
+const BRAND = {
+  html5: siHtml5, css: siCss, javascript: siJavascript, typescript: siTypescript,
+  sass: siSass, react: siReact, nextdotjs: siNextdotjs, tailwindcss: siTailwindcss,
+  vite: siVite, git: siGit, github: siGithub, nodedotjs: siNodedotjs, npm: siNpm,
+  eslint: siEslint, prettier: siPrettier, figma: siFigma, vercel: siVercel,
+}
+
+function hexLuminance(hex) {
+  const c = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255)
+    .map(x => (x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4)))
+  return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
+}
+function contrastRatio(a, b) {
+  const l1 = hexLuminance(a), l2 = hexLuminance(b)
+  const [hi, lo] = l1 < l2 ? [l2, l1] : [l1, l2]
+  return (hi + 0.05) / (lo + 0.05)
+}
+
+/* Effective composite of .tech-mark (white 4%) over .tech-tile (2%)
+   over .skill-card (5%) over the #08090A page. This is what a brand
+   mark actually sits on, so it is what legibility is measured against. */
+const MARK_BG = '#222324'
+
+/* Several brands ship an all-black or very dark glyph (Next.js, Vercel,
+   CSS, Vite, ESLint) that effectively disappears on a near-black page.
+   Where the official hex cannot clear the threshold we fall back to pure
+   white, which is the conventional dark-mode rendering for those marks.
+   The threshold is 2.5:1 rather than the 3:1 non-text minimum because a
+   brand mark sitting directly above its name is decorative — the name
+   carries the meaning, and the strict figure would needlessly wash out
+   legible marks such as Tailwind's cyan (2.86:1). Blending toward white
+   instead was tried and rejected: it rotates saturated hues off-brand
+   (CSS purple -> brown, Tailwind cyan -> olive). */
+const BRAND_MIN_CONTRAST = 2.5
+
+function readableBrandColor(hex, bg = MARK_BG) {
+  return contrastRatio(hex, bg) >= BRAND_MIN_CONTRAST ? hex : '#FFFFFF'
+}
+
 const SKILL_GROUPS = [
-  { icon: Code2,   label: 'Frontend',        items: ['HTML', 'CSS', 'JavaScript', 'React', 'Tailwind CSS'] },
-  { icon: Wrench,  label: 'Development Tools', items: ['Git', 'GitHub', 'VS Code'] },
-  { icon: Rocket,  label: 'Deployment',      items: ['Vercel'] },
+  {
+    icon: Code2,
+    label: 'Languages & Styling',
+    items: [
+      { slug: 'html5', name: 'HTML5' },
+      { slug: 'css', name: 'CSS3' },
+      { slug: 'javascript', name: 'JavaScript' },
+      { slug: 'typescript', name: 'TypeScript' },
+      { slug: 'sass', name: 'Sass' },
+    ],
+  },
+  {
+    icon: Layers,
+    label: 'Frameworks & Libraries',
+    items: [
+      { slug: 'react', name: 'React' },
+      { slug: 'nextdotjs', name: 'Next.js' },
+      { slug: 'tailwindcss', name: 'Tailwind CSS' },
+      { slug: 'framer-motion', name: 'Framer Motion', mono: 'FM' },
+      { slug: 'vite', name: 'Vite' },
+    ],
+  },
+  {
+    icon: Wrench,
+    label: 'Tooling & Runtime',
+    items: [
+      { slug: 'git', name: 'Git' },
+      { slug: 'github', name: 'GitHub' },
+      { slug: 'nodedotjs', name: 'Node.js' },
+      { slug: 'npm', name: 'npm' },
+      { slug: 'eslint', name: 'ESLint' },
+      { slug: 'prettier', name: 'Prettier' },
+      { slug: 'vscode', name: 'VS Code', mono: '{ }' },
+    ],
+  },
+  {
+    icon: Rocket,
+    label: 'Design & Platform',
+    items: [
+      { slug: 'figma', name: 'Figma' },
+      { slug: 'vercel', name: 'Vercel' },
+    ],
+  },
 ]
 
 const PROCESS = [
@@ -410,7 +497,7 @@ function Hero() {
             </motion.div>
 
             <motion.div {...fadeUp(0.15)} style={{ marginBottom: 26 }}>
-              <h1 style={{ fontFamily: FONT_H, fontSize: 'clamp(2.3rem,6.2vw,4.6rem)', fontWeight: 700,
+              <h1 style={{ fontFamily: FONT_H, fontSize: 'clamp(2.3rem,6.2vw,4rem)', fontWeight: 700,
                 lineHeight: 1.02, letterSpacing: '-0.03em', color: T.white, maxWidth: 680 }}>
                 I build digital experiences that{' '}
                 <span style={{ background: accentGrad, WebkitBackgroundClip: 'text',
@@ -617,6 +704,34 @@ function CreativeAdvantage() {
 /* ═══════════════════════════════════════
    TECHNICAL SKILLS
 ═══════════════════════════════════════ */
+/* Brand-logo tile. Uses the official mark in its own brand colour;
+   items with no official mark available render an honest monogram
+   instead of a fabricated logo. */
+function TechTile({ slug, name, mono }) {
+  const [hov, setHov] = useState(false)
+  const brand = BRAND[slug]
+  const col = brand ? readableBrandColor(brand.hex) : T.dim
+  return (
+    <div className="tech-tile"
+      onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
+      style={{ borderColor: hov ? `${col}66` : T.border,
+        boxShadow: hov ? `0 0 22px ${col}2E, inset 0 1px 0 rgba(255,255,255,0.05)` : 'none' }}>
+      <span className="tech-mark" style={{ color: col, background: hov ? `${col}1A` : 'rgba(255,255,255,0.04)' }}>
+        {brand
+          ? <svg viewBox="0 0 24 24" width="22" height="22" role="img" aria-label={name}>
+              <path d={brand.path} fill="currentColor" />
+            </svg>
+          : <span style={{ fontFamily: FONT_H, fontSize: (mono || '').length > 2 ? 11 : 13,
+              fontWeight: 800, letterSpacing: '0.02em' }}>{mono}</span>}
+      </span>
+      <span className="tech-name">{name}</span>
+    </div>
+  )
+}
+
+/* ═══════════════════════════════════════
+   TECHNICAL SKILLS
+   ═══════════════════════════════════════ */
 function Skills() {
   return (
     <SectionShell id="skills">
@@ -626,28 +741,24 @@ function Skills() {
         accentWord="work in daily."
         lead="Grouped by what they are used for."
       />
-      <div className="skills-grid">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
         {SKILL_GROUPS.map((g, i) => (
           <motion.div key={g.label} {...fadeUp(i * 0.07)}
-            whileHover={{ y: -4 }}
+            whileHover={{ y: -3 }}
             transition={{ duration: 0.3, ease }}
             className="skill-card"
-            style={{ padding: 'clamp(24px,3vw,32px)', border: `1px solid ${T.border}`,
+            style={{ padding: 'clamp(22px,3vw,30px)', border: `1px solid ${T.border}`,
               borderRadius: 16, background: T.surface }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 11, marginBottom: 18 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 11, marginBottom: 20 }}>
               <IconTile icon={g.icon} size={34} />
               <p style={{ fontSize: 9, textTransform: 'uppercase', letterSpacing: '0.28em',
                 color: T.accent, fontFamily: FONT_B, fontWeight: 600 }}>
                 {g.label}
               </p>
             </div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+            <div className="tech-grid">
               {g.items.map(item => (
-                <span key={item} style={{ fontSize: 11.5, padding: '6px 13px', borderRadius: 7,
-                  border: `1px solid ${T.border}`, color: T.text, fontFamily: FONT_B,
-                  transition: 'border-color 0.25s, color 0.25s' }}>
-                  {item}
-                </span>
+                <TechTile key={item.slug} slug={item.slug} name={item.name} mono={item.mono} />
               ))}
             </div>
           </motion.div>
@@ -1123,14 +1234,45 @@ export default function App() {
           .sticky-col { position: sticky; top: 120px; }
         }
 
-        .skills-grid {
+        .tech-grid {
           display: grid;
-          grid-template-columns: 1fr;
-          gap: 14px;
+          grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+          gap: 10px;
         }
-        @media (min-width: 640px) {
-          .skills-grid { grid-template-columns: repeat(3, 1fr); }
+
+        .tech-tile {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-start;
+          gap: 9px;
+          padding: 14px 8px 12px;
+          border: 1px solid ${T.border};
+          border-radius: 12px;
+          background: rgba(255,255,255,0.02);
+          transition: border-color 0.3s, box-shadow 0.3s, background 0.3s, transform 0.3s cubic-bezier(0.22,1,0.36,1);
         }
+        .tech-tile:hover { background: rgba(255,255,255,0.035); }
+
+        .tech-mark {
+          width: 42px; height: 42px;
+          border-radius: 11px;
+          display: flex; align-items: center; justify-content: center;
+          transition: background 0.3s, transform 0.3s cubic-bezier(0.22,1,0.36,1);
+        }
+        .tech-tile:hover .tech-mark { transform: scale(1.08) translateY(-1px); }
+        .tech-mark svg { display: block; }
+
+        .tech-name {
+          font-family: 'Inter', sans-serif;
+          font-size: 10.5px;
+          font-weight: 500;
+          color: ${T.muted};
+          text-align: center;
+          line-height: 1.25;
+          transition: color 0.3s;
+        }
+        .tech-tile:hover .tech-name { color: ${T.white}; }
 
         .process-grid {
           display: grid;
