@@ -654,10 +654,8 @@ export default function PricingPage() {
 
         .pricing-root {
           font-family: 'Inter', system-ui, sans-serif;
-          background-color: #08090A;
-          background-image: radial-gradient(ellipse 60% 48% at 12% 0%, rgba(56,132,255,0.13), transparent 62%), radial-gradient(ellipse 58% 44% at 88% 100%, rgba(255,94,0,0.12), transparent 64%);
-          background-attachment: fixed;
-          background-repeat: no-repeat;
+          /* Transparent so the shared animated body glows show through. */
+          background: transparent;
           color: #EAF0FA;
           min-height: 100vh;
         }

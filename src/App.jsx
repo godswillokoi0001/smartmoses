@@ -1,10 +1,15 @@
 import { useScroll, useTransform, AnimatePresence, motion } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
+import {
+  ArrowRight, ArrowUpRight, ChevronDown, Menu, X, Mail,
+  Sparkles, Target, Monitor, Layers, Code2, Wrench, Rocket,
+  Palette, PenTool, Video, FileText, MapPin,
+} from 'lucide-react'
 import PricingPage from './PricingPage.jsx'
 
 /* ═══════════════════════════════════════
-   DESIGN TOKENS — dark charcoal-green + mint
-═══════════════════════════════════════ */
+   DESIGN TOKENS — near-black + vivid orange
+   ═══════════════════════════════════════ */
 const T = {
   bg:          '#08090A',
   bgMid:       '#0B0D10',
@@ -23,8 +28,6 @@ const T = {
 }
 
 const pageGradient = '#08090A'
-const glows = 'radial-gradient(ellipse 60% 48% at 12% 0%, rgba(56,132,255,0.13), transparent 62%),' +
-  'radial-gradient(ellipse 58% 44% at 88% 100%, rgba(255,94,0,0.12), transparent 64%)'
 const accentGrad = 'linear-gradient(135deg, #FF5E00 0%, #FF9900 100%)'
 const ease       = [0.22, 1, 0.36, 1]
 const FONT_H     = "'Syne', sans-serif"
@@ -58,37 +61,41 @@ const NAV_LINKS = [
 const CAPABILITIES = [
   {
     idx: '01',
+    icon: Monitor,
     title: 'Web Design & Development',
     body: 'Designing and building modern, responsive websites that communicate clearly and create meaningful experiences across devices.',
   },
   {
     idx: '02',
+    icon: Code2,
     title: 'Frontend Development',
     body: 'Translating ideas and designs into interactive interfaces through structured, maintainable frontend code.',
   },
   {
     idx: '03',
+    icon: Layers,
     title: 'Web Applications',
     body: 'Building functional digital experiences with practical workflows, user interactions, and business-focused functionality.',
   },
   {
     idx: '04',
+    icon: Target,
     title: 'Business-Focused Thinking',
     body: 'Understanding the business behind the interface to create digital solutions that serve actual objectives.',
   },
 ]
 
 const SUPPORTING_SKILLS = [
-  { title: 'Graphic Design', body: 'Layout, hierarchy, and visual composition that carry a brand consistently.' },
-  { title: 'Branding',       body: 'Identity and consistency across every touchpoint a business puts out.' },
-  { title: 'Video Editing',  body: 'Edited content that communicates an idea clearly and holds attention.' },
-  { title: 'Content Production', body: 'Producing the words, visuals, and assets a project actually needs.' },
+  { icon: Palette,         title: 'Graphic Design',      body: 'Layout, hierarchy, and visual composition that carry a brand consistently.' },
+  { icon: PenTool,         title: 'Branding',            body: 'Identity and consistency across every touchpoint a business puts out.' },
+  { icon: Video,           title: 'Video Editing',       body: 'Edited content that communicates an idea clearly and holds attention.' },
+  { icon: FileText,        title: 'Content Production',  body: 'Producing the words, visuals, and assets a project actually needs.' },
 ]
 
 const SKILL_GROUPS = [
-  { label: 'Frontend',        items: ['HTML', 'CSS', 'JavaScript', 'React', 'Tailwind CSS'] },
-  { label: 'Development Tools', items: ['Git', 'GitHub', 'VS Code'] },
-  { label: 'Deployment',      items: ['Vercel'] },
+  { icon: Code2,   label: 'Frontend',        items: ['HTML', 'CSS', 'JavaScript', 'React', 'Tailwind CSS'] },
+  { icon: Wrench,  label: 'Development Tools', items: ['Git', 'GitHub', 'VS Code'] },
+  { icon: Rocket,  label: 'Deployment',      items: ['Vercel'] },
 ]
 
 const PROCESS = [
@@ -99,6 +106,24 @@ const PROCESS = [
 ]
 
 const EMAIL = 'smartmoses@gmail.com'
+
+/* ═══════════════════════════════════════
+   FLOATING CONTACT LINKS
+   Leave blank until the real links are set — a blank
+   value renders the button inert (no dead link).
+   Telegram : https://t.me/yourusername
+   WhatsApp : https://wa.me/<number>  (digits + country code, no '+')
+   ═══════════════════════════════════════ */
+const TELEGRAM_URL = ''
+const WHATSAPP_URL = ''
+
+/* ═══════════════════════════════════════
+   BRAND GLYPHS — Telegram & WhatsApp are brand marks,
+   which Lucide intentionally does not ship, so they are
+   inlined here. Paths from the Simple Icons set.
+   ═══════════════════════════════════════ */
+const TELEGRAM_PATH = 'M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z'
+const WHATSAPP_PATH = 'M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347M12.05 21.785h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884a9.82 9.82 0 0 1 6.988 2.896 9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.885-9.885 9.885M20.52 3.449C18.24 1.245 15.24 0 12.045 0 5.463 0 .104 5.359.101 11.945c0 2.096.549 4.142 1.595 5.945L0 24l6.305-1.654a11.9 11.9 0 0 0 5.683 1.448h.005c6.585 0 11.946-5.359 11.949-11.945a11.87 11.87 0 0 0-3.421-8.4'
 
 /* ═══════════════════════════════════════
    SHARED ANIMATION HELPERS
@@ -119,7 +144,13 @@ function Chip({ children, accent }) {
     <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 24,
       padding: '6px 14px', borderRadius: 99, border: `1px solid ${col}30`,
       background: `${col}0A` }}>
-      <span style={{ width: 5, height: 5, borderRadius: '50%', background: col, flexShrink: 0 }} />
+      <span style={{ position: 'relative', width: 6, height: 6, flexShrink: 0,
+        display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+        <span style={{ position: 'absolute', inset: 0, borderRadius: '50%',
+          border: `1px solid ${col}`, animation: 'chipPing 2.4s ease-out infinite' }} />
+        <span style={{ width: 5, height: 5, borderRadius: '50%', background: col,
+          boxShadow: `0 0 8px ${col}` }} />
+      </span>
       <span style={{ fontSize: 9, textTransform: 'uppercase', letterSpacing: '0.34em',
         color: `${col}CC`, fontFamily: FONT_B, fontWeight: 600 }}>
         {children}
@@ -146,7 +177,9 @@ function PrimaryBtn({ href, children, onClick }) {
         transition: 'transform 0.25s cubic-bezier(0.22,1,0.36,1), box-shadow 0.25s',
       }}>
       {children}
-      <span style={{ fontSize: 15, lineHeight: 1 }}>→</span>
+      <ArrowRight size={15} strokeWidth={2.5} aria-hidden="true"
+        style={{ flexShrink: 0, transition: 'transform 0.25s cubic-bezier(0.22,1,0.36,1)',
+          transform: hov ? 'translateX(3px)' : 'translateX(0)' }} />
     </a>
   )
 }
@@ -158,17 +191,36 @@ function GhostBtn({ href, children }) {
       onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
       style={{
         display: 'inline-flex', alignItems: 'center', gap: 8,
-        borderRadius: 10, padding: '14px 20px',
+        borderRadius: 12, padding: '14px 20px',
         border: `1px solid ${hov ? T.borderHov : T.border}`,
         background: hov ? 'rgba(255,94,0,0.10)' : 'transparent',
         color: hov ? T.white : T.muted,
         fontSize: 11, fontWeight: 600, letterSpacing: '0.06em',
         textTransform: 'uppercase',
         fontFamily: FONT_B, textDecoration: 'none', flexShrink: 0,
-        transition: 'all 0.25s',
+        transform: hov ? 'scale(1.03)' : 'scale(1)',
+        boxShadow: hov ? '0 0 20px rgba(255,94,0,0.28)' : 'none',
+        transition: 'all 0.25s cubic-bezier(0.22,1,0.36,1)',
       }}>
       {children}
     </a>
+  )
+}
+
+/* Square icon chip used for capability / skill headings */
+function IconTile({ icon: Icon, size = 40 }) {
+  return (
+    <span aria-hidden="true" className="icon-tile" style={{
+      width: size, height: size, borderRadius: 11, flexShrink: 0,
+      display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+      border: `1px solid ${T.border}`,
+      background: 'linear-gradient(160deg, rgba(255,94,0,0.16), rgba(255,94,0,0.04))',
+      color: T.accent,
+      boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.07)',
+      transition: 'border-color 0.3s, box-shadow 0.3s, transform 0.3s cubic-bezier(0.22,1,0.36,1)',
+    }}>
+      <Icon size={Math.round(size * 0.48)} strokeWidth={1.9} />
+    </span>
   )
 }
 
@@ -273,19 +325,13 @@ function Nav() {
           <button onClick={() => setOpen(o => !o)} className="hamburger"
             aria-label={open ? 'Close menu' : 'Open menu'}
             aria-expanded={open}
-            style={{ background: 'none', border: `1px solid ${T.border}`, borderRadius: 9,
-              padding: '8px 10px', cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: 5 }}>
-            {[0, 1, 2].map(i => (
-              <span key={i} style={{
-                height: 1.5, width: 20, background: T.muted, display: 'block', borderRadius: 2,
-                transform: open
-                  ? (i === 0 ? 'rotate(45deg) translate(4px,4px)'
-                    : i === 2 ? 'rotate(-45deg) translate(4px,-4px)' : 'none')
-                  : 'none',
-                opacity: open && i === 1 ? 0 : 1,
-                transition: 'transform 0.3s, opacity 0.25s',
-              }} />
-            ))}
+            style={{ background: 'none', border: `1px solid ${open ? T.borderHov : T.border}`,
+              borderRadius: 10, width: 38, height: 38, cursor: 'pointer', color: T.muted,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              transition: 'color 0.25s, border-color 0.25s' }}>
+            {open
+              ? <X size={17} strokeWidth={2.2} aria-hidden="true" />
+              : <Menu size={17} strokeWidth={2.2} aria-hidden="true" />}
           </button>
         </div>
 
@@ -392,9 +438,12 @@ function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.25, ease }}
             style={{ position: 'relative' }}
+            whileHover={{ y: -6 }}
           >
             <div style={{ position: 'relative', borderRadius: 20, overflow: 'hidden',
-              border: `1px solid ${T.border}`, background: T.surface }}>
+              border: `1px solid ${T.border}`, background: T.surface,
+              transition: 'border-color 0.35s, box-shadow 0.35s',
+              boxShadow: '0 18px 50px rgba(0,0,0,0.42)' }}>
               <img src="/images/me.jpeg" alt="Smart Moses, Web Designer and Developer"
                 style={{ width: '100%', height: 'clamp(340px,42vw,460px)', objectFit: 'cover',
                   objectPosition: 'top center', display: 'block' }} />
@@ -414,6 +463,18 @@ function Hero() {
           </motion.div>
         </div>
       </motion.div>
+
+      <motion.a href="#work" aria-label="Scroll to work"
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1, duration: 0.8 }}
+        whileHover={{ y: 3 }}
+        style={{ position: 'absolute', bottom: 34, left: '50%', marginLeft: -22, zIndex: 10,
+          width: 44, height: 44, borderRadius: '50%', display: 'flex',
+          alignItems: 'center', justifyContent: 'center', color: T.muted,
+          border: `1px solid ${T.border}`, background: 'rgba(8,9,10,0.5)',
+          backdropFilter: 'blur(10px)' }}>
+        <ChevronDown size={18} strokeWidth={2} aria-hidden="true"
+          style={{ animation: 'bounceDown 2.2s ease-in-out infinite' }} />
+      </motion.a>
     </section>
   )
 }
@@ -466,11 +527,19 @@ function Capabilities() {
         background: T.border, border: `1px solid ${T.border}`, borderRadius: 16, overflow: 'hidden' }}>
         {CAPABILITIES.map((c, i) => (
           <motion.div key={c.idx} {...fadeUp(i * 0.07)}
-            style={{ padding: 'clamp(26px,3vw,36px)', background: 'rgba(255,255,255,0.04)', display: 'flex',
-              flexDirection: 'column', gap: 14 }}>
-            <span style={{ fontSize: 9, fontFamily: 'monospace', color: T.accent, letterSpacing: '0.1em' }}>
-              {c.idx}
-            </span>
+            whileHover={{ y: -4 }}
+            transition={{ duration: 0.3, ease }}
+            className="cap-cell"
+            style={{ padding: 'clamp(26px,3vw,36px)', background: 'rgba(255,255,255,0.04)',
+              display: 'flex', flexDirection: 'column', gap: 14 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              gap: 12 }}>
+              <IconTile icon={c.icon} />
+              <span style={{ fontSize: 9, fontFamily: 'monospace', color: T.accent,
+                letterSpacing: '0.1em' }}>
+                {c.idx}
+              </span>
+            </div>
             <h3 style={{ fontFamily: FONT_H, fontSize: 'clamp(1rem,1.8vw,1.15rem)', fontWeight: 600,
               color: T.white, lineHeight: 1.3, letterSpacing: '-0.02em' }}>
               {c.title}
@@ -515,12 +584,18 @@ function CreativeAdvantage() {
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           {SUPPORTING_SKILLS.map((s, i) => (
             <motion.div key={s.title} {...fadeUp(i * 0.07)}
+              whileHover={{ x: 4 }}
+              transition={{ duration: 0.3, ease }}
+              className="skill-row"
               style={{ padding: '22px 0', borderTop: `1px solid ${T.border}`,
                 display: 'flex', flexDirection: 'column', gap: 7 }}>
-              <h3 style={{ fontFamily: FONT_B, fontSize: 13, fontWeight: 600, color: T.text,
-                letterSpacing: '0.01em' }}>
-                {s.title}
-              </h3>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 11 }}>
+                <IconTile icon={s.icon} size={32} />
+                <h3 style={{ fontFamily: FONT_B, fontSize: 13, fontWeight: 600, color: T.text,
+                  letterSpacing: '0.01em' }}>
+                  {s.title}
+                </h3>
+              </div>
               <p style={{ fontSize: 12, color: T.dim, lineHeight: 1.8, fontFamily: FONT_B }}>
                 {s.body}
               </p>
@@ -553,16 +628,23 @@ function Skills() {
       <div className="skills-grid">
         {SKILL_GROUPS.map((g, i) => (
           <motion.div key={g.label} {...fadeUp(i * 0.07)}
+            whileHover={{ y: -4 }}
+            transition={{ duration: 0.3, ease }}
+            className="skill-card"
             style={{ padding: 'clamp(24px,3vw,32px)', border: `1px solid ${T.border}`,
               borderRadius: 16, background: T.surface }}>
-            <p style={{ fontSize: 9, textTransform: 'uppercase', letterSpacing: '0.28em',
-              color: T.accent, marginBottom: 18, fontFamily: FONT_B, fontWeight: 600 }}>
-              {g.label}
-            </p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 11, marginBottom: 18 }}>
+              <IconTile icon={g.icon} size={34} />
+              <p style={{ fontSize: 9, textTransform: 'uppercase', letterSpacing: '0.28em',
+                color: T.accent, fontFamily: FONT_B, fontWeight: 600 }}>
+                {g.label}
+              </p>
+            </div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
               {g.items.map(item => (
                 <span key={item} style={{ fontSize: 11.5, padding: '6px 13px', borderRadius: 7,
-                  border: `1px solid ${T.border}`, color: T.text, fontFamily: FONT_B }}>
+                  border: `1px solid ${T.border}`, color: T.text, fontFamily: FONT_B,
+                  transition: 'border-color 0.25s, color 0.25s' }}>
                   {item}
                 </span>
               ))}
@@ -711,25 +793,32 @@ function Contact() {
 
           <div style={{ padding: 28, borderRadius: 16, border: `1px solid ${T.border}`,
             background: 'rgba(255,255,255,0.04)', display: 'flex', flexDirection: 'column', gap: 18 }}>
-            <p style={{ fontSize: 9, textTransform: 'uppercase', letterSpacing: '0.28em',
-              color: T.dim, fontFamily: FONT_B }}>Email</p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
+              <Mail size={13} strokeWidth={2} aria-hidden="true" style={{ color: T.accent }} />
+              <p style={{ fontSize: 9, textTransform: 'uppercase', letterSpacing: '0.28em',
+                color: T.dim, fontFamily: FONT_B }}>Email</p>
+            </div>
             <a href={`mailto:${EMAIL}`}
-              style={{ fontFamily: FONT_B, fontSize: 'clamp(0.95rem,2vw,1.15rem)', fontWeight: 600,
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 7,
+                fontFamily: FONT_B, fontSize: 'clamp(0.95rem,2vw,1.15rem)', fontWeight: 600,
                 color: T.accent, textDecoration: 'none', wordBreak: 'break-all' }}>
               {EMAIL}
+              <ArrowUpRight size={15} strokeWidth={2.4} aria-hidden="true" style={{ flexShrink: 0 }} />
             </a>
             <div style={{ borderTop: `1px solid ${T.border}`, paddingTop: 18, display: 'flex',
-              flexDirection: 'column', gap: 10 }}>
+              flexDirection: 'column', gap: 12 }}>
               {[
-                { label: 'Focus',        value: 'Web design & development' },
-                { label: 'Based in',      value: 'Nigeria' },
-                { label: 'Engagements',   value: 'Freelance & collaborative' },
+                { icon: Target,   label: 'Focus',      value: 'Web design & development' },
+                { icon: MapPin,   label: 'Based in',    value: 'Nigeria' },
+                { icon: Sparkles, label: 'Engagements', value: 'Freelance & collaborative' },
               ].map(row => (
-                <div key={row.label} style={{ display: 'flex', justifyContent: 'space-between',
-                  alignItems: 'baseline', gap: 16 }}>
-                  <span style={{ fontSize: 11, color: T.dim, fontFamily: FONT_B }}>{row.label}</span>
+                <div key={row.label} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <row.icon size={13} strokeWidth={2} aria-hidden="true"
+                    style={{ color: T.dim, flexShrink: 0 }} />
+                  <span style={{ fontSize: 11, color: T.dim, fontFamily: FONT_B,
+                    flexShrink: 0, width: 88 }}>{row.label}</span>
                   <span style={{ fontSize: 11, color: T.text, fontFamily: FONT_B, fontWeight: 500,
-                    textAlign: 'right' }}>{row.value}</span>
+                    textAlign: 'right', flexGrow: 1 }}>{row.value}</span>
                 </div>
               ))}
             </div>
@@ -776,7 +865,11 @@ function Footer() {
                 color: T.dim, marginBottom: 16, fontFamily: FONT_B }}>Contact</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 <FooterLink href={`mailto:${EMAIL}`}>{EMAIL}</FooterLink>
-                <FooterLink href="#contact">Start a project →</FooterLink>
+                <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+                  <FooterLink href="#contact">Start a project</FooterLink>
+                  <ArrowRight size={13} strokeWidth={2.2} aria-hidden="true"
+                    style={{ color: T.accent }} />
+                </span>
               </div>
             </div>
           </div>
@@ -808,8 +901,84 @@ function FooterLink({ href, children }) {
 }
 
 /* ═══════════════════════════════════════
+   FLOATING CONTACT — WhatsApp + Telegram
+   ═══════════════════════════════════════ */
+function FloatingContact() {
+  const reduced = useReducedMotion()
+
+  const items = [
+    {
+      label: 'Telegram',
+      href: TELEGRAM_URL,
+      hint: 'Set TELEGRAM_URL at the top of App.jsx',
+      gradient: 'linear-gradient(145deg, #34AADC 0%, #0088CC 100%)',
+      ring: 'rgba(0,136,204,0.45)',
+      path: TELEGRAM_PATH,
+    },
+    {
+      label: 'WhatsApp',
+      href: WHATSAPP_URL,
+      hint: 'Set WHATSAPP_URL at the top of App.jsx',
+      gradient: 'linear-gradient(145deg, #5BF07A 0%, #25D366 55%, #14A85A 100%)',
+      ring: 'rgba(37,211,102,0.45)',
+      path: WHATSAPP_PATH,
+    },
+  ]
+
+  return (
+    <div aria-label="Instant contact"
+      style={{ position: 'fixed', bottom: 24, right: 24, zIndex: 999,
+        display: 'flex', flexDirection: 'column', gap: 12 }}>
+      {items.map(item => {
+        const live = Boolean(item.href)
+        const Tag = live ? 'a' : 'div'
+        return (
+          <Tag key={item.label}
+            {...(live ? { href: item.href, target: '_blank', rel: 'noopener noreferrer' } : {})}
+            aria-label={live ? `${item.label} — opens in a new tab` : `${item.label} (link not configured)`}
+            title={live ? item.label : item.hint}
+            className="float-btn"
+            style={{
+              position: 'relative', width: 56, height: 56, borderRadius: '50%',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              background: item.gradient, color: '#fff',
+              boxShadow: `0 10px 30px rgba(0,0,0,0.45), 0 0 0 1px ${item.ring}`,
+              textDecoration: 'none', cursor: live ? 'pointer' : 'not-allowed',
+              opacity: live ? 1 : 0.45,
+              animation: reduced
+                ? 'none'
+                : `float 3s ease-in-out ${item.label === 'WhatsApp' ? '0.35s' : '0s'} infinite`,
+            }}>
+            {!live && (
+              <span aria-hidden="true" style={{ position: 'absolute', inset: 0, borderRadius: '50%',
+                border: '1px dashed rgba(255,255,255,0.5)' }} />
+            )}
+            {live && (
+              <span aria-hidden="true" style={{ position: 'absolute', inset: 0, borderRadius: '50%',
+                background: item.gradient, animation: 'ringPing 3s ease-out infinite' }} />
+            )}
+            <svg viewBox="0 0 24 24" width="27" height="27" fill="currentColor" aria-hidden="true"
+              style={{ position: 'relative', zIndex: 1, display: 'block' }}>
+              <path d={item.path} />
+            </svg>
+            <span aria-hidden="true" style={{ position: 'absolute', top: -3, right: -1, zIndex: 2,
+              minWidth: 20, height: 20, padding: '0 5px', borderRadius: 99,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              background: accentGrad, color: '#0B0D10',
+              fontFamily: FONT_H, fontSize: 9, fontWeight: 800, lineHeight: 1,
+              border: '2px solid #08090A' }}>
+              {item.label === 'Telegram' ? 'TG' : 'WA'}
+            </span>
+          </Tag>
+        )
+      })}
+    </div>
+  )
+}
+
+/* ═══════════════════════════════════════
    ROOT
-═══════════════════════════════════════ */
+   ═══════════════════════════════════════ */
 export default function App() {
   const path = typeof window !== 'undefined' ? window.location.pathname : ''
   const showPricing = path.endsWith('/pricingpage')
@@ -818,13 +987,10 @@ export default function App() {
     <>
       <style>{`
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
+        html { scroll-behavior: smooth; background-color: ${pageGradient}; }
 
         body {
-          background-color: ${pageGradient};
-          background-image: ${glows};
-          background-attachment: fixed;
-          background-repeat: no-repeat;
+          background: transparent;
           color: ${T.text};
           font-family: 'Inter', sans-serif;
           -webkit-font-smoothing: antialiased;
@@ -837,6 +1003,83 @@ export default function App() {
         h1, h2, h3 { font-family: 'Syne', sans-serif; }
 
         ::selection { background: rgba(255,94,0,0.34); color: #fff; }
+
+        /* ── ANIMATED AMBIENT GLOWS ──
+           body background stays flat and opaque-neutral; the drifting
+           glows live on fixed pseudo-elements at z-index -1 so they
+           render behind every section regardless of stacking. */
+        @keyframes glowDriftA {
+          0%   { transform: translate3d(0,0,0) scale(1);      opacity: 0.85; }
+          50%  { transform: translate3d(4%,3%,0) scale(1.12); opacity: 1;    }
+          100% { transform: translate3d(0,0,0) scale(1);      opacity: 0.85; }
+        }
+        @keyframes glowDriftB {
+          0%   { transform: translate3d(0,0,0) scale(1.08);  opacity: 1;    }
+          50%  { transform: translate3d(-5%,-4%,0) scale(1);  opacity: 0.8;  }
+          100% { transform: translate3d(0,0,0) scale(1.08);  opacity: 1;    }
+        }
+        @keyframes chipPing {
+          0%   { transform: scale(1);   opacity: 0.85; }
+          70%  { transform: scale(2.6); opacity: 0;    }
+          100% { transform: scale(2.6); opacity: 0;    }
+        }
+        @keyframes bounceDown {
+          0%, 100% { transform: translateY(0);   }
+          50%      { transform: translateY(4px); }
+        }
+        @keyframes float {
+          0%, 100% { transform: translateY(0);    }
+          50%      { transform: translateY(-8px); }
+        }
+        @keyframes ringPing {
+          0%   { transform: scale(1);   opacity: 0.5; }
+          70%  { transform: scale(1.7); opacity: 0;   }
+          100% { transform: scale(1.7); opacity: 0;   }
+        }
+
+        body::before,
+        body::after {
+          content: '';
+          position: fixed;
+          top: -12%; left: -12%;
+          width: 124%; height: 124%;
+          pointer-events: none;
+          z-index: -1;
+          will-change: transform, opacity;
+        }
+        body::before {
+          background: radial-gradient(ellipse 42% 38% at 12% 8%, rgba(56,132,255,0.17), transparent 62%);
+          animation: glowDriftA 22s ease-in-out infinite;
+        }
+        body::after {
+          background: radial-gradient(ellipse 40% 36% at 88% 92%, rgba(255,94,0,0.15), transparent 64%);
+          animation: glowDriftB 26s ease-in-out infinite;
+        }
+
+        /* ── MICRO-INTERACTIONS ── */
+        .float-btn { transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s, opacity 0.3s; }
+        .float-btn:hover {
+          transform: scale(1.1) translateY(-3px);
+          box-shadow: 0 16px 40px rgba(0,0,0,0.5), 0 0 26px currentColor;
+        }
+        .float-btn:active { transform: scale(0.96); }
+
+        .cap-cell,
+        .skill-card,
+        .skill-row { transition: background 0.3s, border-color 0.3s, box-shadow 0.3s; }
+        .cap-cell:hover,
+        .skill-card:hover {
+          background: rgba(255,94,0,0.05);
+          border-color: ${T.borderHov};
+          box-shadow: 0 0 24px rgba(255,94,0,0.16), inset 0 1px 0 rgba(255,255,255,0.06);
+        }
+        .cap-cell:hover .icon-tile,
+        .skill-card:hover .icon-tile,
+        .skill-row:hover .icon-tile {
+          border-color: ${T.borderHov};
+          transform: scale(1.07) rotate(-3deg);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.07), 0 0 18px rgba(255,94,0,0.34);
+        }
 
         :focus-visible {
           outline: 2px solid ${T.accent};
@@ -943,6 +1186,7 @@ export default function App() {
           <Process />
           <Contact />
           <Footer />
+          <FloatingContact />
         </div>
       )}
     </>
