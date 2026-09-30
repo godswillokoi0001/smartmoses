@@ -1,7 +1,7 @@
 import { useScroll, useTransform, AnimatePresence, motion } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
 import {
-  ArrowRight, ArrowUpRight, ChevronDown, Menu, X, Mail,
+  ArrowRight, ArrowUpRight, ChevronDown, Menu, X, Mail, Download,
   Sparkles, Target, Monitor, Layers, Code2, Wrench, Rocket, MapPin,
 } from 'lucide-react'
 import PricingPage from './PricingPage.jsx'
@@ -69,6 +69,11 @@ const NAV_LINKS = [
    with no username, which would be a dead link. */
 const EMAIL = 'censusokoi515@gmail.com'
 const GITHUB_URL = 'https://github.com/godswillokoi0001'
+
+/* The repository ships public/assets/pdf/ with a placeholder README but no
+   actual PDF, so the résumé buttons render in a "not yet uploaded" state
+   rather than as dead download links. */
+const RESUME_PATH = '/assets/pdf/Smart-Moses-Resume.pdf'
 
 /* Real projects, recovered from src/components/Projects.jsx at commit
    37cd57d — all three have working live URLs. These are the same
@@ -551,7 +556,8 @@ function Nav() {
           <nav style={{ display: 'flex', alignItems: 'center', gap: 2 }} className="nav-desktop"
             aria-label="Primary">
             {NAV_LINKS.map(link => <NavLink key={link.href} href={link.href}>{link.label}</NavLink>)}
-            <div style={{ marginLeft: 10 }}>
+            <div style={{ marginLeft: 10, display: 'flex', alignItems: 'center', gap: 8 }}>
+              <ResumeBtn compact />
               <PrimaryBtn href="#contact">Hire Me</PrimaryBtn>
             </div>
           </nav>
@@ -587,7 +593,8 @@ function Nav() {
                     {link.label}
                   </a>
                 ))}
-                <div style={{ marginTop: 14 }}>
+                <div style={{ marginTop: 14, display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+                  <ResumeBtn onClick={() => setOpen(false)} />
                   <PrimaryBtn href="#contact" onClick={() => setOpen(false)}>Hire Me</PrimaryBtn>
                 </div>
               </div>
@@ -664,6 +671,7 @@ function Hero() {
             <motion.div {...fadeUp(0.35)} style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
               <PrimaryBtn href="#work">View My Work</PrimaryBtn>
               <GhostBtn href="#contact">Let's Talk</GhostBtn>
+              <ResumeBtn />
             </motion.div>
           </div>
 
@@ -847,10 +855,11 @@ function TechTile({ slug, name, mono }) {
         boxShadow: hov ? `0 0 22px ${col}2E, inset 0 1px 0 rgba(255,255,255,0.05)` : 'none' }}>
       <span className="tech-mark" style={{ color: col, background: hov ? `${col}1A` : 'rgba(255,255,255,0.04)' }}>
         {brand
-          ? <svg viewBox="0 0 24 24" width="22" height="22" role="img" aria-label={name}>
+          ? <svg viewBox="0 0 24 24" role="img" aria-label={name}>
               <path d={brand.path} fill="currentColor" />
             </svg>
-          : <span style={{ fontFamily: FONT_H, fontSize: (mono || '').length > 2 ? 11 : 13,
+          : <span className="tech-mono" style={{ fontFamily: FONT_H,
+              fontSize: (mono || '').length > 2 ? 8 : 9.5,
               fontWeight: 800, letterSpacing: '0.02em' }}>{mono}</span>}
       </span>
       <span className="tech-name">{name}</span>
@@ -870,17 +879,17 @@ function Skills() {
         accentWord="build with."
         lead="Grouped by what they are actually used for."
       />
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+      <div className="skill-groups">
         {SKILL_GROUPS.map((g, i) => (
           <motion.div key={g.label} {...fadeUp(i * 0.07)}
             whileHover={{ y: -3 }}
             transition={{ duration: 0.3, ease }}
             className="skill-card"
-            style={{ padding: 'clamp(22px,3vw,30px)', border: `1px solid ${T.border}`,
-              borderRadius: 16, background: T.surface }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 11, marginBottom: 20 }}>
-              <IconTile icon={g.icon} size={34} />
-              <p style={{ fontSize: 9, textTransform: 'uppercase', letterSpacing: '0.28em',
+            style={{ border: `1px solid ${T.border}`,
+              borderRadius: 14, background: T.surface }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+              <IconTile icon={g.icon} size={26} />
+              <p style={{ fontSize: 8.5, textTransform: 'uppercase', letterSpacing: '0.24em',
                 color: T.accent, fontFamily: FONT_B, fontWeight: 600 }}>
                 {g.label}
               </p>
@@ -1338,43 +1347,88 @@ export default function App() {
           .sticky-col { position: sticky; top: 120px; }
         }
 
+        .resume-soon {
+          font-size: 8px;
+          letter-spacing: 0.1em;
+          color: ${T.dim};
+          border: 1px solid ${T.border};
+          border-radius: 4px;
+          padding: 2px 5px;
+          text-transform: uppercase;
+        }
+
+        .skill-groups {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+        .skill-card {
+          padding: 14px;
+        }
+        @media (min-width: 640px) {
+          .skill-groups { gap: 10px; }
+          .skill-card { padding: 20px; }
+        }
+
+        /* Compact horizontal pill tiles. A side-by-side mark + label keeps
+           the same information in roughly a third of the vertical space the
+           old stacked tiles needed, which matters most on mobile. */
         .tech-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
-          gap: 10px;
+          grid-template-columns: repeat(auto-fill, minmax(124px, 1fr));
+          gap: 6px;
+        }
+        @media (min-width: 640px) {
+          .tech-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 7px; }
         }
 
         .tech-tile {
           display: flex;
-          flex-direction: column;
+          flex-direction: row;
           align-items: center;
-          justify-content: flex-start;
-          gap: 9px;
-          padding: 14px 8px 12px;
+          gap: 8px;
+          padding: 7px 10px 7px 7px;
+          min-width: 0;
           border: 1px solid ${T.border};
-          border-radius: 12px;
+          border-radius: 9px;
           background: rgba(255,255,255,0.02);
           transition: border-color 0.3s, box-shadow 0.3s, background 0.3s, transform 0.3s cubic-bezier(0.22,1,0.36,1);
         }
         .tech-tile:hover { background: rgba(255,255,255,0.035); }
+        @media (min-width: 640px) {
+          .tech-tile { padding: 8px 12px 8px 8px; gap: 9px; }
+        }
 
         .tech-mark {
-          width: 42px; height: 42px;
-          border-radius: 11px;
+          width: 24px; height: 24px;
+          flex-shrink: 0;
+          border-radius: 7px;
           display: flex; align-items: center; justify-content: center;
           transition: background 0.3s, transform 0.3s cubic-bezier(0.22,1,0.36,1);
         }
-        .tech-tile:hover .tech-mark { transform: scale(1.08) translateY(-1px); }
-        .tech-mark svg { display: block; }
+        @media (min-width: 640px) {
+          .tech-mark { width: 27px; height: 27px; }
+        }
+        .tech-tile:hover .tech-mark { transform: scale(1.1) translateY(-1px); }
+        .tech-mark svg { display: block; width: 14px; height: 14px; }
+        @media (min-width: 640px) {
+          .tech-mark svg { width: 16px; height: 16px; }
+        }
+        .tech-mono { display: block; line-height: 1; }
 
         .tech-name {
           font-family: 'Inter', sans-serif;
-          font-size: 10.5px;
+          font-size: 10px;
           font-weight: 500;
           color: ${T.muted};
-          text-align: center;
+          text-align: left;
           line-height: 1.25;
+          min-width: 0;
+          overflow-wrap: anywhere;
           transition: color 0.3s;
+        }
+        @media (min-width: 640px) {
+          .tech-name { font-size: 11px; }
         }
         .tech-tile:hover .tech-name { color: ${T.white}; }
 
