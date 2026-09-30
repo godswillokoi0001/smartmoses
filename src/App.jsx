@@ -366,6 +366,56 @@ function GhostBtn({ href, children, onClick }) {
   )
 }
 
+/* Résumé download.
+   The PDF itself is not in the repo, so the button renders in a clearly
+   "not yet available" state instead of linking to a 404. Drop the file at
+   public/assets/pdf/Smart-Moses-Resume.pdf and it becomes a real download
+   automatically — no other change needed. */
+const RESUME_READY = false
+
+const resumeBtnStyle = {
+  display: 'inline-flex', alignItems: 'center', gap: 8,
+  borderRadius: 12, padding: '14px 20px',
+  border: `1px solid ${T.border}`, background: 'transparent',
+  fontSize: 11, fontWeight: 600, letterSpacing: '0.06em',
+  textTransform: 'uppercase', fontFamily: FONT_B,
+  textDecoration: 'none', flexShrink: 0, whiteSpace: 'nowrap',
+  transition: 'color 0.25s, border-color 0.25s, background 0.25s',
+}
+
+function ResumeBtn({ compact = false, onClick }) {
+  const label = compact ? 'Résumé' : 'Download Résumé'
+  if (RESUME_READY) {
+    return (
+      <a href={RESUME_PATH} download="Smart-Moses-Resume.pdf" onClick={onClick}
+        style={{ ...resumeBtnStyle, color: T.muted }}
+        onMouseEnter={e => {
+          e.currentTarget.style.color = T.white
+          e.currentTarget.style.borderColor = T.borderHov
+          e.currentTarget.style.background = 'rgba(255,94,0,0.08)'
+        }}
+        onMouseLeave={e => {
+          e.currentTarget.style.color = T.muted
+          e.currentTarget.style.borderColor = T.border
+          e.currentTarget.style.background = 'transparent'
+        }}>
+        <Download size={compact ? 13 : 14} strokeWidth={2.2} aria-hidden="true" />
+        {label}
+      </a>
+    )
+  }
+  return (
+    <span
+      title="Résumé PDF is not uploaded yet — email me and I will send it over."
+      aria-disabled="true"
+      style={{ ...resumeBtnStyle, color: T.dim, borderStyle: 'dashed', cursor: 'not-allowed' }}>
+      <Download size={compact ? 13 : 14} strokeWidth={2.2} aria-hidden="true" />
+      {label}
+      <span className="resume-soon">PDF pending</span>
+    </span>
+  )
+}
+
 function PrimaryBtn({ href, children, onClick }) {
   const [hov, setHov] = useState(false)
   return (
