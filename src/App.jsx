@@ -70,9 +70,8 @@ const NAV_LINKS = [
 const EMAIL = 'censusokoi515@gmail.com'
 const GITHUB_URL = 'https://github.com/godswillokoi0001'
 
-/* The repository ships public/assets/pdf/ with a placeholder README but no
-   actual PDF, so the résumé buttons render in a "not yet uploaded" state
-   rather than as dead download links. */
+/* The résumé is a public download. The PDF itself still needs to be added to
+   public/assets/pdf/ under the name below. */
 const RESUME_PATH = '/assets/pdf/Smart-Moses-Resume.pdf'
 
 /* Real projects, recovered from src/components/Projects.jsx at commit
@@ -297,13 +296,14 @@ const SKILL_GROUPS = [
 
 /* ═══════════════════════════════════════
    FLOATING CONTACT LINKS
-   Leave blank until the real links are set — a blank
-   value renders the button inert (no dead link).
-   Telegram : https://t.me/yourusername
-   WhatsApp : https://wa.me/<number>  (digits + country code, no '+')
+   Both open the real chat in a new tab. WhatsApp takes digits with the
+   country code and no '+' or spaces; Telegram takes the @handle without
+   the '@'. A prefilled message gives people something to send immediately.
    ═══════════════════════════════════════ */
-const TELEGRAM_URL = ''
-const WHATSAPP_URL = ''
+const TELEGRAM_URL = 'https://t.me/smart_moses'
+const WHATSAPP_URL =
+  'https://wa.me/2348137038180?text=' +
+  encodeURIComponent("Hi Smart Moses, I'd like to discuss a project.")
 
 /* ═══════════════════════════════════════
    BRAND GLYPHS — Telegram & WhatsApp are brand marks,
@@ -371,53 +371,54 @@ function GhostBtn({ href, children, onClick }) {
   )
 }
 
-/* Résumé download.
-   The PDF itself is not in the repo, so the button renders in a clearly
-   "not yet available" state instead of linking to a 404. Drop the file at
-   public/assets/pdf/Smart-Moses-Resume.pdf and it becomes a real download
-   automatically — no other change needed. */
-const RESUME_READY = false
-
-const resumeBtnStyle = {
-  display: 'inline-flex', alignItems: 'center', gap: 8,
-  borderRadius: 12, padding: '14px 20px',
-  border: `1px solid ${T.border}`, background: 'transparent',
-  fontSize: 11, fontWeight: 600, letterSpacing: '0.06em',
-  textTransform: 'uppercase', fontFamily: FONT_B,
-  textDecoration: 'none', flexShrink: 0, whiteSpace: 'nowrap',
-  transition: 'color 0.25s, border-color 0.25s, background 0.25s',
-}
-
-function ResumeBtn({ compact = false, onClick }) {
-  const label = compact ? 'Résumé' : 'Download Résumé'
-  if (RESUME_READY) {
-    return (
-      <a href={RESUME_PATH} download="Smart-Moses-Resume.pdf" onClick={onClick}
-        style={{ ...resumeBtnStyle, color: T.muted }}
-        onMouseEnter={e => {
-          e.currentTarget.style.color = T.white
-          e.currentTarget.style.borderColor = T.borderHov
-          e.currentTarget.style.background = 'rgba(255,94,0,0.08)'
-        }}
-        onMouseLeave={e => {
-          e.currentTarget.style.color = T.muted
-          e.currentTarget.style.borderColor = T.border
-          e.currentTarget.style.background = 'transparent'
-        }}>
-        <Download size={compact ? 13 : 14} strokeWidth={2.2} aria-hidden="true" />
-        {label}
-      </a>
-    )
-  }
+/* Résumé — a plain public download.
+   No gating, no request step: the link always points straight at the PDF and
+   anyone can save it. The only outstanding piece is the file itself, which
+   goes at public/assets/pdf/Smart-Moses-Resume.pdf (see the README in that
+   directory). */
+function ResumeBtn({ onClick }) {
+  const [hov, setHov] = useState(false)
   return (
-    <span
-      title="Résumé PDF is not uploaded yet — email me and I will send it over."
-      aria-disabled="true"
-      style={{ ...resumeBtnStyle, color: T.dim, borderStyle: 'dashed', cursor: 'not-allowed' }}>
-      <Download size={compact ? 13 : 14} strokeWidth={2.2} aria-hidden="true" />
-      {label}
-      <span className="resume-soon">PDF pending</span>
-    </span>
+    <a href={RESUME_PATH} download="Smart-Moses-Resume.pdf" onClick={onClick}
+      onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
+      style={{
+        display: 'inline-flex', alignItems: 'center', gap: 13,
+        borderRadius: 12, padding: '13px 22px 13px 18px',
+        border: `1px solid ${hov ? 'rgba(255,94,0,0.55)' : T.borderHov}`,
+        background: hov ? 'rgba(255,94,0,0.07)' : 'rgba(255,255,255,0.02)',
+        boxShadow: hov
+          ? '0 10px 30px rgba(255,94,0,0.20), inset 0 1px 0 rgba(255,255,255,0.06)'
+          : 'inset 0 1px 0 rgba(255,255,255,0.035)',
+        transform: hov ? 'translateY(-1px)' : 'translateY(0)',
+        textDecoration: 'none', flexShrink: 0,
+        transition: 'all 0.3s cubic-bezier(0.22,1,0.36,1)',
+      }}>
+      <span style={{
+        width: 30, height: 30, borderRadius: 9, flexShrink: 0,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        background: hov ? 'rgba(255,94,0,0.16)' : 'rgba(255,255,255,0.05)',
+        color: hov ? T.accent : T.dim,
+        transition: 'background 0.3s, color 0.3s',
+      }}>
+        <Download size={14} strokeWidth={2.3} aria-hidden="true" />
+      </span>
+      <span style={{ display: 'flex', flexDirection: 'column', gap: 2, textAlign: 'left' }}>
+        <span style={{
+          fontSize: 11, fontWeight: 600, letterSpacing: '0.06em',
+          textTransform: 'uppercase', fontFamily: FONT_B, lineHeight: 1,
+          color: hov ? T.white : T.text,
+        }}>
+          Résumé
+        </span>
+        <span style={{
+          fontSize: 9.5, fontWeight: 400, letterSpacing: '0.02em',
+          fontFamily: FONT_B, lineHeight: 1,
+          color: T.dim,
+        }}>
+          Download PDF
+        </span>
+      </span>
+    </a>
   )
 }
 
@@ -556,8 +557,7 @@ function Nav() {
           <nav style={{ display: 'flex', alignItems: 'center', gap: 2 }} className="nav-desktop"
             aria-label="Primary">
             {NAV_LINKS.map(link => <NavLink key={link.href} href={link.href}>{link.label}</NavLink>)}
-            <div style={{ marginLeft: 10, display: 'flex', alignItems: 'center', gap: 8 }}>
-              <ResumeBtn compact />
+            <div style={{ marginLeft: 10 }}>
               <PrimaryBtn href="#contact">Hire Me</PrimaryBtn>
             </div>
           </nav>
@@ -593,8 +593,7 @@ function Nav() {
                     {link.label}
                   </a>
                 ))}
-                <div style={{ marginTop: 14, display: 'flex', flexWrap: 'wrap', gap: 10 }}>
-                  <ResumeBtn onClick={() => setOpen(false)} />
+                <div style={{ marginTop: 14 }}>
                   <PrimaryBtn href="#contact" onClick={() => setOpen(false)}>Hire Me</PrimaryBtn>
                 </div>
               </div>
@@ -651,7 +650,7 @@ function Hero() {
             </motion.div>
 
             <motion.div {...fadeUp(0.15)} style={{ marginBottom: 26 }}>
-              <h1 style={{ fontFamily: FONT_H, fontSize: 'clamp(2rem,6.2vw,3.5rem)', fontWeight: 700,
+              <h1 style={{ fontFamily: FONT_H, fontSize: 'clamp(1.8rem,6.2vw,3.5rem)', fontWeight: 700,
                 lineHeight: 1.02, letterSpacing: '-0.03em', color: T.white, maxWidth: 680 }}>
                 I design and build digital experiences that{' '}
                 <span style={{ background: accentGrad, WebkitBackgroundClip: 'text',
@@ -671,7 +670,6 @@ function Hero() {
             <motion.div {...fadeUp(0.35)} style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
               <PrimaryBtn href="#work">View My Work</PrimaryBtn>
               <GhostBtn href="#contact">Let's Talk</GhostBtn>
-              <ResumeBtn />
             </motion.div>
           </div>
 
@@ -1009,11 +1007,14 @@ function Contact() {
               </span>
             </h2>
             <p style={{ fontSize: 14, color: T.muted, lineHeight: 1.9, maxWidth: 460, fontFamily: FONT_B,
-              marginBottom: 32 }}>
+              marginBottom: 30 }}>
               Whether you're looking for someone to design and develop a website, build a digital
               product, or join your team, I'd love to hear what you're working on.
             </p>
-            <PrimaryBtn href={`mailto:${EMAIL}`}>Let's Start a Conversation</PrimaryBtn>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'stretch' }}>
+              <ResumeBtn />
+              <PrimaryBtn href={`mailto:${EMAIL}`}>Let's Start a Conversation</PrimaryBtn>
+            </div>
           </div>
 
           <div style={{ padding: 28, borderRadius: 16, border: `1px solid ${T.border}`,
@@ -1135,7 +1136,6 @@ function FloatingContact() {
     {
       label: 'Telegram',
       href: TELEGRAM_URL,
-      hint: 'Set TELEGRAM_URL at the top of App.jsx',
       gradient: 'linear-gradient(145deg, #34AADC 0%, #0088CC 100%)',
       ring: 'rgba(0,136,204,0.45)',
       path: TELEGRAM_PATH,
@@ -1143,7 +1143,6 @@ function FloatingContact() {
     {
       label: 'WhatsApp',
       href: WHATSAPP_URL,
-      hint: 'Set WHATSAPP_URL at the top of App.jsx',
       gradient: 'linear-gradient(145deg, #5BF07A 0%, #25D366 55%, #14A85A 100%)',
       ring: 'rgba(37,211,102,0.45)',
       path: WHATSAPP_PATH,
@@ -1160,8 +1159,8 @@ function FloatingContact() {
         return (
           <Tag key={item.label}
             {...(live ? { href: item.href, target: '_blank', rel: 'noopener noreferrer' } : {})}
-            aria-label={live ? `${item.label} — opens in a new tab` : `${item.label} (link not configured)`}
-            title={live ? item.label : item.hint}
+            aria-label={live ? `${item.label} — opens chat in a new tab` : `${item.label} (link not configured)`}
+            title={item.label}
             className="float-btn"
             style={{
               position: 'relative', width: 56, height: 56, borderRadius: '50%',
@@ -1345,16 +1344,6 @@ export default function App() {
         .sticky-col { position: static; }
         @media (min-width: 900px) {
           .sticky-col { position: sticky; top: 120px; }
-        }
-
-        .resume-soon {
-          font-size: 8px;
-          letter-spacing: 0.1em;
-          color: ${T.dim};
-          border: 1px solid ${T.border};
-          border-radius: 4px;
-          padding: 2px 5px;
-          text-transform: uppercase;
         }
 
         .skill-groups {

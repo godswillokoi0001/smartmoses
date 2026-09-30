@@ -9,19 +9,13 @@ Expected filename (must match RESUME_PATH in src/App.jsx):
 
 Current state
 -------------
-The PDF is NOT in the repository. Because of that, the résumé buttons in
-src/App.jsx do not link anywhere — they render in a "PDF pending" state
-instead of being dead download links.
+The PDF is NOT in the repository yet. The download link in src/App.jsx is
+already wired to the filename above, so nothing else needs to change.
 
-To enable them:
+To publish the résumé:
 
-1. Copy the résumé PDF into this directory and rename it to
+1. Copy the PDF into this directory and name it
    Smart-Moses-Resume.pdf
-2. Open src/App.jsx and set:
+2. That is all. The Contact section button will serve it.
 
-       const RESUME_READY = true
-
-No other change is needed — the button becomes a real download, and the
-"PDF pending" label disappears.
-
-Until then, visitors are pointed to the contact section instead.
+The link is a plain public download — no gate, no request step.
