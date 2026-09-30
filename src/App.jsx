@@ -6,25 +6,28 @@ import PricingPage from './PricingPage.jsx'
    DESIGN TOKENS — dark charcoal-green + mint
 ═══════════════════════════════════════ */
 const T = {
-  bg:          '#0A1128',
-  bgAlt:       '#1C2541',
-  surface:     'rgba(17,26,52,0.72)',
-  surfaceUp:   'rgba(26,36,66,0.88)',
-  border:      'rgba(150,180,225,0.15)',
-  borderHov:   'rgba(255,126,95,0.34)',
-  accent:      '#FF7E5F',
-  accentDeep:  '#F2613F',
-  accentSoft:  '#FEB47B',
-  white:       '#F5F8FC',
-  muted:       '#A7B3C7',
-  dim:         '#8A98B5',
-  text:        '#EDF1F8',
+  bg:          '#08090A',
+  bgMid:       '#0B0D10',
+  bgAlt:       '#101317',
+  surface:     'rgba(255,255,255,0.05)',
+  surfaceUp:   'rgba(255,255,255,0.09)',
+  border:      '#1E293B',
+  borderHov:   '#FF8A00',
+  accent:      '#FF8A00',
+  accentDeep:  '#FF5E00',
+  accentSoft:  '#FFB04D',
+  white:       '#FFFFFF',
+  muted:       '#C3CFE2',
+  dim:         '#94A3B8',
+  text:        '#EAF0FA',
 }
 
-const pageGradient = 'linear-gradient(135deg, #0A1128 0%, #1C2541 100%)'
-const accentGrad   = 'linear-gradient(135deg, #FF7E5F 0%, #FEB47B 100%)'
+const pageGradient = '#08090A'
+const glows = 'radial-gradient(ellipse 60% 48% at 12% 0%, rgba(56,132,255,0.13), transparent 62%),' +
+  'radial-gradient(ellipse 58% 44% at 88% 100%, rgba(255,94,0,0.12), transparent 64%)'
+const accentGrad = 'linear-gradient(135deg, #FF5E00 0%, #FF9900 100%)'
 const ease       = [0.22, 1, 0.36, 1]
-const FONT_H     = "'Sora', sans-serif"
+const FONT_H     = "'Syne', sans-serif"
 const FONT_B     = "'Inter', sans-serif"
 
 /* ═══════════════════════════════════════
@@ -132,14 +135,15 @@ function PrimaryBtn({ href, children, onClick }) {
       onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
       style={{
         display: 'inline-flex', alignItems: 'center', gap: 9,
-        borderRadius: 10, padding: '14px 20px',
+        borderRadius: 12, padding: '14px 22px',
         background: accentGrad,
-        color: '#141B33',
-        fontSize: 11, fontWeight: 700, letterSpacing: '0.06em',
+        color: '#0B0D10',
+        fontSize: 11, fontWeight: 700, letterSpacing: '0.07em',
         textTransform: 'uppercase',
         fontFamily: FONT_B, textDecoration: 'none', flexShrink: 0,
-        transform: hov ? 'translateY(-2px)' : 'translateY(0)',
-        transition: 'background 0.25s, transform 0.25s',
+        boxShadow: hov ? '0 10px 30px rgba(255,94,0,0.32)' : '0 4px 14px rgba(255,94,0,0.18)',
+        transform: hov ? 'scale(1.04) translateY(-1px)' : 'scale(1) translateY(0)',
+        transition: 'transform 0.25s cubic-bezier(0.22,1,0.36,1), box-shadow 0.25s',
       }}>
       {children}
       <span style={{ fontSize: 15, lineHeight: 1 }}>→</span>
@@ -156,7 +160,7 @@ function GhostBtn({ href, children }) {
         display: 'inline-flex', alignItems: 'center', gap: 8,
         borderRadius: 10, padding: '14px 20px',
         border: `1px solid ${hov ? T.borderHov : T.border}`,
-        background: hov ? 'rgba(255,126,95,0.07)' : 'transparent',
+        background: hov ? 'rgba(255,94,0,0.10)' : 'transparent',
         color: hov ? T.white : T.muted,
         fontSize: 11, fontWeight: 600, letterSpacing: '0.06em',
         textTransform: 'uppercase',
@@ -171,12 +175,12 @@ function GhostBtn({ href, children }) {
 function SMBadge({ size = 34 }) {
   return (
     <span aria-hidden="true" style={{
-      width: size, height: size, borderRadius: Math.round(size * 0.28),
-      background: accentGrad, color: '#141B33',
+      width: size, height: size, borderRadius: Math.round(size * 0.34),
+      background: accentGrad, color: '#0B0D10',
       display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
       fontFamily: FONT_H, fontWeight: 700, letterSpacing: '-0.02em',
       fontSize: Math.round(size * 0.4), lineHeight: 1, flexShrink: 0,
-      boxShadow: '0 6px 18px rgba(255,126,95,0.28)',
+      boxShadow: '0 6px 22px rgba(255,94,0,0.42)',
     }}>
       SM
     </span>
@@ -242,8 +246,8 @@ function Nav() {
       <div style={{
         pointerEvents: 'all',
         width: 'calc(100% - 32px)', maxWidth: 1150,
-        background: scrolled ? 'rgba(11,21,19,0.92)' : 'rgba(11,21,19,0.55)',
-        border: `1px solid ${scrolled ? T.borderHov : T.border}`,
+        background: scrolled ? 'rgba(3,7,18,0.85)' : 'rgba(15,23,42,0.45)',
+        border: `1px solid ${T.border}`,
         borderRadius: 16,
         backdropFilter: 'blur(24px)',
         boxShadow: scrolled ? '0 24px 60px rgba(0,0,0,0.5)' : 'none',
@@ -346,7 +350,7 @@ function Hero() {
         paddingTop: 140, paddingBottom: 120, overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
         <div style={{ position: 'absolute', inset: 0,
-          backgroundImage: 'linear-gradient(rgba(150,180,225,0.045) 1px,transparent 1px),linear-gradient(90deg,rgba(150,180,225,0.045) 1px,transparent 1px)',
+          backgroundImage: 'linear-gradient(rgba(148,163,184,0.055) 1px,transparent 1px),linear-gradient(90deg,rgba(148,163,184,0.055) 1px,transparent 1px)',
           backgroundSize: '80px 80px',
           maskImage: 'radial-gradient(ellipse 70% 60% at 50% 40%, black, transparent)' }} />
       </div>
@@ -360,8 +364,8 @@ function Hero() {
             </motion.div>
 
             <motion.div {...fadeUp(0.15)} style={{ marginBottom: 26 }}>
-              <h1 style={{ fontFamily: FONT_H, fontSize: 'clamp(2.3rem,6.2vw,4.6rem)', lineHeight: 1.02,
-                letterSpacing: '-0.04em', color: T.white, maxWidth: 680 }}>
+              <h1 style={{ fontFamily: FONT_H, fontSize: 'clamp(2.3rem,6.2vw,4.6rem)', fontWeight: 700,
+                lineHeight: 1.02, letterSpacing: '-0.03em', color: T.white, maxWidth: 680 }}>
                 I build digital experiences that{' '}
                 <span style={{ background: accentGrad, WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
@@ -462,7 +466,7 @@ function Capabilities() {
         background: T.border, border: `1px solid ${T.border}`, borderRadius: 16, overflow: 'hidden' }}>
         {CAPABILITIES.map((c, i) => (
           <motion.div key={c.idx} {...fadeUp(i * 0.07)}
-            style={{ padding: 'clamp(26px,3vw,36px)', background: 'rgba(13,20,42,0.55)', display: 'flex',
+            style={{ padding: 'clamp(26px,3vw,36px)', background: 'rgba(255,255,255,0.04)', display: 'flex',
               flexDirection: 'column', gap: 14 }}>
             <span style={{ fontSize: 9, fontFamily: 'monospace', color: T.accent, letterSpacing: '0.1em' }}>
               {c.idx}
@@ -682,7 +686,7 @@ function Contact() {
         style={{ position: 'relative', borderRadius: 22, overflow: 'hidden',
           padding: 'clamp(36px,6vw,72px)', border: `1px solid ${T.borderHov}`, background: T.surface }}>
         <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none',
-          backgroundImage: 'linear-gradient(rgba(150,180,225,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(150,180,225,0.04) 1px,transparent 1px)',
+          backgroundImage: 'linear-gradient(rgba(148,163,184,0.045) 1px,transparent 1px),linear-gradient(90deg,rgba(148,163,184,0.045) 1px,transparent 1px)',
           backgroundSize: '64px 64px',
           maskImage: 'radial-gradient(ellipse 70% 70% at 50% 50%, black, transparent)' }} />
 
@@ -706,7 +710,7 @@ function Contact() {
           </div>
 
           <div style={{ padding: 28, borderRadius: 16, border: `1px solid ${T.border}`,
-            background: 'rgba(11,21,19,0.6)', display: 'flex', flexDirection: 'column', gap: 18 }}>
+            background: 'rgba(255,255,255,0.04)', display: 'flex', flexDirection: 'column', gap: 18 }}>
             <p style={{ fontSize: 9, textTransform: 'uppercase', letterSpacing: '0.28em',
               color: T.dim, fontFamily: FONT_B }}>Email</p>
             <a href={`mailto:${EMAIL}`}
@@ -813,14 +817,12 @@ export default function App() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
-
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
 
         body {
-          background-color: ${T.bg};
-          background-image: ${pageGradient};
+          background-color: ${pageGradient};
+          background-image: ${glows};
           background-attachment: fixed;
           background-repeat: no-repeat;
           color: ${T.text};
@@ -832,9 +834,9 @@ export default function App() {
 
         img { max-width: 100%; display: block; }
         a { text-decoration: none; }
-        h1, h2, h3 { font-family: 'Sora', sans-serif; }
+        h1, h2, h3 { font-family: 'Syne', sans-serif; }
 
-        ::selection { background: rgba(255,126,95,0.28); color: #fff; }
+        ::selection { background: rgba(255,94,0,0.34); color: #fff; }
 
         :focus-visible {
           outline: 2px solid ${T.accent};

@@ -6,14 +6,18 @@
   html {
     font-family: 'Inter', system-ui, sans-serif;
     scroll-behavior: smooth;
-    background-color: #0A1128;
+    background-color: #08090a;
     -webkit-text-size-adjust: 100%;
   }
 
   body {
     margin: 0;
-    background-color: #0A1128;
-    color: #EDF1F8;
+    background-color: #08090a;
+    background-image: radial-gradient(ellipse 60% 48% at 12% 0%, rgba(56, 132, 255, 0.13), transparent 62%),
+      radial-gradient(ellipse 58% 44% at 88% 100%, rgba(255, 94, 0, 0.12), transparent 64%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    color: #EAF0FA;
     min-height: 100vh;
     overflow-x: hidden;
   }
@@ -24,8 +28,8 @@
   h4,
   h5,
   h6 {
-    font-family: 'Sora', system-ui, sans-serif;
-    font-weight: 600;
+    font-family: 'Syne', system-ui, sans-serif;
+    font-weight: 700;
   }
 
   img {
