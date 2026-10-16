@@ -1,4 +1,4 @@
-import { useScroll, useTransform, AnimatePresence, motion } from 'framer-motion'
+import { useScroll, useTransform, AnimatePresence, motion, MotionConfig } from 'framer-motion'
 import { useRef, useState, useEffect, createContext, useContext } from 'react'
 import {
   ArrowRight, ArrowUpRight, ChevronDown, Menu, X, Mail,
@@ -20,28 +20,28 @@ const THEMES = {
   dark: {
     isDark: true,
     name: 'dark',
-    bg:            '#101713',
-    bgMid:         '#151F19',
-    bgAlt:         '#1A251E',
-    surface:       '#202D24',
-    surfaceUp:     '#29382D',
-    border:        '#29382D',
+    bg:            '#090D16',
+    bgMid:         '#0D1422',
+    bgAlt:         '#0F172A',
+    surface:       '#1E293B',
+    surfaceUp:     '#253448',
+    border:        '#1E293B',
     borderSub:     'rgba(255,255,255,0.08)',
-    accent:        '#9ACD9A',
-    accentAlt:     '#B6C99D',
-    white:         '#F3F1E8',
-    text:          '#E8E9DF',
-    btnText:       '#101713',
-    muted:         '#B0B8AC',
-    dim:           '#879286',
-    navBgScrolled: 'rgba(16,23,19,0.94)',
-    navBgTop:      'rgba(16,23,19,0.72)',
-    gridLines:     'rgba(205,218,196,0.035)',
+    accent:        '#10B981',
+    accentAlt:     '#06B6D4',
+    white:         '#F8FAFC',
+    text:          '#F8FAFC',
+    btnText:       '#0D1422',
+    muted:         '#94A3B8',
+    dim:           '#64748B',
+    navBgScrolled: 'rgba(9,13,22,0.92)',
+    navBgTop:      'rgba(9,13,22,0.55)',
+    gridLines:     'rgba(148,163,184,0.04)',
     cardShadow:    '0 24px 60px rgba(0,0,0,0.5)',
-    heroGlow1:     '#9ACD9A0B',
-    heroGlow2:     '#B6C99D08',
-    contactGlow:   '#9ACD9A0A',
-    contactBoxBg:  'rgba(16,23,19,0.88)',
+    heroGlow1:     '#10B98118',
+    heroGlow2:     '#06B6D410',
+    contactGlow:   '#06B6D412',
+    contactBoxBg:  'rgba(9,13,22,0.85)',
     projectVeil:   'linear-gradient(180deg, rgba(9,13,22,0) 45%, rgba(9,13,22,0.55) 100%)',
     toggleBg:      'rgba(255,255,255,0.05)',
     toggleActiveBg:'#1E293B',
@@ -51,33 +51,33 @@ const THEMES = {
   light: {
     isDark: false,
     name: 'light',
-    bg:            '#F4F2E9',
-    bgMid:         '#FBFAF5',
-    bgAlt:         '#EAEDE4',
-    surface:       '#ECEFE6',
-    surfaceUp:     '#E1E7DC',
-    border:        '#DDE2D6',
-    borderSub:     'rgba(32,48,37,0.12)',
-    accent:        '#326B4A',
-    accentAlt:     '#54745B',
-    white:         '#1B2820',
-    text:          '#26352B',
-    btnText:       '#FBFAF5',
-    muted:         '#526055',
-    dim:           '#707B70',
-    navBgScrolled: 'rgba(251,250,245,0.95)',
-    navBgTop:      'rgba(244,242,233,0.82)',
-    gridLines:     'rgba(32,48,37,0.025)',
+    bg:            '#F8FAFC',
+    bgMid:         '#FFFFFF',
+    bgAlt:         '#F1F5F9',
+    surface:       '#F1F5F9',
+    surfaceUp:     '#E2E8F0',
+    border:        '#E2E8F0',
+    borderSub:     'rgba(15,23,42,0.08)',
+    accent:        '#059669',
+    accentAlt:     '#0891B2',
+    white:         '#0F172A',
+    text:          '#1E293B',
+    btnText:       '#FFFFFF',
+    muted:         '#475569',
+    dim:           '#64748B',
+    navBgScrolled: 'rgba(255,255,255,0.92)',
+    navBgTop:      'rgba(248,250,252,0.7)',
+    gridLines:     'rgba(15,23,42,0.035)',
     cardShadow:    '0 20px 48px rgba(15,23,42,0.08)',
-    heroGlow1:     '#326B4A0D',
-    heroGlow2:     '#879C6C0A',
-    contactGlow:   '#326B4A0A',
-    contactBoxBg:  'rgba(251,250,245,0.94)',
-    projectVeil:   'linear-gradient(180deg, rgba(251,250,245,0) 40%, rgba(244,242,233,0.65) 100%)',
-    toggleBg:      '#E6E9DF',
-    toggleActiveBg:'#FBFAF5',
-    toggleBorder:  '#D2D9CE',
-    codeTagBg:     'rgba(32,48,37,0.025)',
+    heroGlow1:     '#10B98114',
+    heroGlow2:     '#06B6D40A',
+    contactGlow:   '#06B6D40E',
+    contactBoxBg:  'rgba(255,255,255,0.92)',
+    projectVeil:   'linear-gradient(180deg, rgba(255,255,255,0) 40%, rgba(248,250,252,0.6) 100%)',
+    toggleBg:      '#E2E8F0',
+    toggleActiveBg:'#FFFFFF',
+    toggleBorder:  '#CBD5E1',
+    codeTagBg:     'rgba(15,23,42,0.03)',
   },
 }
 
@@ -141,6 +141,8 @@ function ThemeProvider({ children }) {
     root.setAttribute('data-theme', resolvedTheme)
     root.classList.remove('dark', 'light')
     root.classList.add(resolvedTheme)
+    root.style.setProperty('--motion-accent', T.accent)
+    root.style.setProperty('--motion-accent-alt', T.accentAlt)
 
     const metaThemeColor = document.querySelector('meta[name="theme-color"]')
     if (metaThemeColor) {
@@ -1879,7 +1881,9 @@ function MainContent() {
 export default function App() {
   return (
     <ThemeProvider>
-      <MainContent />
+      <MotionConfig reducedMotion="user">
+        <MainContent />
+      </MotionConfig>
     </ThemeProvider>
   )
 }

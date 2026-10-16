@@ -41,10 +41,6 @@
     max-width: 100%;
   }
 
-  ::selection {
-    background: #326b4a;
-    color: #fbfaf5;
-  }
 }
 
 /* Editorial portfolio refinements */
@@ -68,17 +64,6 @@
 
 #top .hero-grid p {
   max-width: 560px;
-}
-
-#top .hero-grid > div:nth-child(2) > div {
-  border-radius: 46% 46% 12px 12px !important;
-  border-color: transparent !important;
-  box-shadow: none !important;
-}
-
-#top .hero-grid > div:nth-child(2) img {
-  height: clamp(350px, 45vw, 520px) !important;
-  object-position: center 24% !important;
 }
 
 #work .project-entry {
@@ -109,10 +94,6 @@
     font-size: clamp(2.5rem, 10vw, 4.5rem) !important;
   }
 
-  #top .hero-grid > div:nth-child(2) {
-    max-width: 440px;
-    margin-inline: auto;
-  }
 }
 
 @media (max-width: 560px) {
@@ -126,9 +107,144 @@
     font-size: clamp(2.4rem, 11.5vw, 3.7rem) !important;
   }
 
-  #top .hero-grid > div:nth-child(2) img {
-    height: 390px !important;
-  }
+}
+
+/* Motion language: quiet orbital detail, responsive hover lift, and image depth. */
+#top::before,
+#top::after {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  border: 1px solid color-mix(in srgb, var(--motion-accent, #10b981) 18%, transparent);
+  border-radius: 50%;
+}
+
+#top::before {
+  top: 16%;
+  right: max(5%, calc((100vw - 1160px) / 2));
+  width: clamp(280px, 34vw, 470px);
+  aspect-ratio: 1;
+  animation: orbitDrift 28s linear infinite;
+}
+
+#top::after {
+  top: 22%;
+  right: max(8%, calc((100vw - 1080px) / 2));
+  width: clamp(230px, 28vw, 380px);
+  aspect-ratio: 1;
+  border-style: dashed;
+  opacity: 0.55;
+  animation: orbitDrift 42s linear infinite reverse;
+}
+
+@keyframes orbitDrift {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes accentBreathe {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--motion-accent) 0%, transparent); }
+  50% { box-shadow: 0 0 0 8px color-mix(in srgb, var(--motion-accent) 12%, transparent); }
+}
+
+#top .hero-grid > div,
+#top .hero-grid > div > * {
+  position: relative;
+  z-index: 2;
+}
+
+#top .hero-grid h1 span {
+  display: inline-block;
+  transform-origin: left center;
+  animation: headlineSettle 850ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes headlineSettle {
+  from { opacity: 0; transform: translateY(0.18em); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+#top a[href^="#"],
+#contact a,
+header a,
+button {
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    color 220ms ease, background-color 220ms ease, border-color 220ms ease,
+    box-shadow 220ms ease !important;
+}
+
+#top a[href^="#"]:hover,
+#contact a:hover,
+header nav a:hover {
+  transform: translateY(-2px);
+}
+
+#services .service-card {
+  position: relative;
+  overflow: hidden;
+  transform: translateY(0);
+  isolation: isolate;
+}
+
+#services .service-card::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  inset: auto 0 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--motion-accent), var(--motion-accent-alt));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#services .service-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+#services .service-card:hover {
+  transform: translateY(-7px) !important;
+}
+
+#services .service-card:hover::before {
+  transform: scaleX(1);
+}
+
+#work .project-media a {
+  transform: translateY(0);
+  transition: transform 550ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 550ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+#work .project-media img {
+  transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1), filter 500ms ease !important;
+}
+
+#work .project-media a:hover {
+  transform: translateY(-5px);
+}
+
+#work .project-media a:hover img {
+  transform: scale(1.045) !important;
+  filter: saturate(1.12) contrast(1.03);
+}
+
+#work .project-link svg,
+#top a[href^="#"] svg,
+#contact a svg {
+  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#work .project-link:hover svg,
+#top a[href^="#"]:hover svg,
+#contact a:hover svg {
+  transform: translate(3px, -2px);
+}
+
+.float-btn {
+  animation: accentBreathe 3s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -136,5 +252,8 @@
   *::before,
   *::after {
     scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
