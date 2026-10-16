@@ -57,7 +57,7 @@
 
 #top .hero-grid h1 {
   max-width: 760px !important;
-  font-size: clamp(2.6rem, 6.3vw, 5.4rem) !important;
+  font-size: clamp(2.45rem, 5.7vw, 4.8rem) !important;
   line-height: 0.99 !important;
   letter-spacing: -0.065em !important;
 }
@@ -97,6 +97,10 @@
 }
 
 @media (max-width: 560px) {
+  .hero-scroll-indicator {
+    display: none !important;
+  }
+
   #top {
     min-height: auto !important;
     padding-top: 128px !important;
@@ -104,7 +108,7 @@
   }
 
   #top .hero-grid h1 {
-    font-size: clamp(2.4rem, 11.5vw, 3.7rem) !important;
+    font-size: clamp(2.2rem, 9.8vw, 3.2rem) !important;
   }
 
 }
