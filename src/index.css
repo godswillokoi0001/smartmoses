@@ -6,16 +6,14 @@
   html {
     font-family: 'Inter', system-ui, sans-serif;
     scroll-behavior: smooth;
-    background-color: #08090a;
+    background-color: #090D16;
     -webkit-text-size-adjust: 100%;
   }
 
   body {
     margin: 0;
-    /* Transparent so the animated glow pseudo-elements at z-index -1
-       (defined in App.jsx) are not painted over by an opaque body. */
     background: transparent;
-    color: #EAF0FA;
+    color: #F8FAFC;
     min-height: 100vh;
     overflow-x: hidden;
   }
@@ -26,7 +24,7 @@
   h4,
   h5,
   h6 {
-    font-family: 'Syne', system-ui, sans-serif;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
     font-weight: 700;
   }
 
