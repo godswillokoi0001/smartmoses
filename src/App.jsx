@@ -3,9 +3,11 @@ import { useRef, useState, useEffect, createContext, useContext } from 'react'
 import {
   ArrowRight, ArrowUpRight, ChevronDown, Menu, X, Mail,
   Monitor, Layers, Code2, Wrench, Rocket, MapPin, Target, Sparkles,
-  ExternalLink, CheckCircle2, Sun, Moon,
+  ExternalLink as ExternalLinkIcon, CheckCircle2, Sun, Moon, Globe,
 } from 'lucide-react'
 import PricingPage from './PricingPage.jsx'
+import ProjectCaseStudy from './ProjectCaseStudy.jsx'
+import { PROJECTS } from './projects.js'
 import {
   siHtml5, siCss, siSass, siJavascript, siTypescript, siReact, siTailwindcss,
   siVite, siGit, siGithub, siEslint, siPrettier, siFigma, siVercel,
@@ -18,29 +20,29 @@ const THEMES = {
   dark: {
     isDark: true,
     name: 'dark',
-    bg:            '#090D16',
-    bgMid:         '#0D1422',
-    bgAlt:         '#0F172A',
-    surface:       '#1E293B',
-    surfaceUp:     '#253448',
-    border:        '#1E293B',
+    bg:            '#101713',
+    bgMid:         '#151F19',
+    bgAlt:         '#1A251E',
+    surface:       '#202D24',
+    surfaceUp:     '#29382D',
+    border:        '#29382D',
     borderSub:     'rgba(255,255,255,0.08)',
-    accent:        '#10B981',
-    accentAlt:     '#06B6D4',
-    white:         '#F8FAFC', // high-contrast/primary heading
-    text:          '#F8FAFC',
-    btnText:       '#0D1422',
-    muted:         '#94A3B8',
-    dim:           '#64748B',
-    navBgScrolled: 'rgba(9,13,22,0.92)',
-    navBgTop:      'rgba(9,13,22,0.55)',
-    gridLines:     'rgba(148,163,184,0.04)',
+    accent:        '#9ACD9A',
+    accentAlt:     '#B6C99D',
+    white:         '#F3F1E8',
+    text:          '#E8E9DF',
+    btnText:       '#101713',
+    muted:         '#B0B8AC',
+    dim:           '#879286',
+    navBgScrolled: 'rgba(16,23,19,0.94)',
+    navBgTop:      'rgba(16,23,19,0.72)',
+    gridLines:     'rgba(205,218,196,0.035)',
     cardShadow:    '0 24px 60px rgba(0,0,0,0.5)',
-    heroGlow1:     '#10B98118',
-    heroGlow2:     '#06B6D410',
-    contactGlow:   '#06B6D412',
-    contactBoxBg:  'rgba(9,13,22,0.85)',
-    projectVeil:   'linear-gradient(180deg, rgba(9,13,22,0) 45%, rgba(9,13,22,0.5) 100%)',
+    heroGlow1:     '#9ACD9A0B',
+    heroGlow2:     '#B6C99D08',
+    contactGlow:   '#9ACD9A0A',
+    contactBoxBg:  'rgba(16,23,19,0.88)',
+    projectVeil:   'linear-gradient(180deg, rgba(9,13,22,0) 45%, rgba(9,13,22,0.55) 100%)',
     toggleBg:      'rgba(255,255,255,0.05)',
     toggleActiveBg:'#1E293B',
     toggleBorder:  'rgba(255,255,255,0.1)',
@@ -49,33 +51,33 @@ const THEMES = {
   light: {
     isDark: false,
     name: 'light',
-    bg:            '#F8FAFC', // clean, crisp off-white slate
-    bgMid:         '#FFFFFF', // clean surface
-    bgAlt:         '#F1F5F9', // light section slate
-    surface:       '#F1F5F9', // soft light card
-    surfaceUp:     '#E2E8F0',
-    border:        '#E2E8F0', // subtle border
-    borderSub:     'rgba(15,23,42,0.08)',
-    accent:        '#059669', // accessible emerald against light backgrounds
-    accentAlt:     '#0891B2',
-    white:         '#0F172A', // headings in light mode: deep slate #0F172A
-    text:          '#1E293B', // body text in light mode
-    btnText:       '#FFFFFF', // button text for emerald button in light mode
-    muted:         '#475569', // secondary text
-    dim:           '#64748B', // tertiary text
-    navBgScrolled: 'rgba(255,255,255,0.92)',
-    navBgTop:      'rgba(248,250,252,0.7)',
-    gridLines:     'rgba(15,23,42,0.035)',
+    bg:            '#F4F2E9',
+    bgMid:         '#FBFAF5',
+    bgAlt:         '#EAEDE4',
+    surface:       '#ECEFE6',
+    surfaceUp:     '#E1E7DC',
+    border:        '#DDE2D6',
+    borderSub:     'rgba(32,48,37,0.12)',
+    accent:        '#326B4A',
+    accentAlt:     '#54745B',
+    white:         '#1B2820',
+    text:          '#26352B',
+    btnText:       '#FBFAF5',
+    muted:         '#526055',
+    dim:           '#707B70',
+    navBgScrolled: 'rgba(251,250,245,0.95)',
+    navBgTop:      'rgba(244,242,233,0.82)',
+    gridLines:     'rgba(32,48,37,0.025)',
     cardShadow:    '0 20px 48px rgba(15,23,42,0.08)',
-    heroGlow1:     '#10B98114',
-    heroGlow2:     '#06B6D40A',
-    contactGlow:   '#06B6D40E',
-    contactBoxBg:  'rgba(255,255,255,0.92)',
-    projectVeil:   'linear-gradient(180deg, rgba(255,255,255,0) 40%, rgba(248,250,252,0.6) 100%)',
-    toggleBg:      '#E2E8F0',
-    toggleActiveBg:'#FFFFFF',
-    toggleBorder:  '#CBD5E1',
-    codeTagBg:     'rgba(15,23,42,0.03)',
+    heroGlow1:     '#326B4A0D',
+    heroGlow2:     '#879C6C0A',
+    contactGlow:   '#326B4A0A',
+    contactBoxBg:  'rgba(251,250,245,0.94)',
+    projectVeil:   'linear-gradient(180deg, rgba(251,250,245,0) 40%, rgba(244,242,233,0.65) 100%)',
+    toggleBg:      '#E6E9DF',
+    toggleActiveBg:'#FBFAF5',
+    toggleBorder:  '#D2D9CE',
+    codeTagBg:     'rgba(32,48,37,0.025)',
   },
 }
 
@@ -93,7 +95,7 @@ const ThemeContext = createContext({
   T: THEMES.dark,
 })
 
-export function useTheme() {
+function useTheme() {
   return useContext(ThemeContext)
 }
 
@@ -237,11 +239,11 @@ function useReducedMotion() {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   CONTENT
+   CONTENT DATA
    ═══════════════════════════════════════════════════════════════ */
 const NAV_LINKS = [
-  { label: 'Services', href: '#services' },
   { label: 'Work',     href: '#work' },
+  { label: 'Services', href: '#services' },
   { label: 'About',   href: '#about' },
   { label: 'Contact', href: '#contact' },
 ]
@@ -273,109 +275,48 @@ const SERVICES = [
   },
 ]
 
-const PROJECTS = [
-  {
-    num: '01',
-    name: 'Shamurr',
-    tag: 'E-commerce · Frontend',
-    year: '2025',
-    problem: 'A fashion brand with inventory spread across disparate pages, a checkout that lost users on mobile, and no visual consistency between categories.',
-    built: 'Rebuilt the catalogue architecture, implemented a responsive category system and purchase flow, and translated the brand identity into a consistent interface.',
-    stack: ['React', 'CSS3', 'Responsive Design'],
-    href: 'https://shamurr.com.ng/',
-    image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1400&q=80',
-  },
-  {
-    num: '02',
-    name: 'Gericht Restaurant',
-    tag: 'Restaurant · UI Design',
-    year: '2025',
-    problem: 'A high-end dining brand with no digital presence matching its physical premium. Needed an immersive site without sacrificing load speed.',
-    built: 'Designed the page structure and visual system; built the dynamic homepage, menu sections, awards showcase, and gallery interactions with editorial typography and spacing.',
-    stack: ['React', 'CSS3', 'UI/UX Design'],
-    href: 'https://astounding-dodol-f6646a.netlify.app/',
-    image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1400&q=80',
-  },
-  {
-    num: '03',
-    name: 'Social Media Manager Portfolio',
-    tag: 'Marketing Site · Personal Brand',
-    year: '2024',
-    problem: 'A self-managed digital services brand without a page that could qualify leads before they reached out — costing time on both sides.',
-    built: 'Built the layout and responsive behaviour; structured pricing and service content so prospective clients could self-qualify before getting in touch.',
-    stack: ['HTML5', 'CSS3', 'JavaScript'],
-    href: 'https://social-media-manager-godswill-okoi.netlify.app/',
-    image: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=1400&q=80',
-  },
-]
-
-const LABS = [
-  {
-    name: 'Rayto Prolog — SaaS UI Concept',
-    tag: 'SaaS · UI Exploration',
-    desc: 'A Figma-to-code exercise building a SaaS product landing page with a dark design system, pricing table, and animated feature sections.',
-    stack: ['React', 'Tailwind CSS', 'Framer Motion'],
-    note: 'Learning / concept work',
-  },
-  {
-    name: 'Component Library Starter',
-    tag: 'Design System · Exploration',
-    desc: 'A minimal reusable component set — buttons, inputs, cards, modals — built with accessible markup and consistent design tokens.',
-    stack: ['React', 'CSS Modules', 'Storybook'],
-    note: 'Learning / concept work',
-  },
-]
-
 const EXPERIENCE = [
   {
-    period: '2023 — 2025',
+    period: '2024 — Present',
+    role: 'Founder & Frontend Developer',
+    org: 'Smotiva Digital Ltd.',
+    location: 'Nigeria',
+    points: [
+      'Leading digital design and web development projects for growing businesses.',
+      'Designed and delivered the complete Rayto Prolog logistics web platform.',
+      'Connecting client business goals with practical frontend architecture.',
+    ],
+  },
+  {
+    period: '2023 — 2024',
+    role: 'Frontend Developer',
+    org: 'Azawire Africa',
+    location: 'Nigeria',
+    points: [
+      'Contributed to the multi-page financial services frontend codebase.',
+      'Implemented personal and business user journeys, pricing, and onboarding flows.',
+      'Collaborated within an active development team using React and modern styling.',
+    ],
+  },
+  {
+    period: '2023 — 2023',
     role: 'Frontend Developer',
     org: 'Technolix Digitals',
     location: 'Abuja, Nigeria',
     points: [
-      'Built and maintained responsive, user-facing web interfaces using React and Tailwind CSS.',
-      'Translated design intent into production frontends — keeping components structured and maintainable.',
-      'Delivered client web products within a focused digital team.',
-    ],
-  },
-  {
-    period: '2023 — 2025',
-    role: 'ICT Manager',
-    org: 'Disolnet Technologies Ltd.',
-    location: 'Cross River State, Nigeria',
-    points: [
-      'Led a team delivering IT solutions and managed daily service operations.',
-      'Conducted hands-on computer training for staff and clients.',
-    ],
-  },
-  {
-    period: '2024 — 2025',
-    role: 'Director | Editor',
-    org: 'Disolmedia',
-    location: 'Cross River State, Nigeria',
-    points: [
-      'Directed and edited video content for brand and client projects.',
-      'Owned production quality and storytelling across all engagements.',
+      'Implemented Figma designs into code for client projects, including Vista MFB.',
+      'Built responsive interfaces and ensured pixel-accurate layout consistency.',
+      'Structured reusable components with attention to typography and spacing.',
     ],
   },
   {
     period: '2022 — 2023',
-    role: 'Graphics Designer | Video Editor | Instructor',
+    role: 'Graphics Designer & Digital Creator',
     org: 'Disolmedia',
     location: 'Cross River State, Nigeria',
     points: [
-      'Created visual and video content for brand projects.',
-      'Taught design tools and computer literacy to students.',
-    ],
-  },
-  {
-    period: '2018 — 2022',
-    role: 'ICT Manager',
-    org: 'Cyber Craft Technologies',
-    location: 'Cross River State, Nigeria',
-    points: [
-      'Managed daily operations at a computer centre.',
-      'Provided hands-on computer training to the public.',
+      'Created visual brand assets, video edits, and digital media for clients.',
+      'Conducted practical computer literacy and design instruction.',
     ],
   },
 ]
@@ -600,7 +541,7 @@ function IconTile({ icon: Icon, size = 40 }) {
 /* ═══════════════════════════════════════════════════════════════
    NAV
    ═══════════════════════════════════════════════════════════════ */
-function Nav() {
+function Nav({ onNavigate }) {
   const { T } = useTheme()
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
@@ -612,6 +553,14 @@ function Nav() {
   }, [])
 
   const close = () => setOpen(false)
+
+  const handleNavClick = (href, e) => {
+    if (href.startsWith('#')) {
+      if (window.location.pathname !== '/') {
+        onNavigate('/' + href, e)
+      }
+    }
+  }
 
   return (
     <motion.header
@@ -636,8 +585,12 @@ function Nav() {
         transition: 'all 0.35s cubic-bezier(0.22,1,0.36,1)',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '11px 18px' }}>
-          <a href="#top" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}
-            aria-label="Godswill Okoi — home">
+          <a
+            href="/"
+            onClick={(e) => onNavigate('/', e)}
+            style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}
+            aria-label="Godswill Okoi — home"
+          >
             <SMBadge size={30} />
             <span style={{ fontFamily: FONT_H, fontSize: 14, fontWeight: 700, color: T.white, letterSpacing: '-0.01em' }}>
               Godswill Okoi
@@ -645,20 +598,23 @@ function Nav() {
           </a>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            <nav style={{ display: 'flex', alignItems: 'center', gap: 2 }} className="nav-desktop"
-              aria-label="Primary">
-              {NAV_LINKS.map(link => <NavLink key={link.href} href={link.href}>{link.label}</NavLink>)}
+            <nav style={{ display: 'flex', alignItems: 'center', gap: 2 }} className="nav-desktop" aria-label="Primary">
+              {NAV_LINKS.map(link => (
+                <NavLink key={link.href} href={link.href} onClick={(e) => handleNavClick(link.href, e)}>
+                  {link.label}
+                </NavLink>
+              ))}
             </nav>
 
-            {/* Desktop Theme Toggle (Dark / Light / System) */}
             <div className="nav-desktop" style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               <ThemeToggle />
-              <PrimaryBtn href="#contact">Let's Talk</PrimaryBtn>
+              <PrimaryBtn href="#contact" onClick={(e) => handleNavClick('#contact', e)}>
+                Let's Talk
+              </PrimaryBtn>
             </div>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }} className="nav-mobile-bar">
-            {/* Mobile quick theme toggle */}
             <ThemeToggle style={{ marginRight: 4 }} />
             <button onClick={() => setOpen(o => !o)} className="hamburger"
               aria-label={open ? 'Close menu' : 'Open menu'}
@@ -688,7 +644,7 @@ function Nav() {
             >
               <div style={{ padding: '16px 18px', display: 'flex', flexDirection: 'column', gap: 6 }}>
                 {NAV_LINKS.map(link => (
-                  <a key={link.href} href={link.href} onClick={close}
+                  <a key={link.href} href={link.href} onClick={(e) => { close(); handleNavClick(link.href, e); }}
                     style={{
                       padding: '11px 0', fontSize: 13, color: T.text, textDecoration: 'none',
                       fontFamily: FONT_B, borderBottom: `1px solid ${T.border}`,
@@ -697,7 +653,6 @@ function Nav() {
                   </a>
                 ))}
 
-                {/* Mobile menu Theme Selector with labels */}
                 <div style={{
                   padding: '12px 0 6px',
                   display: 'flex',
@@ -712,7 +667,9 @@ function Nav() {
                 </div>
 
                 <div style={{ marginTop: 12 }}>
-                  <PrimaryBtn href="#contact" onClick={close}>Let's Talk</PrimaryBtn>
+                  <PrimaryBtn href="#contact" onClick={(e) => { close(); handleNavClick('#contact', e); }}>
+                    Let's Talk
+                  </PrimaryBtn>
                 </div>
               </div>
             </motion.div>
@@ -723,11 +680,11 @@ function Nav() {
   )
 }
 
-function NavLink({ href, children }) {
+function NavLink({ href, children, onClick }) {
   const { T } = useTheme()
   const [hov, setHov] = useState(false)
   return (
-    <a href={href}
+    <a href={href} onClick={onClick}
       onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
       style={{
         padding: '8px 13px', fontSize: 11.5, letterSpacing: '0.03em',
@@ -764,13 +721,11 @@ function Hero() {
           backgroundSize: '72px 72px',
           maskImage: 'radial-gradient(ellipse 70% 60% at 50% 40%, black, transparent)',
         }} />
-        {/* Subtle ambient emerald glow — top left */}
         <div style={{
           position: 'absolute', top: '-10%', left: '-8%', width: '55%', height: '65%',
           background: `radial-gradient(ellipse, ${T.heroGlow1}, transparent 65%)`,
           pointerEvents: 'none',
         }} />
-        {/* Subtle ambient cyan glow — bottom right */}
         <div style={{
           position: 'absolute', bottom: '-8%', right: '-5%', width: '45%', height: '55%',
           background: `radial-gradient(ellipse, ${T.heroGlow2}, transparent 65%)`,
@@ -801,7 +756,7 @@ function Hero() {
                 fontSize: 'clamp(14px,1.55vw,16px)', lineHeight: 1.85, color: T.muted,
                 maxWidth: 540, marginBottom: 36, fontFamily: FONT_B,
               }}>
-              Hi, I'm Godswill (Smart Moses). I'm a frontend developer and UI web designer turning
+              Hi, I'm Godswill (Smart Moses). I'm a web designer and frontend developer turning
               Figma designs, messy ideas, and outdated pages into clean, fast, mobile-friendly
               websites that build trust and drive inquiries.
             </motion.p>
@@ -820,7 +775,6 @@ function Hero() {
             </motion.p>
           </div>
 
-          {/* Portrait card */}
           <motion.div
             initial={{ opacity: 0, y: 32 }}
             animate={{ opacity: 1, y: 0 }}
@@ -853,7 +807,7 @@ function Hero() {
                     fontSize: 8.5, color: T.dim, textTransform: 'uppercase',
                     letterSpacing: '0.22em', marginTop: 4, fontFamily: FONT_B,
                   }}>
-                    Frontend Developer &amp; UI Designer
+                    Web Designer &amp; Frontend Developer
                   </p>
                 </div>
                 <SMBadge size={32} />
@@ -863,7 +817,7 @@ function Hero() {
         </div>
       </motion.div>
 
-      <motion.a href="#philosophy" aria-label="Scroll down"
+      <motion.a href="#work" aria-label="Scroll to work"
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1, duration: 0.7 }}
         whileHover={{ y: 3 }}
         style={{
@@ -878,6 +832,243 @@ function Hero() {
           style={{ animation: 'bounceDown 2.2s ease-in-out infinite' }} />
       </motion.a>
     </section>
+  )
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   WORK (FEATURED PROJECTS: RAYTO, VISTA, AZAWIRE)
+   ═══════════════════════════════════════════════════════════════ */
+function Work({ onNavigate }) {
+  const { T } = useTheme()
+  return (
+    <SectionShell id="work">
+      <motion.div {...fadeUp()} style={{ marginBottom: 'clamp(40px,5vw,64px)' }}>
+        <Label>Selected Work</Label>
+        <h2 style={{
+          fontFamily: FONT_H, fontSize: 'clamp(1.7rem,4vw,2.8rem)',
+          lineHeight: 1.07, letterSpacing: '-0.03em', color: T.white, maxWidth: 680,
+        }}>
+          Featured client and commissioned work.
+        </h2>
+        <p style={{ fontSize: 14, color: T.muted, lineHeight: 1.9, maxWidth: 540,
+          fontFamily: FONT_B, marginTop: 16 }}>
+          Real projects demonstrating business understanding, design-to-code implementation,
+          and production frontend development.
+        </p>
+      </motion.div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(56px,8vw,100px)' }}>
+        {PROJECTS.map((project, idx) => (
+          <ProjectEntry key={project.slug} project={project} index={idx} onNavigate={onNavigate} />
+        ))}
+      </div>
+    </SectionShell>
+  )
+}
+
+function ProjectEntry({ project: p, index: i, onNavigate }) {
+  const { T } = useTheme()
+  const flip = i % 2 === 1
+
+  const handleCaseStudyClick = (e) => {
+    if (e && e.preventDefault) e.preventDefault()
+    onNavigate(`/work/${p.slug}`)
+  }
+
+  return (
+    <motion.article {...fadeUp(0.05)} className={`project-entry${flip ? ' is-flipped' : ''}`}>
+      {/* Media Mockup */}
+      <motion.div className="project-media"
+        initial={{ opacity: 0, scale: 1.02 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true, amount: 0.25 }}
+        transition={{ duration: 0.85, ease }}>
+        <a
+          href={`/work/${p.slug}`}
+          onClick={handleCaseStudyClick}
+          aria-label={`View case study for ${p.name}`}
+          style={{
+            display: 'block', position: 'relative', aspectRatio: '16/10',
+            borderRadius: 14, overflow: 'hidden', border: `1px solid ${T.border}`,
+            background: T.bgMid,
+            boxShadow: T.cardShadow,
+            transition: 'border-color 0.25s, box-shadow 0.25s',
+          }}>
+          <img
+            src={p.image}
+            alt={p.imageAlt}
+            loading={i === 0 ? 'eager' : 'lazy'}
+            decoding="async"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          />
+          <span className="project-veil" style={{ background: T.projectVeil }} />
+        </a>
+        <span className="project-index" aria-hidden="true">{p.num}</span>
+      </motion.div>
+
+      {/* Body Details */}
+      <motion.div className="project-body" {...fadeUp(0.12)}>
+        <p className="project-meta">
+          <span>{p.category}</span>
+          <span className="project-dot" aria-hidden="true" />
+          <span>{p.num === '01' ? 'Featured' : p.num === '02' ? 'Design-to-Code' : 'Multi-Page'}</span>
+        </p>
+
+        <h3 className="project-title">
+          <a
+            href={`/work/${p.slug}`}
+            onClick={handleCaseStudyClick}
+            style={{ color: 'inherit', textDecoration: 'none' }}
+          >
+            {p.name}
+          </a>
+        </h3>
+
+        <p style={{
+          fontSize: 14,
+          lineHeight: 1.85,
+          color: T.muted,
+          fontFamily: FONT_B,
+          marginBottom: 18,
+        }}>
+          {p.description}
+        </p>
+
+        <div className="project-contrib">
+          <p className="project-contrib-label">My Role</p>
+          <p className="project-contrib-text">{p.role}</p>
+        </div>
+
+        <div style={{ marginBottom: 22 }}>
+          <ul className="project-tech">
+            {p.stack.map(t => <li key={t}>{t}</li>)}
+          </ul>
+        </div>
+
+        <div className="project-foot">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+            <a
+              href={`/work/${p.slug}`}
+              onClick={handleCaseStudyClick}
+              className="project-link-primary"
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: 7,
+                padding: '10px 18px', borderRadius: 8,
+                background: T.accent, color: T.btnText,
+                fontSize: 11, fontWeight: 700, letterSpacing: '0.04em',
+                textTransform: 'uppercase', textDecoration: 'none',
+                boxShadow: `0 4px 14px ${T.accent}28`,
+                transition: 'all 0.2s ease',
+              }}
+            >
+              <span>Read Case Study</span>
+              <ArrowRight size={13} strokeWidth={2.5} aria-hidden="true" />
+            </a>
+
+            <a
+              href={p.live}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="project-link-ghost"
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: 6,
+                padding: '9px 14px', borderRadius: 8,
+                border: `1px solid ${T.borderSub}`, color: T.text,
+                fontSize: 11, fontWeight: 600, letterSpacing: '0.04em',
+                textTransform: 'uppercase', textDecoration: 'none',
+                transition: 'all 0.2s ease',
+              }}
+            >
+              <Globe size={13} aria-hidden="true" />
+              <span>Live Website</span>
+              <ArrowUpRight size={13} strokeWidth={2.4} aria-hidden="true" />
+            </a>
+
+            <a
+              href={p.source}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="project-link-ghost"
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: 6,
+                padding: '9px 14px', borderRadius: 8,
+                border: `1px solid ${T.borderSub}`, color: T.muted,
+                fontSize: 11, fontWeight: 600, letterSpacing: '0.04em',
+                textTransform: 'uppercase', textDecoration: 'none',
+                transition: 'all 0.2s ease',
+              }}
+            >
+              <Code2 size={13} aria-hidden="true" />
+              <span>Source</span>
+            </a>
+          </div>
+        </div>
+      </motion.div>
+    </motion.article>
+  )
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SERVICES
+   ═══════════════════════════════════════════════════════════════ */
+function Services() {
+  const { T } = useTheme()
+  return (
+    <SectionShell id="services">
+      <motion.div {...fadeUp()} style={{ marginBottom: 'clamp(40px,5vw,60px)' }}>
+        <Label>What I Offer</Label>
+        <h2 style={{
+          fontFamily: FONT_H, fontSize: 'clamp(1.7rem,4vw,2.8rem)',
+          lineHeight: 1.07, letterSpacing: '-0.03em', color: T.white,
+        }}>
+          Three services. One focus.
+        </h2>
+      </motion.div>
+
+      <div className="services-grid">
+        {SERVICES.map((s, i) => (
+          <motion.div key={s.num} {...fadeUp(i * 0.08)}
+            whileHover={{ y: -4 }}
+            className="service-card"
+            style={{
+              padding: 'clamp(24px,3vw,32px)',
+              borderRadius: 14, border: `1px solid ${T.borderSub}`,
+              background: T.bgMid,
+              display: 'flex', flexDirection: 'column', gap: 16,
+              transition: 'all 0.28s ease',
+            }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
+              <p style={{
+                fontFamily: 'monospace', fontSize: 11, color: T.accent,
+                letterSpacing: '0.12em', fontWeight: 600,
+              }}>{s.num}</p>
+            </div>
+            <h3 style={{
+              fontFamily: FONT_H, fontSize: 'clamp(1rem,1.9vw,1.2rem)',
+              fontWeight: 700, color: T.white, lineHeight: 1.3, letterSpacing: '-0.02em',
+            }}>
+              {s.title}
+            </h3>
+            <p style={{ fontSize: 13.5, color: T.muted, lineHeight: 1.85, fontFamily: FONT_B, flexGrow: 1 }}>
+              {s.body}
+            </p>
+            <ul style={{
+              listStyle: 'none', margin: 0, padding: 0,
+              display: 'flex', flexWrap: 'wrap', gap: 7,
+            }}>
+              {s.deliverables.map(d => (
+                <li key={d} style={{
+                  fontSize: 10, fontFamily: FONT_B, fontWeight: 500,
+                  color: T.dim, border: `1px solid ${T.border}`,
+                  background: T.codeTagBg,
+                  borderRadius: 6, padding: '4px 9px',
+                }}>{d}</li>
+              ))}
+            </ul>
+          </motion.div>
+        ))}
+      </div>
+    </SectionShell>
   )
 }
 
@@ -949,206 +1140,6 @@ function Philosophy() {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   SERVICES
-   ═══════════════════════════════════════════════════════════════ */
-function Services() {
-  const { T } = useTheme()
-  return (
-    <SectionShell id="services">
-      <motion.div {...fadeUp()} style={{ marginBottom: 'clamp(40px,5vw,60px)' }}>
-        <Label>What I Offer</Label>
-        <h2 style={{
-          fontFamily: FONT_H, fontSize: 'clamp(1.7rem,4vw,2.8rem)',
-          lineHeight: 1.07, letterSpacing: '-0.03em', color: T.white,
-        }}>
-          Three services. One focus.
-        </h2>
-      </motion.div>
-
-      <div className="services-grid">
-        {SERVICES.map((s, i) => (
-          <motion.div key={s.num} {...fadeUp(i * 0.08)}
-            whileHover={{ y: -4 }}
-            className="service-card"
-            style={{
-              padding: 'clamp(24px,3vw,32px)',
-              borderRadius: 14, border: `1px solid ${T.borderSub}`,
-              background: T.bgMid,
-              display: 'flex', flexDirection: 'column', gap: 16,
-              transition: 'all 0.28s ease',
-            }}>
-            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
-              <p style={{
-                fontFamily: 'monospace', fontSize: 11, color: T.accent,
-                letterSpacing: '0.12em', fontWeight: 600,
-              }}>{s.num}</p>
-            </div>
-            <h3 style={{
-              fontFamily: FONT_H, fontSize: 'clamp(1rem,1.9vw,1.2rem)',
-              fontWeight: 700, color: T.white, lineHeight: 1.3, letterSpacing: '-0.02em',
-            }}>
-              {s.title}
-            </h3>
-            <p style={{ fontSize: 13.5, color: T.muted, lineHeight: 1.85, fontFamily: FONT_B, flexGrow: 1 }}>
-              {s.body}
-            </p>
-            <ul style={{
-              listStyle: 'none', margin: 0, padding: 0,
-              display: 'flex', flexWrap: 'wrap', gap: 7,
-            }}>
-              {s.deliverables.map(d => (
-                <li key={d} style={{
-                  fontSize: 10, fontFamily: FONT_B, fontWeight: 500,
-                  color: T.dim, border: `1px solid ${T.border}`,
-                  background: T.codeTagBg,
-                  borderRadius: 6, padding: '4px 9px',
-                }}>{d}</li>
-              ))}
-            </ul>
-          </motion.div>
-        ))}
-      </div>
-    </SectionShell>
-  )
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   WORK
-   ═══════════════════════════════════════════════════════════════ */
-function Work() {
-  const { T } = useTheme()
-  return (
-    <SectionShell id="work">
-      <motion.div {...fadeUp()} style={{ marginBottom: 'clamp(40px,5vw,64px)' }}>
-        <Label>Selected Work</Label>
-        <h2 style={{
-          fontFamily: FONT_H, fontSize: 'clamp(1.7rem,4vw,2.8rem)',
-          lineHeight: 1.07, letterSpacing: '-0.03em', color: T.white, maxWidth: 680,
-        }}>
-          Projects that show how I think and build.
-        </h2>
-        <p style={{ fontSize: 14, color: T.muted, lineHeight: 1.9, maxWidth: 540,
-          fontFamily: FONT_B, marginTop: 16 }}>
-          Real client and commissioned work, with links to the live sites.
-        </p>
-      </motion.div>
-
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(52px,8vw,96px)' }}>
-        {PROJECTS.map((p, i) => <ProjectEntry key={p.name} project={p} index={i} />)}
-      </div>
-
-      {/* Labs subsection */}
-      <motion.div {...fadeUp()} style={{
-        marginTop: 'clamp(64px,9vw,120px)',
-        paddingTop: 'clamp(40px,5vw,64px)',
-        borderTop: `1px solid ${T.border}`,
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 'clamp(28px,4vw,44px)' }}>
-          <Label>Labs &amp; Practical Implementations</Label>
-        </div>
-        <p style={{ fontSize: 13.5, color: T.dim, lineHeight: 1.85, fontFamily: FONT_B,
-          maxWidth: 560, marginBottom: 32 }}>
-          Concept pieces, Figma-to-code exercises, and structured explorations.
-          Clearly labelled as learning / experimental work.
-        </p>
-
-        <div className="labs-grid">
-          {LABS.map((l, i) => (
-            <motion.div key={l.name} {...fadeUp(i * 0.07)}
-              style={{
-                padding: 'clamp(20px,3vw,28px)', borderRadius: 12,
-                border: `1px solid ${T.borderSub}`, background: T.bgMid,
-                display: 'flex', flexDirection: 'column', gap: 12,
-                transition: 'background-color 0.25s, border-color 0.25s',
-              }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                <span style={{
-                  fontSize: 9, fontFamily: FONT_B, fontWeight: 600, letterSpacing: '0.22em',
-                  textTransform: 'uppercase', color: T.dim,
-                  border: `1px solid ${T.border}`, borderRadius: 5, padding: '3px 7px',
-                }}>{l.note}</span>
-              </div>
-              <h3 style={{
-                fontFamily: FONT_H, fontSize: 'clamp(0.95rem,1.7vw,1.08rem)',
-                fontWeight: 700, color: T.white, lineHeight: 1.3, letterSpacing: '-0.015em',
-              }}>{l.name}</h3>
-              <p style={{ fontSize: 12.5, color: T.muted, lineHeight: 1.85, fontFamily: FONT_B, margin: 0 }}>
-                {l.desc}
-              </p>
-              <ul style={{ display: 'flex', flexWrap: 'wrap', gap: 6, listStyle: 'none', margin: 0, padding: 0 }}>
-                {l.stack.map(t => (
-                  <li key={t} style={{
-                    fontSize: 9.5, fontFamily: FONT_B, fontWeight: 500,
-                    color: T.dim, border: `1px solid ${T.border}`, borderRadius: 5, padding: '3px 8px',
-                    background: T.codeTagBg,
-                  }}>{t}</li>
-                ))}
-              </ul>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
-    </SectionShell>
-  )
-}
-
-function ProjectEntry({ project: p, index: i }) {
-  const { T } = useTheme()
-  const flip = i % 2 === 1
-  return (
-    <motion.article {...fadeUp(0.05)} className={`project-entry${flip ? ' is-flipped' : ''}`}>
-      <motion.div className="project-media"
-        initial={{ opacity: 0, scale: 1.03 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true, amount: 0.25 }}
-        transition={{ duration: 0.85, ease }}>
-        <a href={p.href} target="_blank" rel="noopener noreferrer"
-          style={{
-            display: 'block', position: 'relative', aspectRatio: '16/10',
-            borderRadius: 14, overflow: 'hidden', border: `1px solid ${T.border}`,
-            background: T.bgMid,
-            boxShadow: T.cardShadow,
-            transition: 'border-color 0.25s, box-shadow 0.25s',
-          }}>
-          <img src={p.image} alt={`${p.name} — ${p.tag}`} loading="lazy" decoding="async"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-          <span className="project-veil" style={{ background: T.projectVeil }} />
-        </a>
-        <span className="project-index" aria-hidden="true">{p.num}</span>
-      </motion.div>
-
-      <motion.div className="project-body" {...fadeUp(0.12)}>
-        <p className="project-meta">
-          <span>{p.tag}</span>
-          <span className="project-dot" aria-hidden="true" />
-          <span>{p.year}</span>
-        </p>
-        <h3 className="project-title">{p.name}</h3>
-
-        <div className="project-problem">
-          <p className="project-problem-label">The Problem</p>
-          <p className="project-problem-text">{p.problem}</p>
-        </div>
-        <div className="project-contrib">
-          <p className="project-contrib-label">What I Built</p>
-          <p className="project-contrib-text">{p.built}</p>
-        </div>
-
-        <div className="project-foot">
-          <ul className="project-tech">
-            {p.stack.map(t => <li key={t}>{t}</li>)}
-          </ul>
-          <a className="project-link" href={p.href} target="_blank" rel="noopener noreferrer">
-            View live site
-            <ArrowUpRight size={14} strokeWidth={2.4} aria-hidden="true" />
-          </a>
-        </div>
-      </motion.div>
-    </motion.article>
-  )
-}
-
-/* ═══════════════════════════════════════════════════════════════
    ABOUT
    ═══════════════════════════════════════════════════════════════ */
 function About() {
@@ -1171,10 +1162,10 @@ function About() {
 
         <motion.div {...fadeUp(0.1)} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
           {[
-            "I'm Godswill Okoi — also known as Smart Moses. I'm a frontend developer and UI web designer based in Nigeria, focused on building websites that are clean, fast, and genuinely useful to the businesses they represent.",
-            "My background spans graphic design, video production, and tech operations before narrowing into frontend development. That breadth shows up in how I approach projects: understanding the visual intent, structuring the content, and executing the build without losing the idea along the way.",
-            "I don't pitch myself as a generalist. My sharp end is frontend: semantic HTML, well-structured CSS, React-based interfaces, and the kind of mobile-first responsiveness that doesn't feel like an afterthought.",
-            "When I take on a project, I'm thinking about what a visitor actually needs to see within the first five seconds — and building toward that. Because a site that doesn't convert isn't a finished site.",
+            "I'm Godswill Okoi (Smart Moses). I'm a web designer and frontend developer based in Nigeria, focused on building websites that are clean, fast, and genuinely useful to the businesses they represent.",
+            "My background spans visual communication, graphic design, and video production before narrowing into frontend development. That breadth shows up in how I approach projects: understanding the business need, structuring content clearly, and executing the build without losing the design intent along the way.",
+            "I don't pitch myself as a senior backend software architect. My core strength is frontend development: semantic HTML, clean CSS, React-based interfaces, and the kind of mobile-first responsiveness that doesn't feel like an afterthought.",
+            "When I take on a project, I'm thinking about what a visitor actually needs to see within the first five seconds — and building toward that. Because a site that doesn't build trust or communicate clearly isn't doing its job.",
           ].map((para, i) => (
             <p key={i} style={{
               fontSize: 14, color: i === 0 ? T.text : T.muted, lineHeight: 1.95,
@@ -1184,7 +1175,6 @@ function About() {
             </p>
           ))}
 
-          {/* Experience timeline */}
           <div style={{ marginTop: 20 }}>
             <Label>Experience</Label>
             <ol className="timeline" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
@@ -1306,14 +1296,12 @@ function Contact() {
           boxShadow: T.cardShadow,
           transition: 'all 0.3s ease',
         }}>
-        {/* Grid overlay */}
         <div style={{
           position: 'absolute', inset: 0, pointerEvents: 'none',
           backgroundImage: `linear-gradient(${T.gridLines} 1px,transparent 1px),linear-gradient(90deg,${T.gridLines} 1px,transparent 1px)`,
           backgroundSize: '60px 60px',
           maskImage: 'radial-gradient(ellipse 70% 70% at 50% 50%, black, transparent)',
         }} />
-        {/* Ambient glow */}
         <div style={{
           position: 'absolute', top: '-20%', right: '-10%', width: '50%', height: '80%',
           background: `radial-gradient(ellipse, ${T.contactGlow}, transparent 65%)`,
@@ -1333,8 +1321,8 @@ function Contact() {
               fontSize: 14, color: T.muted, lineHeight: 1.9, maxWidth: 460, fontFamily: FONT_B,
               marginBottom: 28,
             }}>
-              Whether you need a new business site, a landing page conversion, or a Figma design
-              turned into working code — let's talk about it.
+              Whether you need a dedicated business website, a landing page conversion, or a Figma design
+              turned into working code — let's discuss your project.
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center' }}>
               <PrimaryBtn href={`mailto:${EMAIL}`}>Send Me a Message</PrimaryBtn>
@@ -1365,9 +1353,9 @@ function Contact() {
             <div style={{ borderTop: `1px solid ${T.border}`, paddingTop: 18, display: 'flex',
               flexDirection: 'column', gap: 12 }}>
               {[
-                { icon: Target,   label: 'Focus',      value: 'Frontend dev & UI design' },
+                { icon: Target,   label: 'Focus',      value: 'Web Design & Frontend Dev' },
                 { icon: MapPin,   label: 'Based in',    value: 'Nigeria' },
-                { icon: Sparkles, label: 'Engagements', value: 'Freelance & contract' },
+                { icon: Sparkles, label: 'Engagements', value: 'Freelance & Contract' },
               ].map(row => (
                 <div key={row.label} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                   <row.icon size={13} strokeWidth={2} aria-hidden="true"
@@ -1389,8 +1377,17 @@ function Contact() {
 /* ═══════════════════════════════════════════════════════════════
    FOOTER
    ═══════════════════════════════════════════════════════════════ */
-function Footer() {
+function Footer({ onNavigate }) {
   const { T } = useTheme()
+
+  const handleNav = (href, e) => {
+    if (href.startsWith('#')) {
+      if (window.location.pathname !== '/') {
+        onNavigate('/' + href, e)
+      }
+    }
+  }
+
   return (
     <footer style={{ borderTop: `1px solid ${T.border}`, padding: '44px clamp(16px,4vw,32px)', transition: 'border-color 0.25s' }}>
       <div style={{ maxWidth: 1160, margin: '0 auto' }}>
@@ -1404,7 +1401,7 @@ function Footer() {
               </p>
             </div>
             <p style={{ fontSize: 12, color: T.muted, lineHeight: 1.85, maxWidth: 300, fontFamily: FONT_B }}>
-              Frontend Developer &amp; UI Web Designer — building clean, responsive websites for
+              Web Designer &amp; Frontend Developer — building clean, responsive websites for
               growing businesses.
             </p>
           </div>
@@ -1414,7 +1411,9 @@ function Footer() {
                 color: T.dim, marginBottom: 14, fontFamily: FONT_B }}>Navigate</p>
               <nav style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {NAV_LINKS.map(link => (
-                  <FooterLink key={link.href} href={link.href}>{link.label}</FooterLink>
+                  <FooterLink key={link.href} href={link.href} onClick={(e) => handleNav(link.href, e)}>
+                    {link.label}
+                  </FooterLink>
                 ))}
               </nav>
             </div>
@@ -1437,14 +1436,13 @@ function Footer() {
             © {new Date().getFullYear()} Godswill Okoi. All rights reserved.
           </p>
 
-          {/* Footer Theme Switcher */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <span style={{ fontSize: 10, color: T.dim, fontFamily: FONT_B }}>Theme:</span>
             <ThemeToggle showLabels />
           </div>
 
           <p style={{ fontSize: 10, color: T.dim, fontFamily: FONT_B }}>
-            Frontend Developer &amp; UI Web Designer
+            Web Designer &amp; Frontend Developer
           </p>
         </div>
       </div>
@@ -1452,11 +1450,11 @@ function Footer() {
   )
 }
 
-function FooterLink({ href, children }) {
+function FooterLink({ href, children, onClick }) {
   const { T } = useTheme()
   const [hov, setHov] = useState(false)
   return (
-    <a href={href}
+    <a href={href} onClick={onClick}
       onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
       style={{
         fontSize: 12, color: hov ? T.accent : T.muted, textDecoration: 'none',
@@ -1502,12 +1500,60 @@ function FloatingContact() {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   MAIN PAGE CONTENT
+   MAIN PAGE CONTENT ROUTER
    ═══════════════════════════════════════════════════════════════ */
 function MainContent() {
   const { T } = useTheme()
-  const path = typeof window !== 'undefined' ? window.location.pathname : ''
-  const showPricing = path.endsWith('/pricingpage')
+  const [currentPath, setCurrentPath] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.location.pathname
+    }
+    return '/'
+  })
+
+  useEffect(() => {
+    const onPop = () => {
+      setCurrentPath(window.location.pathname)
+    }
+    window.addEventListener('popstate', onPop)
+    return () => window.removeEventListener('popstate', onPop)
+  }, [])
+
+  const navigateTo = (url, e) => {
+    if (e && e.preventDefault) e.preventDefault()
+    if (typeof window !== 'undefined') {
+      if (url.startsWith('/#') || url.startsWith('#')) {
+        const hash = url.startsWith('/#') ? url.substring(1) : url
+        if (window.location.pathname !== '/') {
+          window.history.pushState(null, '', '/' + hash)
+          setCurrentPath('/')
+          setTimeout(() => {
+            const el = document.querySelector(hash)
+            if (el) el.scrollIntoView({ behavior: 'smooth' })
+          }, 80)
+        } else {
+          window.history.pushState(null, '', hash)
+          const el = document.querySelector(hash)
+          if (el) el.scrollIntoView({ behavior: 'smooth' })
+        }
+        return
+      }
+
+      window.history.pushState(null, '', url)
+      setCurrentPath(url)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }
+
+  // Check if viewing a case study
+  const isCaseStudy = currentPath.startsWith('/work/')
+  let caseStudyProject = null
+  if (isCaseStudy) {
+    const slug = currentPath.replace(/^\/work\/?/, '').replace(/\/$/, '')
+    caseStudyProject = PROJECTS.find(p => p.slug === slug) || PROJECTS[0]
+  }
+
+  const showPricing = currentPath.endsWith('/pricingpage')
 
   return (
     <>
@@ -1607,16 +1653,6 @@ function MainContent() {
           .services-grid { grid-template-columns: repeat(3, 1fr); }
         }
 
-        /* LABS GRID */
-        .labs-grid {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 14px;
-        }
-        @media (min-width: 680px) {
-          .labs-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-
         /* TWO-COL (About) */
         .two-col { display: grid; grid-template-columns: 1fr; gap: 40px; align-items: start; }
         @media (min-width: 900px) { .two-col { grid-template-columns: 0.85fr 1.15fr; gap: 72px; } }
@@ -1659,11 +1695,11 @@ function MainContent() {
 
         /* PROJECT ENTRIES */
         .project-entry {
-          display: grid; grid-template-columns: 1fr; gap: 28px; align-items: center;
+          display: grid; grid-template-columns: 1fr; gap: 32px; align-items: center;
         }
         @media (min-width: 900px) {
-          .project-entry { grid-template-columns: minmax(0, 1.18fr) minmax(0, 0.82fr); gap: 52px; }
-          .project-entry.is-flipped { grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr); }
+          .project-entry { grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: 56px; }
+          .project-entry.is-flipped { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); }
           .project-entry.is-flipped .project-media { order: 2; }
           .project-entry.is-flipped .project-body { order: 1; }
         }
@@ -1677,9 +1713,9 @@ function MainContent() {
         }
         .project-media img {
           transition: transform 0.85s cubic-bezier(0.22,1,0.36,1), filter 0.5s;
-          filter: saturate(${T.isDark ? '0.88' : '0.95'}) contrast(1.02);
+          filter: saturate(${T.isDark ? '0.88' : '0.96'}) contrast(1.02);
         }
-        .project-media a:hover img { transform: scale(1.04); filter: saturate(1) contrast(1.04); }
+        .project-media a:hover img { transform: scale(1.035); filter: saturate(1) contrast(1.04); }
         .project-index {
           position: absolute; top: 14px; left: 16px;
           font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11px;
@@ -1690,30 +1726,25 @@ function MainContent() {
         .project-meta {
           display: flex; align-items: center; gap: 10px;
           font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.24em;
-          font-weight: 600; color: ${T.accent}; margin-bottom: 14px; font-family: 'Inter', sans-serif;
+          font-weight: 600; color: ${T.accent}; margin-bottom: 12px; font-family: 'Inter', sans-serif;
         }
         .project-dot { width: 3px; height: 3px; border-radius: 50%; background: ${T.dim}; flex-shrink: 0; }
         .project-title {
           font-family: 'Plus Jakarta Sans', sans-serif;
-          font-size: clamp(1.35rem, 3vw, 2rem);
-          font-weight: 700; line-height: 1.1; letter-spacing: -0.03em;
-          color: ${T.white}; margin-bottom: 18px;
+          font-size: clamp(1.4rem, 2.8vw, 2.1rem);
+          font-weight: 700; line-height: 1.12; letter-spacing: -0.03em;
+          color: ${T.white}; margin-bottom: 14px;
         }
-        .project-problem { border-left: 2px solid ${T.dim}; padding-left: 14px; margin-bottom: 18px; }
-        .project-problem-label {
-          font-size: 9px; text-transform: uppercase; letter-spacing: 0.24em;
-          font-weight: 600; color: ${T.dim}; margin-bottom: 6px; font-family: 'Inter', sans-serif;
+        .project-title a:hover { color: ${T.accent}; }
+        .project-contrib {
+          border-left: 2px solid ${T.accent}; padding-left: 14px; margin-bottom: 20px;
         }
-        .project-problem-text {
-          font-family: 'Inter', sans-serif; font-size: 12.5px; line-height: 1.8; color: ${T.muted};
-        }
-        .project-contrib { border-left: 2px solid ${T.accent}; padding-left: 14px; margin-bottom: 24px; }
         .project-contrib-label {
           font-size: 9px; text-transform: uppercase; letter-spacing: 0.24em;
-          font-weight: 600; color: ${T.dim}; margin-bottom: 6px; font-family: 'Inter', sans-serif;
+          font-weight: 600; color: ${T.dim}; margin-bottom: 4px; font-family: 'Inter', sans-serif;
         }
         .project-contrib-text {
-          font-family: 'Inter', sans-serif; font-size: 12.5px; line-height: 1.8; color: ${T.text};
+          font-family: 'Inter', sans-serif; font-size: 12.5px; line-height: 1.75; color: ${T.text};
         }
         .project-foot {
           display: flex; align-items: center; justify-content: space-between;
@@ -1728,13 +1759,15 @@ function MainContent() {
           border: 1px solid ${T.border}; border-radius: 6px; padding: 4px 9px; white-space: nowrap;
           background: ${T.codeTagBg};
         }
-        .project-link {
-          display: inline-flex; align-items: center; gap: 6px;
-          font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600;
-          letter-spacing: 0.06em; text-transform: uppercase; color: ${T.accent};
-          text-decoration: none; white-space: nowrap; transition: color 0.22s, gap 0.22s;
+        .project-link-primary:hover {
+          filter: brightness(1.08);
+          transform: translateY(-2px);
         }
-        .project-link:hover { color: ${T.white}; gap: 10px; }
+        .project-link-ghost:hover {
+          border-color: ${T.accent} !important;
+          color: ${T.white} !important;
+          transform: translateY(-2px);
+        }
 
         /* TIMELINE */
         .timeline { list-style: none; margin: 0; padding: 0; }
@@ -1812,17 +1845,27 @@ function MainContent() {
 
       {showPricing ? (
         <PricingPage />
+      ) : isCaseStudy ? (
+        <div style={{ position: 'relative', minHeight: '100vh', background: T.bg, transition: 'background-color 0.25s' }}>
+          <ProjectCaseStudy
+            project={caseStudyProject}
+            onNavigate={navigateTo}
+            ThemeToggle={ThemeToggle}
+          />
+          <Footer onNavigate={navigateTo} />
+          <FloatingContact />
+        </div>
       ) : (
         <div style={{ position: 'relative', minHeight: '100vh', background: T.bg, transition: 'background-color 0.25s' }}>
-          <Nav />
+          <Nav onNavigate={navigateTo} />
           <Hero />
-          <Philosophy />
+          <Work onNavigate={navigateTo} />
           <Services />
-          <Work />
-          <Skills />
+          <Philosophy />
           <About />
+          <Skills />
           <Contact />
-          <Footer />
+          <Footer onNavigate={navigateTo} />
           <FloatingContact />
         </div>
       )}
