@@ -83,3 +83,4 @@ Vista MFB is a digital-first microfinance institution providing banking, savings
 
 - Frontend implementation by **Godswill Okoi** at **Technolix Digitals**.
 - Original brand design and trademark belong to Vista Microfinance Bank.
+
