@@ -1,9 +1,9 @@
 import { useScroll, useTransform, AnimatePresence, motion } from 'framer-motion'
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, createContext, useContext } from 'react'
 import {
   ArrowRight, ArrowUpRight, ChevronDown, Menu, X, Mail,
   Monitor, Layers, Code2, Wrench, Rocket, MapPin, Target, Sparkles,
-  ExternalLink, CheckCircle2,
+  ExternalLink, CheckCircle2, Sun, Moon,
 } from 'lucide-react'
 import PricingPage from './PricingPage.jsx'
 import {
@@ -12,28 +12,214 @@ import {
 } from 'simple-icons'
 
 /* ═══════════════════════════════════════════════════════════════
-   DESIGN TOKENS — deep slate + electric emerald
+   DESIGN TOKENS — DARK & LIGHT PALETTES
    ═══════════════════════════════════════════════════════════════ */
-const T = {
-  bg:        '#090D16',
-  bgMid:     '#0D1422',
-  bgAlt:     '#0F172A',
-  surface:   '#1E293B',
-  surfaceUp: '#253448',
-  border:    '#1E293B',
-  borderSub: 'rgba(255,255,255,0.08)',
-  accent:    '#10B981',
-  accentAlt: '#06B6D4',
-  white:     '#F8FAFC',
-  text:      '#F8FAFC',
-  muted:     '#94A3B8',
-  dim:       '#64748B',
+const THEMES = {
+  dark: {
+    isDark: true,
+    name: 'dark',
+    bg:            '#090D16',
+    bgMid:         '#0D1422',
+    bgAlt:         '#0F172A',
+    surface:       '#1E293B',
+    surfaceUp:     '#253448',
+    border:        '#1E293B',
+    borderSub:     'rgba(255,255,255,0.08)',
+    accent:        '#10B981',
+    accentAlt:     '#06B6D4',
+    white:         '#F8FAFC', // high-contrast/primary heading
+    text:          '#F8FAFC',
+    btnText:       '#0D1422',
+    muted:         '#94A3B8',
+    dim:           '#64748B',
+    navBgScrolled: 'rgba(9,13,22,0.92)',
+    navBgTop:      'rgba(9,13,22,0.55)',
+    gridLines:     'rgba(148,163,184,0.04)',
+    cardShadow:    '0 24px 60px rgba(0,0,0,0.5)',
+    heroGlow1:     '#10B98118',
+    heroGlow2:     '#06B6D410',
+    contactGlow:   '#06B6D412',
+    contactBoxBg:  'rgba(9,13,22,0.85)',
+    projectVeil:   'linear-gradient(180deg, rgba(9,13,22,0) 45%, rgba(9,13,22,0.5) 100%)',
+    toggleBg:      'rgba(255,255,255,0.05)',
+    toggleActiveBg:'#1E293B',
+    toggleBorder:  'rgba(255,255,255,0.1)',
+    codeTagBg:     'rgba(255,255,255,0.02)',
+  },
+  light: {
+    isDark: false,
+    name: 'light',
+    bg:            '#F8FAFC', // clean, crisp off-white slate
+    bgMid:         '#FFFFFF', // clean surface
+    bgAlt:         '#F1F5F9', // light section slate
+    surface:       '#F1F5F9', // soft light card
+    surfaceUp:     '#E2E8F0',
+    border:        '#E2E8F0', // subtle border
+    borderSub:     'rgba(15,23,42,0.08)',
+    accent:        '#059669', // accessible emerald against light backgrounds
+    accentAlt:     '#0891B2',
+    white:         '#0F172A', // headings in light mode: deep slate #0F172A
+    text:          '#1E293B', // body text in light mode
+    btnText:       '#FFFFFF', // button text for emerald button in light mode
+    muted:         '#475569', // secondary text
+    dim:           '#64748B', // tertiary text
+    navBgScrolled: 'rgba(255,255,255,0.92)',
+    navBgTop:      'rgba(248,250,252,0.7)',
+    gridLines:     'rgba(15,23,42,0.035)',
+    cardShadow:    '0 20px 48px rgba(15,23,42,0.08)',
+    heroGlow1:     '#10B98114',
+    heroGlow2:     '#06B6D40A',
+    contactGlow:   '#06B6D40E',
+    contactBoxBg:  'rgba(255,255,255,0.92)',
+    projectVeil:   'linear-gradient(180deg, rgba(255,255,255,0) 40%, rgba(248,250,252,0.6) 100%)',
+    toggleBg:      '#E2E8F0',
+    toggleActiveBg:'#FFFFFF',
+    toggleBorder:  '#CBD5E1',
+    codeTagBg:     'rgba(15,23,42,0.03)',
+  },
 }
 
-const pageBase   = T.bg
-const ease       = [0.22, 1, 0.36, 1]
-const FONT_H     = "'Plus Jakarta Sans', sans-serif"
-const FONT_B     = "'Inter', sans-serif"
+const ease   = [0.22, 1, 0.36, 1]
+const FONT_H = "'Plus Jakarta Sans', sans-serif"
+const FONT_B = "'Inter', sans-serif"
+
+/* ═══════════════════════════════════════════════════════════════
+   THEME CONTEXT & PROVIDER
+   ═══════════════════════════════════════════════════════════════ */
+const ThemeContext = createContext({
+  mode: 'system',
+  theme: 'dark',
+  setMode: () => {},
+  T: THEMES.dark,
+})
+
+export function useTheme() {
+  return useContext(ThemeContext)
+}
+
+function ThemeProvider({ children }) {
+  const [mode, setModeState] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('portfolio-theme')
+      if (saved === 'dark' || saved === 'light' || saved === 'system') {
+        return saved
+      }
+    }
+    return 'system'
+  })
+
+  const [systemDark, setSystemDark] = useState(() => {
+    if (typeof window !== 'undefined' && window.matchMedia) {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches
+    }
+    return true
+  })
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return
+    const mq = window.matchMedia('(prefers-color-scheme: dark)')
+    const handler = (e) => setSystemDark(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
+
+  const setMode = (newMode) => {
+    setModeState(newMode)
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('portfolio-theme', newMode)
+    }
+  }
+
+  const resolvedTheme = mode === 'system' ? (systemDark ? 'dark' : 'light') : mode
+  const T = THEMES[resolvedTheme]
+
+  useEffect(() => {
+    if (typeof document === 'undefined') return
+    const root = document.documentElement
+    root.setAttribute('data-theme', resolvedTheme)
+    root.classList.remove('dark', 'light')
+    root.classList.add(resolvedTheme)
+
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]')
+    if (metaThemeColor) {
+      metaThemeColor.setAttribute('content', T.bg)
+    }
+  }, [resolvedTheme, T.bg])
+
+  return (
+    <ThemeContext.Provider value={{ mode, theme: resolvedTheme, setMode, T }}>
+      {children}
+    </ThemeContext.Provider>
+  )
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   THEME TOGGLE COMPONENT (Dark, Light, System)
+   ═══════════════════════════════════════════════════════════════ */
+function ThemeToggle({ showLabels = false, style = {} }) {
+  const { mode, setMode, T } = useTheme()
+
+  const options = [
+    { id: 'light',  label: 'Light',  icon: Sun },
+    { id: 'system', label: 'System', icon: Monitor },
+    { id: 'dark',   label: 'Dark',   icon: Moon },
+  ]
+
+  return (
+    <div
+      role="radiogroup"
+      aria-label="Color theme selector"
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        padding: '3px',
+        borderRadius: 99,
+        background: T.toggleBg,
+        border: `1px solid ${T.toggleBorder}`,
+        transition: 'background 0.25s, border-color 0.25s',
+        ...style,
+      }}
+    >
+      {options.map(({ id, label, icon: Icon }) => {
+        const active = mode === id
+        return (
+          <button
+            key={id}
+            type="button"
+            role="radio"
+            aria-checked={active}
+            aria-label={`${label} theme`}
+            title={`Switch to ${label} theme`}
+            onClick={() => setMode(id)}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 5,
+              padding: showLabels ? '6px 12px' : '6px 8px',
+              borderRadius: 99,
+              border: 'none',
+              cursor: 'pointer',
+              background: active ? T.toggleActiveBg : 'transparent',
+              color: active ? T.accent : T.dim,
+              boxShadow: active
+                ? T.isDark
+                  ? '0 2px 8px rgba(0,0,0,0.4)'
+                  : '0 2px 8px rgba(15,23,42,0.1)'
+                : 'none',
+              fontFamily: FONT_B,
+              fontSize: 11,
+              fontWeight: active ? 600 : 500,
+              transition: 'all 0.2s cubic-bezier(0.22,1,0.36,1)',
+            }}
+          >
+            <Icon size={14} strokeWidth={active ? 2.4 : 1.9} />
+            {showLabels && <span>{label}</span>}
+          </button>
+        )
+      })}
+    </div>
+  )
+}
 
 /* ═══════════════════════════════════════════════════════════════
    REDUCED MOTION
@@ -60,8 +246,8 @@ const NAV_LINKS = [
   { label: 'Contact', href: '#contact' },
 ]
 
-const EMAIL      = 'smartmoses@gmail.com'
-const GITHUB_URL = 'https://github.com/godswillokoi0001'
+const EMAIL        = 'smartmoses@gmail.com'
+const GITHUB_URL   = 'https://github.com/godswillokoi0001'
 const WHATSAPP_URL =
   'https://wa.me/2348137038180?text=' +
   encodeURIComponent("Hi Godswill, I'd like to discuss a project.")
@@ -214,10 +400,10 @@ function contrastRatio(a, b) {
   const [hi, lo] = l1 < l2 ? [l2, l1] : [l1, l2]
   return (hi + 0.05) / (lo + 0.05)
 }
-const MARK_BG = '#1E293B'
-const BRAND_MIN_CONTRAST = 2.5
-function readableBrandColor(hex, bg = MARK_BG) {
-  return contrastRatio(hex, bg) >= BRAND_MIN_CONTRAST ? hex : '#FFFFFF'
+const BRAND_MIN_CONTRAST = 2.4
+function readableBrandColor(hex, isDark = true, bg = isDark ? '#1E293B' : '#F1F5F9') {
+  if (!hex) return isDark ? '#FFFFFF' : '#0F172A'
+  return contrastRatio(hex, bg) >= BRAND_MIN_CONTRAST ? hex : (isDark ? '#FFFFFF' : '#0F172A')
 }
 
 const SKILL_GROUPS = [
@@ -278,12 +464,14 @@ const fadeUp = (delay = 0, distance = 28) => ({
    SHARED UI COMPONENTS
    ═══════════════════════════════════════════════════════════════ */
 function Pill({ children, accent }) {
+  const { T } = useTheme()
   const col = accent ? T.accent : T.muted
   return (
     <div style={{
       display: 'inline-flex', alignItems: 'center', gap: 8,
       marginBottom: 20, padding: '5px 14px', borderRadius: 99,
       border: `1px solid ${col}35`, background: `${col}0C`,
+      transition: 'border-color 0.25s, background-color 0.25s',
     }}>
       <span style={{ position: 'relative', width: 6, height: 6, flexShrink: 0,
         display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -300,15 +488,18 @@ function Pill({ children, accent }) {
 }
 
 function PrimaryBtn({ href, children, onClick }) {
+  const { T } = useTheme()
   const [hov, setHov] = useState(false)
+  const hoverBg = T.isDark ? '#0ea572' : '#047857'
+
   return (
     <a href={href} onClick={onClick}
       onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
       style={{
         display: 'inline-flex', alignItems: 'center', gap: 9,
         borderRadius: 10, padding: '13px 22px',
-        background: hov ? '#0ea572' : T.accent,
-        color: '#0D1422',
+        background: hov ? hoverBg : T.accent,
+        color: T.btnText,
         fontSize: 11, fontWeight: 700, letterSpacing: '0.07em',
         textTransform: 'uppercase', fontFamily: FONT_B, textDecoration: 'none',
         flexShrink: 0,
@@ -325,6 +516,7 @@ function PrimaryBtn({ href, children, onClick }) {
 }
 
 function GhostBtn({ href, children, onClick }) {
+  const { T } = useTheme()
   const [hov, setHov] = useState(false)
   return (
     <a href={href} onClick={onClick}
@@ -334,7 +526,7 @@ function GhostBtn({ href, children, onClick }) {
         borderRadius: 10, padding: '13px 20px',
         border: `1px solid ${hov ? T.accent + '55' : T.borderSub}`,
         background: hov ? `${T.accent}0D` : 'transparent',
-        color: hov ? T.white : T.muted,
+        color: hov ? (T.isDark ? T.white : T.accent) : T.muted,
         fontSize: 11, fontWeight: 600, letterSpacing: '0.06em',
         textTransform: 'uppercase', fontFamily: FONT_B, textDecoration: 'none',
         flexShrink: 0,
@@ -347,13 +539,15 @@ function GhostBtn({ href, children, onClick }) {
 }
 
 function SMBadge({ size = 34 }) {
+  const { T } = useTheme()
   return (
     <span aria-hidden="true" style={{
       width: size, height: size, borderRadius: Math.round(size * 0.3),
-      background: T.accent, color: '#0D1422',
+      background: T.accent, color: T.btnText,
       display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
       fontFamily: FONT_H, fontWeight: 800, letterSpacing: '-0.02em',
       fontSize: Math.round(size * 0.38), lineHeight: 1, flexShrink: 0,
+      transition: 'background-color 0.25s, color 0.25s',
     }}>
       SM
     </span>
@@ -361,10 +555,12 @@ function SMBadge({ size = 34 }) {
 }
 
 function SectionShell({ id, children, noBorder }) {
+  const { T } = useTheme()
   return (
     <section id={id} style={{
       padding: 'clamp(72px,9vw,120px) 0',
       borderTop: noBorder ? 'none' : `1px solid ${T.border}`,
+      transition: 'border-color 0.25s',
     }}>
       <div style={{ maxWidth: 1160, margin: '0 auto', padding: '0 clamp(16px,4vw,32px)' }}>
         {children}
@@ -374,6 +570,7 @@ function SectionShell({ id, children, noBorder }) {
 }
 
 function Label({ children }) {
+  const { T } = useTheme()
   return (
     <p style={{
       fontSize: 9, textTransform: 'uppercase', letterSpacing: '0.32em',
@@ -385,6 +582,7 @@ function Label({ children }) {
 }
 
 function IconTile({ icon: Icon, size = 40 }) {
+  const { T } = useTheme()
   return (
     <span aria-hidden="true" className="icon-tile" style={{
       width: size, height: size, borderRadius: 10, flexShrink: 0,
@@ -392,7 +590,7 @@ function IconTile({ icon: Icon, size = 40 }) {
       border: `1px solid ${T.border}`,
       background: `${T.accent}14`,
       color: T.accent,
-      transition: 'border-color 0.3s, transform 0.3s',
+      transition: 'border-color 0.3s, transform 0.3s, background-color 0.3s',
     }}>
       <Icon size={Math.round(size * 0.48)} strokeWidth={1.9} />
     </span>
@@ -403,6 +601,7 @@ function IconTile({ icon: Icon, size = 40 }) {
    NAV
    ═══════════════════════════════════════════════════════════════ */
 function Nav() {
+  const { T } = useTheme()
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
 
@@ -427,12 +626,14 @@ function Nav() {
       <div style={{
         pointerEvents: 'all',
         width: 'calc(100% - 32px)', maxWidth: 1100,
-        background: scrolled ? 'rgba(9,13,22,0.92)' : 'rgba(9,13,22,0.55)',
+        background: scrolled ? T.navBgScrolled : T.navBgTop,
         border: `1px solid ${scrolled ? T.borderSub : T.border}`,
         borderRadius: 14,
         backdropFilter: 'blur(20px)',
-        boxShadow: scrolled ? '0 20px 50px rgba(0,0,0,0.55)' : 'none',
-        transition: 'all 0.4s cubic-bezier(0.22,1,0.36,1)',
+        boxShadow: scrolled
+          ? T.isDark ? '0 20px 50px rgba(0,0,0,0.55)' : '0 16px 40px rgba(15,23,42,0.08)'
+          : 'none',
+        transition: 'all 0.35s cubic-bezier(0.22,1,0.36,1)',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '11px 18px' }}>
           <a href="#top" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}
@@ -443,27 +644,36 @@ function Nav() {
             </span>
           </a>
 
-          <nav style={{ display: 'flex', alignItems: 'center', gap: 2 }} className="nav-desktop"
-            aria-label="Primary">
-            {NAV_LINKS.map(link => <NavLink key={link.href} href={link.href}>{link.label}</NavLink>)}
-            <div style={{ marginLeft: 10 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+            <nav style={{ display: 'flex', alignItems: 'center', gap: 2 }} className="nav-desktop"
+              aria-label="Primary">
+              {NAV_LINKS.map(link => <NavLink key={link.href} href={link.href}>{link.label}</NavLink>)}
+            </nav>
+
+            {/* Desktop Theme Toggle (Dark / Light / System) */}
+            <div className="nav-desktop" style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <ThemeToggle />
               <PrimaryBtn href="#contact">Let's Talk</PrimaryBtn>
             </div>
-          </nav>
+          </div>
 
-          <button onClick={() => setOpen(o => !o)} className="hamburger"
-            aria-label={open ? 'Close menu' : 'Open menu'}
-            aria-expanded={open}
-            style={{
-              background: 'none', border: `1px solid ${open ? T.accentAlt : T.borderSub}`,
-              borderRadius: 9, width: 38, height: 38, cursor: 'pointer', color: T.muted,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              transition: 'border-color 0.25s, color 0.25s',
-            }}>
-            {open
-              ? <X size={16} strokeWidth={2.2} aria-hidden="true" />
-              : <Menu size={16} strokeWidth={2.2} aria-hidden="true" />}
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }} className="nav-mobile-bar">
+            {/* Mobile quick theme toggle */}
+            <ThemeToggle style={{ marginRight: 4 }} />
+            <button onClick={() => setOpen(o => !o)} className="hamburger"
+              aria-label={open ? 'Close menu' : 'Open menu'}
+              aria-expanded={open}
+              style={{
+                background: 'none', border: `1px solid ${open ? T.accentAlt : T.borderSub}`,
+                borderRadius: 9, width: 38, height: 38, cursor: 'pointer', color: T.muted,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                transition: 'border-color 0.25s, color 0.25s',
+              }}>
+              {open
+                ? <X size={16} strokeWidth={2.2} aria-hidden="true" />
+                : <Menu size={16} strokeWidth={2.2} aria-hidden="true" />}
+            </button>
+          </div>
         </div>
 
         <AnimatePresence>
@@ -476,7 +686,7 @@ function Nav() {
               transition={{ duration: 0.26, ease }}
               style={{ borderTop: `1px solid ${T.border}`, overflow: 'hidden' }}
             >
-              <div style={{ padding: '16px 18px', display: 'flex', flexDirection: 'column', gap: 2 }}>
+              <div style={{ padding: '16px 18px', display: 'flex', flexDirection: 'column', gap: 6 }}>
                 {NAV_LINKS.map(link => (
                   <a key={link.href} href={link.href} onClick={close}
                     style={{
@@ -486,7 +696,22 @@ function Nav() {
                     {link.label}
                   </a>
                 ))}
-                <div style={{ marginTop: 14 }}>
+
+                {/* Mobile menu Theme Selector with labels */}
+                <div style={{
+                  padding: '12px 0 6px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  borderBottom: `1px solid ${T.border}`,
+                }}>
+                  <span style={{ fontSize: 12, color: T.dim, fontFamily: FONT_B, fontWeight: 500 }}>
+                    Theme:
+                  </span>
+                  <ThemeToggle showLabels />
+                </div>
+
+                <div style={{ marginTop: 12 }}>
                   <PrimaryBtn href="#contact" onClick={close}>Let's Talk</PrimaryBtn>
                 </div>
               </div>
@@ -499,6 +724,7 @@ function Nav() {
 }
 
 function NavLink({ href, children }) {
+  const { T } = useTheme()
   const [hov, setHov] = useState(false)
   return (
     <a href={href}
@@ -518,6 +744,7 @@ function NavLink({ href, children }) {
    HERO
    ═══════════════════════════════════════════════════════════════ */
 function Hero() {
+  const { T } = useTheme()
   const ref = useRef(null)
   const reduced = useReducedMotion()
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
@@ -533,20 +760,20 @@ function Hero() {
       <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
         <div style={{
           position: 'absolute', inset: 0,
-          backgroundImage: 'linear-gradient(rgba(148,163,184,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(148,163,184,0.04) 1px,transparent 1px)',
+          backgroundImage: `linear-gradient(${T.gridLines} 1px,transparent 1px),linear-gradient(90deg,${T.gridLines} 1px,transparent 1px)`,
           backgroundSize: '72px 72px',
           maskImage: 'radial-gradient(ellipse 70% 60% at 50% 40%, black, transparent)',
         }} />
-        {/* Subtle ambient teal glow — top left */}
+        {/* Subtle ambient emerald glow — top left */}
         <div style={{
           position: 'absolute', top: '-10%', left: '-8%', width: '55%', height: '65%',
-          background: `radial-gradient(ellipse, ${T.accent}18, transparent 65%)`,
+          background: `radial-gradient(ellipse, ${T.heroGlow1}, transparent 65%)`,
           pointerEvents: 'none',
         }} />
         {/* Subtle ambient cyan glow — bottom right */}
         <div style={{
           position: 'absolute', bottom: '-8%', right: '-5%', width: '45%', height: '55%',
-          background: `radial-gradient(ellipse, ${T.accentAlt}10, transparent 65%)`,
+          background: `radial-gradient(ellipse, ${T.heroGlow2}, transparent 65%)`,
           pointerEvents: 'none',
         }} />
       </div>
@@ -604,7 +831,9 @@ function Hero() {
             <div style={{
               position: 'relative', borderRadius: 18, overflow: 'hidden',
               border: `1px solid ${T.border}`,
-              boxShadow: `0 24px 60px rgba(0,0,0,0.5), 0 0 0 1px ${T.accentAlt}18`,
+              background: T.bgMid,
+              boxShadow: T.cardShadow,
+              transition: 'box-shadow 0.3s, border-color 0.3s',
             }}>
               <img src="/images/me.jpeg" alt="Godswill Okoi — Web Designer and Frontend Developer"
                 style={{
@@ -641,7 +870,8 @@ function Hero() {
           position: 'absolute', bottom: 32, left: '50%', marginLeft: -22, zIndex: 10,
           width: 44, height: 44, borderRadius: '50%', display: 'flex',
           alignItems: 'center', justifyContent: 'center', color: T.muted,
-          border: `1px solid ${T.borderSub}`, background: 'rgba(9,13,22,0.5)',
+          border: `1px solid ${T.borderSub}`,
+          background: T.isDark ? 'rgba(9,13,22,0.5)' : 'rgba(255,255,255,0.7)',
           backdropFilter: 'blur(10px)', textDecoration: 'none',
         }}>
         <ChevronDown size={18} strokeWidth={2} aria-hidden="true"
@@ -655,6 +885,7 @@ function Hero() {
    PHILOSOPHY
    ═══════════════════════════════════════════════════════════════ */
 function Philosophy() {
+  const { T } = useTheme()
   const standards = [
     {
       label: "I don't do average:",
@@ -699,6 +930,7 @@ function Philosophy() {
             borderRadius: 14, border: `1px solid ${T.borderSub}`,
             background: T.surface, padding: 'clamp(20px,3vw,28px)',
             display: 'flex', flexDirection: 'column', gap: 20,
+            transition: 'background-color 0.25s, border-color 0.25s',
           }}>
             {standards.map((s, i) => (
               <motion.div key={i} {...fadeUp(0.06 * i)} style={{ display: 'flex', gap: 14 }}>
@@ -720,6 +952,7 @@ function Philosophy() {
    SERVICES
    ═══════════════════════════════════════════════════════════════ */
 function Services() {
+  const { T } = useTheme()
   return (
     <SectionShell id="services">
       <motion.div {...fadeUp()} style={{ marginBottom: 'clamp(40px,5vw,60px)' }}>
@@ -742,6 +975,7 @@ function Services() {
               borderRadius: 14, border: `1px solid ${T.borderSub}`,
               background: T.bgMid,
               display: 'flex', flexDirection: 'column', gap: 16,
+              transition: 'all 0.28s ease',
             }}>
             <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
               <p style={{
@@ -766,6 +1000,7 @@ function Services() {
                 <li key={d} style={{
                   fontSize: 10, fontFamily: FONT_B, fontWeight: 500,
                   color: T.dim, border: `1px solid ${T.border}`,
+                  background: T.codeTagBg,
                   borderRadius: 6, padding: '4px 9px',
                 }}>{d}</li>
               ))}
@@ -781,6 +1016,7 @@ function Services() {
    WORK
    ═══════════════════════════════════════════════════════════════ */
 function Work() {
+  const { T } = useTheme()
   return (
     <SectionShell id="work">
       <motion.div {...fadeUp()} style={{ marginBottom: 'clamp(40px,5vw,64px)' }}>
@@ -823,6 +1059,7 @@ function Work() {
                 padding: 'clamp(20px,3vw,28px)', borderRadius: 12,
                 border: `1px solid ${T.borderSub}`, background: T.bgMid,
                 display: 'flex', flexDirection: 'column', gap: 12,
+                transition: 'background-color 0.25s, border-color 0.25s',
               }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
                 <span style={{
@@ -843,6 +1080,7 @@ function Work() {
                   <li key={t} style={{
                     fontSize: 9.5, fontFamily: FONT_B, fontWeight: 500,
                     color: T.dim, border: `1px solid ${T.border}`, borderRadius: 5, padding: '3px 8px',
+                    background: T.codeTagBg,
                   }}>{t}</li>
                 ))}
               </ul>
@@ -855,6 +1093,7 @@ function Work() {
 }
 
 function ProjectEntry({ project: p, index: i }) {
+  const { T } = useTheme()
   const flip = i % 2 === 1
   return (
     <motion.article {...fadeUp(0.05)} className={`project-entry${flip ? ' is-flipped' : ''}`}>
@@ -868,10 +1107,12 @@ function ProjectEntry({ project: p, index: i }) {
             display: 'block', position: 'relative', aspectRatio: '16/10',
             borderRadius: 14, overflow: 'hidden', border: `1px solid ${T.border}`,
             background: T.bgMid,
+            boxShadow: T.cardShadow,
+            transition: 'border-color 0.25s, box-shadow 0.25s',
           }}>
           <img src={p.image} alt={`${p.name} — ${p.tag}`} loading="lazy" decoding="async"
             style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-          <span className="project-veil" />
+          <span className="project-veil" style={{ background: T.projectVeil }} />
         </a>
         <span className="project-index" aria-hidden="true">{p.num}</span>
       </motion.div>
@@ -911,6 +1152,7 @@ function ProjectEntry({ project: p, index: i }) {
    ABOUT
    ═══════════════════════════════════════════════════════════════ */
 function About() {
+  const { T } = useTheme()
   return (
     <SectionShell id="about">
       <div className="two-col">
@@ -942,8 +1184,8 @@ function About() {
             </p>
           ))}
 
-          {/* Experience inline */}
-          <div style={{ marginTop: 16 }}>
+          {/* Experience timeline */}
+          <div style={{ marginTop: 20 }}>
             <Label>Experience</Label>
             <ol className="timeline" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
               {EXPERIENCE.map((job, i) => (
@@ -977,17 +1219,23 @@ function About() {
    TECH SKILLS
    ═══════════════════════════════════════════════════════════════ */
 function TechTile({ slug, name, mono }) {
+  const { T } = useTheme()
   const [hov, setHov] = useState(false)
   const brand = BRAND[slug]
-  const col = brand ? readableBrandColor(brand.hex) : T.dim
+  const col = brand ? readableBrandColor(brand.hex, T.isDark) : T.dim
+
   return (
     <div className="tech-tile"
       onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
       style={{
         borderColor: hov ? `${col}55` : T.border,
         boxShadow: hov ? `0 0 18px ${col}20` : 'none',
+        background: T.codeTagBg,
       }}>
-      <span className="tech-mark" style={{ color: col, background: hov ? `${col}1A` : 'rgba(255,255,255,0.04)' }}>
+      <span className="tech-mark" style={{
+        color: col,
+        background: hov ? `${col}1A` : (T.isDark ? 'rgba(255,255,255,0.04)' : 'rgba(15,23,42,0.04)'),
+      }}>
         {brand
           ? <svg viewBox="0 0 24 24" role="img" aria-label={name}><path d={brand.path} fill="currentColor" /></svg>
           : <span className="tech-mono" style={{ fontFamily: FONT_H,
@@ -1000,6 +1248,7 @@ function TechTile({ slug, name, mono }) {
 }
 
 function Skills() {
+  const { T } = useTheme()
   return (
     <SectionShell id="skills">
       <motion.div {...fadeUp()} style={{ marginBottom: 'clamp(36px,5vw,56px)' }}>
@@ -1016,7 +1265,12 @@ function Skills() {
           <motion.div key={g.label} {...fadeUp(i * 0.07)}
             whileHover={{ y: -2 }}
             className="skill-card"
-            style={{ border: `1px solid ${T.border}`, borderRadius: 12, background: `${T.bgMid}CC` }}>
+            style={{
+              border: `1px solid ${T.border}`,
+              borderRadius: 12,
+              background: T.bgMid,
+              transition: 'background-color 0.25s, border-color 0.25s',
+            }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
               <IconTile icon={g.icon} size={26} />
               <p style={{ fontSize: 8.5, textTransform: 'uppercase', letterSpacing: '0.24em',
@@ -1040,26 +1294,29 @@ function Skills() {
    CONTACT / CTA
    ═══════════════════════════════════════════════════════════════ */
 function Contact() {
+  const { T } = useTheme()
   return (
     <SectionShell id="contact">
       <motion.div {...fadeUp()}
         style={{
           position: 'relative', borderRadius: 20, overflow: 'hidden',
           padding: 'clamp(36px,6vw,72px)',
-          border: `1px solid ${T.accent}30`,
+          border: `1px solid ${T.accent}35`,
           background: T.bgMid,
+          boxShadow: T.cardShadow,
+          transition: 'all 0.3s ease',
         }}>
         {/* Grid overlay */}
         <div style={{
           position: 'absolute', inset: 0, pointerEvents: 'none',
-          backgroundImage: 'linear-gradient(rgba(148,163,184,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(148,163,184,0.035) 1px,transparent 1px)',
+          backgroundImage: `linear-gradient(${T.gridLines} 1px,transparent 1px),linear-gradient(90deg,${T.gridLines} 1px,transparent 1px)`,
           backgroundSize: '60px 60px',
           maskImage: 'radial-gradient(ellipse 70% 70% at 50% 50%, black, transparent)',
         }} />
         {/* Ambient glow */}
         <div style={{
           position: 'absolute', top: '-20%', right: '-10%', width: '50%', height: '80%',
-          background: `radial-gradient(ellipse, ${T.accentAlt}12, transparent 65%)`,
+          background: `radial-gradient(ellipse, ${T.contactGlow}, transparent 65%)`,
           pointerEvents: 'none',
         }} />
 
@@ -1087,8 +1344,9 @@ function Contact() {
 
           <div style={{
             padding: 'clamp(20px,3vw,28px)', borderRadius: 14,
-            border: `1px solid ${T.borderSub}`, background: `${T.bg}AA`,
+            border: `1px solid ${T.borderSub}`, background: T.contactBoxBg,
             display: 'flex', flexDirection: 'column', gap: 18,
+            transition: 'background-color 0.25s, border-color 0.25s',
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
               <Mail size={13} strokeWidth={2} aria-hidden="true" style={{ color: T.accent }} />
@@ -1132,8 +1390,9 @@ function Contact() {
    FOOTER
    ═══════════════════════════════════════════════════════════════ */
 function Footer() {
+  const { T } = useTheme()
   return (
-    <footer style={{ borderTop: `1px solid ${T.border}`, padding: '44px clamp(16px,4vw,32px)' }}>
+    <footer style={{ borderTop: `1px solid ${T.border}`, padding: '44px clamp(16px,4vw,32px)', transition: 'border-color 0.25s' }}>
       <div style={{ maxWidth: 1160, margin: '0 auto' }}>
         <div className="footer-grid" style={{ marginBottom: 36 }}>
           <div>
@@ -1172,11 +1431,18 @@ function Footer() {
         </div>
         <div style={{
           paddingTop: 22, borderTop: `1px solid ${T.border}`,
-          display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: 8,
+          display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 14,
         }}>
           <p style={{ fontSize: 10, color: T.dim, fontFamily: FONT_B }}>
             © {new Date().getFullYear()} Godswill Okoi. All rights reserved.
           </p>
+
+          {/* Footer Theme Switcher */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <span style={{ fontSize: 10, color: T.dim, fontFamily: FONT_B }}>Theme:</span>
+            <ThemeToggle showLabels />
+          </div>
+
           <p style={{ fontSize: 10, color: T.dim, fontFamily: FONT_B }}>
             Frontend Developer &amp; UI Web Designer
           </p>
@@ -1187,6 +1453,7 @@ function Footer() {
 }
 
 function FooterLink({ href, children }) {
+  const { T } = useTheme()
   const [hov, setHov] = useState(false)
   return (
     <a href={href}
@@ -1218,7 +1485,7 @@ function FloatingContact() {
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         background: 'linear-gradient(145deg, #5BF07A 0%, #25D366 55%, #14A85A 100%)',
         color: '#fff', textDecoration: 'none',
-        boxShadow: '0 10px 28px rgba(0,0,0,0.4), 0 0 0 1px rgba(37,211,102,0.4)',
+        boxShadow: '0 10px 28px rgba(0,0,0,0.35), 0 0 0 1px rgba(37,211,102,0.4)',
         animation: reduced ? 'none' : 'float 3s ease-in-out infinite',
       }}>
       <span aria-hidden="true" style={{
@@ -1235,9 +1502,10 @@ function FloatingContact() {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   ROOT APP
+   MAIN PAGE CONTENT
    ═══════════════════════════════════════════════════════════════ */
-export default function App() {
+function MainContent() {
+  const { T } = useTheme()
   const path = typeof window !== 'undefined' ? window.location.pathname : ''
   const showPricing = path.endsWith('/pricingpage')
 
@@ -1245,21 +1513,22 @@ export default function App() {
     <>
       <style>{`
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; background-color: ${pageBase}; }
+        html { scroll-behavior: smooth; background-color: ${T.bg}; }
         body {
-          background: transparent;
+          background: ${T.bg};
           color: ${T.text};
           font-family: 'Inter', sans-serif;
           -webkit-font-smoothing: antialiased;
           -moz-osx-font-smoothing: grayscale;
           overflow-x: hidden;
+          transition: background-color 0.25s ease, color 0.25s ease;
         }
         img { max-width: 100%; display: block; }
         a { text-decoration: none; }
         h1, h2, h3 { font-family: 'Plus Jakarta Sans', sans-serif; }
-        ::selection { background: ${T.accent}38; color: #fff; }
+        ::selection { background: ${T.accent}38; color: ${T.isDark ? '#fff' : '#0F172A'}; }
 
-        /* Ambient glows */
+        /* Ambient keyframes */
         @keyframes chipPing {
           0%   { transform: scale(1);   opacity: 0.8; }
           70%  { transform: scale(2.5); opacity: 0;   }
@@ -1285,16 +1554,16 @@ export default function App() {
         .float-btn:active { transform: scale(0.96) !important; }
 
         /* Skill cards */
-        .skill-card { padding: 14px; transition: background 0.3s, border-color 0.3s; }
-        .skill-card:hover { border-color: ${T.accent}44; background: ${T.surface}CC; }
+        .skill-card { padding: 14px; transition: background-color 0.25s, border-color 0.25s; }
+        .skill-card:hover { border-color: ${T.accent}44; background: ${T.surface}; }
         .skill-card:hover .icon-tile { border-color: ${T.accent}44; transform: scale(1.06) rotate(-2deg); }
         @media (min-width: 640px) { .skill-card { padding: 20px; } }
 
         /* Service cards */
-        .service-card { transition: border-color 0.28s, box-shadow 0.28s, transform 0.28s; }
+        .service-card { transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s, background-color 0.25s; }
         .service-card:hover {
           border-color: ${T.accent}44;
-          box-shadow: 0 18px 42px rgba(0,0,0,0.32), 0 0 0 1px ${T.accent}22;
+          box-shadow: ${T.isDark ? '0 18px 42px rgba(0,0,0,0.32), 0 0 0 1px ' + T.accent + '22' : '0 16px 36px rgba(15,23,42,0.06), 0 0 0 1px ' + T.accent + '33'};
         }
 
         :focus-visible {
@@ -1365,15 +1634,16 @@ export default function App() {
           display: flex; flex-direction: row; align-items: center;
           gap: 8px; padding: 7px 10px 7px 7px; min-width: 0;
           border: 1px solid ${T.border}; border-radius: 9px;
-          background: rgba(255,255,255,0.02);
-          transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+          transition: border-color 0.25s, box-shadow 0.25s, background-color 0.25s;
         }
-        .tech-tile:hover { background: rgba(255,255,255,0.035); }
+        .tech-tile:hover {
+          background: ${T.isDark ? 'rgba(255,255,255,0.05)' : 'rgba(15,23,42,0.05)'};
+        }
         @media (min-width: 640px) { .tech-tile { padding: 8px 12px 8px 8px; gap: 9px; } }
         .tech-mark {
           width: 24px; height: 24px; flex-shrink: 0; border-radius: 6px;
           display: flex; align-items: center; justify-content: center;
-          transition: background 0.25s;
+          transition: background-color 0.25s;
         }
         @media (min-width: 640px) { .tech-mark { width: 27px; height: 27px; } }
         .tech-mark svg { display: block; width: 14px; height: 14px; }
@@ -1400,7 +1670,6 @@ export default function App() {
         .project-media { position: relative; min-width: 0; }
         .project-veil {
           position: absolute; inset: 0; pointer-events: none;
-          background: linear-gradient(180deg, rgba(9,13,22,0) 45%, rgba(9,13,22,0.5) 100%);
           transition: background 0.5s ease;
         }
         .project-media a:hover .project-veil {
@@ -1408,13 +1677,13 @@ export default function App() {
         }
         .project-media img {
           transition: transform 0.85s cubic-bezier(0.22,1,0.36,1), filter 0.5s;
-          filter: saturate(0.88) contrast(1.02);
+          filter: saturate(${T.isDark ? '0.88' : '0.95'}) contrast(1.02);
         }
         .project-media a:hover img { transform: scale(1.04); filter: saturate(1) contrast(1.04); }
         .project-index {
           position: absolute; top: 14px; left: 16px;
           font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11px;
-          font-weight: 700; letter-spacing: 0.2em; color: rgba(255,255,255,0.55);
+          font-weight: 700; letter-spacing: 0.2em; color: rgba(255,255,255,0.7);
           text-shadow: 0 2px 12px rgba(0,0,0,0.7); pointer-events: none;
         }
         .project-body { min-width: 0; }
@@ -1457,6 +1726,7 @@ export default function App() {
           font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500;
           letter-spacing: 0.06em; color: ${T.dim};
           border: 1px solid ${T.border}; border-radius: 6px; padding: 4px 9px; white-space: nowrap;
+          background: ${T.codeTagBg};
         }
         .project-link {
           display: inline-flex; align-items: center; gap: 6px;
@@ -1523,9 +1793,11 @@ export default function App() {
         /* NAV responsive */
         .nav-desktop { display: flex; align-items: center; gap: 2px; }
         .hamburger { display: none !important; }
+        .nav-mobile-bar { display: none !important; }
         @media (max-width: 860px) {
           .nav-desktop { display: none !important; }
           .hamburger { display: flex !important; }
+          .nav-mobile-bar { display: flex !important; }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -1541,7 +1813,7 @@ export default function App() {
       {showPricing ? (
         <PricingPage />
       ) : (
-        <div style={{ position: 'relative', minHeight: '100vh' }}>
+        <div style={{ position: 'relative', minHeight: '100vh', background: T.bg, transition: 'background-color 0.25s' }}>
           <Nav />
           <Hero />
           <Philosophy />
@@ -1555,5 +1827,16 @@ export default function App() {
         </div>
       )}
     </>
+  )
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ROOT APP (with ThemeProvider)
+   ═══════════════════════════════════════════════════════════════ */
+export default function App() {
+  return (
+    <ThemeProvider>
+      <MainContent />
+    </ThemeProvider>
   )
 }

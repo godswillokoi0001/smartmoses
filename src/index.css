@@ -6,14 +6,22 @@
   html {
     font-family: 'Inter', system-ui, sans-serif;
     scroll-behavior: smooth;
-    background-color: #090D16;
     -webkit-text-size-adjust: 100%;
+  }
+
+  html[data-theme="dark"],
+  html:not([data-theme="light"]) {
+    background-color: #090D16;
+    color-scheme: dark;
+  }
+
+  html[data-theme="light"] {
+    background-color: #F8FAFC;
+    color-scheme: light;
   }
 
   body {
     margin: 0;
-    background: transparent;
-    color: #F8FAFC;
     min-height: 100vh;
     overflow-x: hidden;
   }

@@ -17,6 +17,20 @@
     />
     <link rel="canonical" href="https://smartmoses.vercel.app/" />
 
+    <script>
+      (function() {
+        try {
+          var mode = localStorage.getItem('portfolio-theme') || 'system';
+          var isDark = mode === 'dark' || (mode === 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          var theme = isDark ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-theme', theme);
+          document.documentElement.classList.add(theme);
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', isDark ? '#090D16' : '#F8FAFC');
+        } catch (e) {}
+      })();
+    </script>
+
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -70,8 +84,8 @@
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
-    <script type="module" crossorigin src="/assets/index-CDNl1Ypd.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-Dgz3yVCd.css">
+    <script type="module" crossorigin src="/assets/index-CFICNJ7T.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-bwLX---L.css">
   </head>
   <body>
     <div id="root"></div>
