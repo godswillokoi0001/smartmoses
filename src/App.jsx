@@ -977,14 +977,6 @@ function Hero() {
                 <span className="lbl-narrow">Let's Talk</span>
               </GhostBtn>
             </motion.div>
-
-            <motion.p {...fadeUp(0.4)}
-              style={{
-                fontSize: 11, color: T.dim, fontFamily: FONT_B,
-                letterSpacing: '0.02em', fontStyle: 'italic',
-              }}>
-              No bloated templates. No excuses. Just clean, responsive code.
-            </motion.p>
           </div>
 
           <motion.div
@@ -1937,28 +1929,35 @@ function MainContent() {
            icons dropped — so the group still fits a single line. Measured:
            at 390px the hero pair and the contact trio fit ~358px of content. */
         .cta-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-        .btn-cta { padding: 13px 20px; font-size: 11px; letter-spacing: 0.06em; gap: 8px; white-space: nowrap; }
+        .btn-cta { padding: 15px 26px; font-size: 12.5px; letter-spacing: 0.06em; gap: 9px; white-space: nowrap; }
         .lbl-narrow { display: none; }
         /* Single button in the mobile menu still fills the sheet width. */
         .menu-actions > a { justify-content: center; }
         @media (max-width: 560px) {
           .cta-actions { gap: 8px; }
-          .btn-cta { padding: 10px 13px; font-size: 9.5px; letter-spacing: 0.03em; gap: 6px; }
+          .btn-cta { padding: 11px 14px; font-size: 10px; letter-spacing: 0.03em; gap: 7px; }
           .lbl-wide { display: none; }
           .lbl-narrow { display: inline; }
         }
         /* Last resort for narrow phones (≤440px): trim padding/type a step
            more so the trio still holds one line at a 360px viewport. */
         @media (max-width: 440px) {
-          .cta-actions { gap: 6px; }
-          .cta-actions > a { padding-left: 11px; padding-right: 11px; font-size: 9px; letter-spacing: 0.02em; }
+          .cta-actions { gap: 5px; }
+          .cta-actions > a { padding-left: 10px; padding-right: 10px; font-size: 10px; letter-spacing: 0.02em; }
           .cta-actions > a > svg { display: none; }
         }
         /* 360px tier: labels and icons stay, padding tightens one more notch
-           so the contact trio (248px + gaps) still fits a 266px card. */
+           so the contact trio still fits a 266px card. */
         @media (max-width: 400px) {
           .cta-actions { gap: 5px; }
-          .cta-actions > a { padding-left: 9px; padding-right: 9px; }
+          .cta-actions > a { padding-left: 9px; padding-right: 9px; font-size: 9px; }
+        }
+        /* Hero buttons stay comfortably sized on phones: this row has real
+           slack (≈340px of width for ≈290px of buttons), unlike the contact
+           trio, so it opts out of the compact tiers above. */
+        @media (max-width: 560px) {
+          .hero-section .cta-actions > a { font-size: 12px; padding: 13px 20px; }
+          .hero-section .cta-actions > a > svg { display: block; }
         }
 
         :focus-visible {
