@@ -684,6 +684,10 @@ html[data-theme="light"] .pr-root {
     padding: 11px 16px;
     font-size: 9.5px;
   }
+  /* The card's 36px padding left only ~267px for the button pair. */
+  .pr-cta {
+    padding: 24px 20px;
+  }
 }
 
 .pr-cta-note {

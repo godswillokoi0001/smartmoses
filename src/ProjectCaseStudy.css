@@ -161,6 +161,18 @@ html[data-theme="light"] {
   }
 }
 
+/* 360px tier: both actions fit ~289px inside the 303px row. */
+@media (max-width: 400px) {
+  .case-actions {
+    gap: 8px;
+  }
+
+  .case-actions .case-link {
+    padding: 0 11px;
+    font-size: 9px;
+  }
+}
+
 .case-link {
   display: inline-flex;
   align-items: center;

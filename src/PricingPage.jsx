@@ -479,7 +479,8 @@ export default function PricingPage({ onNavigate, ThemeToggle }) {
             <div className="pr-cta-actions">
               <a className="pr-btn pr-btn-primary" href={`mailto:${EMAIL}`}>
                 <Mail size={14} strokeWidth={2.2} aria-hidden="true" />
-                <span>Start a Conversation</span>
+                <span className="lbl-wide">Start a Conversation</span>
+                <span className="lbl-narrow">Let's Talk</span>
               </a>
               <a
                 className="pr-btn pr-btn-ghost"
