@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ═══════════════════════════════════════════════════════════════
+   BASE LAYER ONLY
+   Component-level styling (hero, work, services, timeline, case
+   study, pricing) lives next to its markup. This file intentionally
+   contains no overrides of those rules so there is one owner per
+   style — previously the rules here duplicated the component styles
+   and won via !important, which is what pushed the hero CTAs off
+   screen and made hover motion inconsistent.
+   ═══════════════════════════════════════════════════════════════ */
 @layer base {
   html {
     font-family: 'Inter', system-ui, sans-serif;
@@ -40,213 +49,9 @@
     display: block;
     max-width: 100%;
   }
-
 }
 
-/* Editorial portfolio refinements */
-#top {
-  min-height: min(900px, 100svh) !important;
-  padding-top: 150px !important;
-  padding-bottom: 96px !important;
-}
-
-#top .hero-grid {
-  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr) !important;
-  gap: clamp(48px, 8vw, 112px) !important;
-}
-
-#top .hero-grid h1 {
-  max-width: 760px !important;
-  font-size: clamp(2.6rem, 6.3vw, 5.4rem) !important;
-  line-height: 0.99 !important;
-  letter-spacing: -0.065em !important;
-}
-
-#top .hero-grid p {
-  max-width: 560px;
-}
-
-#work .project-entry {
-  gap: clamp(30px, 6vw, 88px);
-}
-
-#work .project-media a {
-  border-radius: 4px !important;
-  box-shadow: none !important;
-}
-
-#work .project-title {
-  font-size: clamp(1.7rem, 3vw, 2.6rem);
-  letter-spacing: -0.045em;
-}
-
-:focus-visible {
-  outline-offset: 5px;
-}
-
-@media (max-width: 899px) {
-  #top .hero-grid {
-    grid-template-columns: 1fr !important;
-    gap: 42px !important;
-  }
-
-  #top .hero-grid h1 {
-    font-size: clamp(2.5rem, 10vw, 4.5rem) !important;
-  }
-
-}
-
-@media (max-width: 560px) {
-  #top {
-    min-height: auto !important;
-    padding-top: 128px !important;
-    padding-bottom: 76px !important;
-  }
-
-  #top .hero-grid h1 {
-    font-size: clamp(2.4rem, 11.5vw, 3.7rem) !important;
-  }
-
-}
-
-/* Motion language: quiet orbital detail, responsive hover lift, and image depth. */
-#top::before,
-#top::after {
-  content: '';
-  position: absolute;
-  z-index: 1;
-  pointer-events: none;
-  border: 1px solid color-mix(in srgb, var(--motion-accent, #10b981) 18%, transparent);
-  border-radius: 50%;
-}
-
-#top::before {
-  top: 16%;
-  right: max(5%, calc((100vw - 1160px) / 2));
-  width: clamp(280px, 34vw, 470px);
-  aspect-ratio: 1;
-  animation: orbitDrift 28s linear infinite;
-}
-
-#top::after {
-  top: 22%;
-  right: max(8%, calc((100vw - 1080px) / 2));
-  width: clamp(230px, 28vw, 380px);
-  aspect-ratio: 1;
-  border-style: dashed;
-  opacity: 0.55;
-  animation: orbitDrift 42s linear infinite reverse;
-}
-
-@keyframes orbitDrift {
-  to { transform: rotate(360deg); }
-}
-
-@keyframes accentBreathe {
-  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--motion-accent) 0%, transparent); }
-  50% { box-shadow: 0 0 0 8px color-mix(in srgb, var(--motion-accent) 12%, transparent); }
-}
-
-#top .hero-grid > div,
-#top .hero-grid > div > * {
-  position: relative;
-  z-index: 2;
-}
-
-#top .hero-grid h1 span {
-  display: inline-block;
-  transform-origin: left center;
-  animation: headlineSettle 850ms cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-@keyframes headlineSettle {
-  from { opacity: 0; transform: translateY(0.18em); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-#top a[href^="#"],
-#contact a,
-header a,
-button {
-  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
-    color 220ms ease, background-color 220ms ease, border-color 220ms ease,
-    box-shadow 220ms ease !important;
-}
-
-#top a[href^="#"]:hover,
-#contact a:hover,
-header nav a:hover {
-  transform: translateY(-2px);
-}
-
-#services .service-card {
-  position: relative;
-  overflow: hidden;
-  transform: translateY(0);
-  isolation: isolate;
-}
-
-#services .service-card::before {
-  content: '';
-  position: absolute;
-  z-index: 0;
-  pointer-events: none;
-  inset: auto 0 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--motion-accent), var(--motion-accent-alt));
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-#services .service-card > * {
-  position: relative;
-  z-index: 1;
-}
-
-#services .service-card:hover {
-  transform: translateY(-7px) !important;
-}
-
-#services .service-card:hover::before {
-  transform: scaleX(1);
-}
-
-#work .project-media a {
-  transform: translateY(0);
-  transition: transform 550ms cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 550ms cubic-bezier(0.22, 1, 0.36, 1) !important;
-}
-
-#work .project-media img {
-  transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1), filter 500ms ease !important;
-}
-
-#work .project-media a:hover {
-  transform: translateY(-5px);
-}
-
-#work .project-media a:hover img {
-  transform: scale(1.045) !important;
-  filter: saturate(1.12) contrast(1.03);
-}
-
-#work .project-link svg,
-#top a[href^="#"] svg,
-#contact a svg {
-  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-#work .project-link:hover svg,
-#top a[href^="#"]:hover svg,
-#contact a:hover svg {
-  transform: translate(3px, -2px);
-}
-
-.float-btn {
-  animation: accentBreathe 3s ease-in-out infinite;
-}
-
+/* Motion is opt-out for anyone who asks their OS to reduce it. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

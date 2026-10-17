@@ -1,0 +1,703 @@
+/* ═══════════════════════════════════════════════════════════════
+   PRICING PAGE — rebuilt on the portfolio's mint/teal design system.
+
+   The previous version ran its own orange (#FF8A00) palette and a
+   'Syne' typeface that was never loaded, so it read as a different
+   website. Everything here draws from the same tokens as the rest of
+   the site, and adapts to the dark / light theme via [data-theme].
+   ═══════════════════════════════════════════════════════════════ */
+
+.pr-root {
+  --pr-bg: #090D16;
+  --pr-surface: #0D1422;
+  --pr-surface-2: #131C2E;
+  --pr-ink: #F8FAFC;
+  --pr-text: #E2E8F0;
+  --pr-muted: #94A3B8;
+  --pr-dim: #8593A6;
+  --pr-border: rgba(255, 255, 255, 0.08);
+  --pr-border-strong: rgba(255, 255, 255, 0.16);
+  --pr-accent: #10B981;
+  --pr-accent-2: #06B6D4;
+  --pr-btn-text: #0D1422;
+  --pr-shadow: 0 20px 48px rgba(0, 0, 0, 0.45);
+}
+
+html[data-theme="light"] .pr-root {
+  --pr-bg: #F8FAFC;
+  --pr-surface: #FFFFFF;
+  --pr-surface-2: #F1F5F9;
+  --pr-ink: #0F172A;
+  --pr-text: #1E293B;
+  --pr-muted: #475569;
+  --pr-dim: #5B6675;
+  --pr-border: rgba(15, 23, 42, 0.08);
+  --pr-border-strong: rgba(15, 23, 42, 0.16);
+  --pr-accent: #059669;
+  --pr-accent-2: #0891B2;
+  --pr-btn-text: #FFFFFF;
+  --pr-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+}
+
+.pr-root {
+  min-height: 100vh;
+  background: var(--pr-bg);
+  color: var(--pr-text);
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.pr-container {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 4vw, 32px);
+}
+
+.pr-section {
+  padding: clamp(64px, 8vw, 104px) 0;
+  border-top: 1px solid var(--pr-border);
+  transition: border-color 0.25s ease;
+}
+
+.pr-h2 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--pr-ink);
+  margin-bottom: 14px;
+}
+
+.pr-lede {
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--pr-muted);
+  max-width: 540px;
+}
+
+.pr-eyebrow {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+  color: var(--pr-accent);
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+/* ── Top bar ─────────────────────────────────────────────────── */
+.pr-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 28px 0 0;
+}
+
+.pr-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--pr-muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.pr-back:hover {
+  color: var(--pr-accent);
+}
+
+/* ── Hero ────────────────────────────────────────────────────── */
+.pr-hero {
+  padding: clamp(48px, 7vw, 84px) 0 clamp(44px, 6vw, 72px);
+}
+
+.pr-hero h1 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(2rem, 4.6vw, 3.2rem);
+  font-weight: 800;
+  line-height: 1.06;
+  letter-spacing: -0.035em;
+  color: var(--pr-ink);
+  max-width: 720px;
+  margin-bottom: 20px;
+}
+
+.pr-hero h1 em {
+  font-style: normal;
+  color: var(--pr-accent);
+}
+
+.pr-hero-lede {
+  font-size: clamp(14px, 1.5vw, 15.5px);
+  line-height: 1.85;
+  color: var(--pr-muted);
+  max-width: 620px;
+}
+
+.pr-hero-note {
+  font-size: 13.5px;
+  line-height: 1.85;
+  color: var(--pr-dim);
+  max-width: 600px;
+  margin-top: 16px;
+}
+
+/* ── Stats ───────────────────────────────────────────────────── */
+.pr-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: clamp(32px, 4vw, 48px);
+  padding-top: clamp(28px, 3vw, 36px);
+  border-top: 1px solid var(--pr-border);
+  max-width: 620px;
+}
+
+.pr-stat-value {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--pr-ink);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.pr-stat-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--pr-dim);
+  font-weight: 500;
+}
+
+/* ── Section label row ───────────────────────────────────────── */
+.pr-label {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 26px;
+}
+
+.pr-label-num {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  color: var(--pr-accent);
+}
+
+.pr-label-rule {
+  flex: 1 1 auto;
+  height: 1px;
+  background: var(--pr-border);
+}
+
+.pr-label-text {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  color: var(--pr-dim);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ── Grids ───────────────────────────────────────────────────── */
+.pr-pkg-grid,
+.pr-service-grid,
+.pr-addon-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+@media (min-width: 760px) {
+  .pr-pkg-grid,
+  .pr-service-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .pr-addon-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+}
+
+@media (min-width: 1180px) {
+  .pr-pkg-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+  }
+}
+
+@media (min-width: 980px) {
+  .pr-service-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+}
+
+/* ── Package card ────────────────────────────────────────────── */
+.pr-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: clamp(22px, 2.4vw, 28px);
+  border: 1px solid var(--pr-border);
+  border-radius: 14px;
+  background: var(--pr-surface);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.pr-card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--pr-accent) 40%, transparent);
+  box-shadow: var(--pr-shadow);
+}
+
+.pr-card.is-featured {
+  border-color: color-mix(in srgb, var(--pr-accent) 45%, transparent);
+  background: var(--pr-surface-2);
+}
+
+.pr-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pr-card-num {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--pr-dim);
+}
+
+.pr-tag {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--pr-btn-text);
+  background: var(--pr-accent);
+  border-radius: 99px;
+  padding: 5px 11px;
+  white-space: nowrap;
+}
+
+.pr-card-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(1.1rem, 1.6vw, 1.28rem);
+  font-weight: 700;
+  line-height: 1.22;
+  letter-spacing: -0.02em;
+  color: var(--pr-ink);
+  margin-bottom: 10px;
+}
+
+.pr-price {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+}
+
+.pr-price-value {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(1.5rem, 2.4vw, 1.75rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--pr-accent);
+  line-height: 1;
+}
+
+.pr-price-period {
+  font-size: 11px;
+  color: var(--pr-dim);
+}
+
+.pr-block-label {
+  font-size: 8.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--pr-dim);
+  font-weight: 600;
+  margin-bottom: 7px;
+}
+
+.pr-copy {
+  font-size: 12.5px;
+  line-height: 1.75;
+  color: var(--pr-muted);
+}
+
+.pr-includes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pr-includes li {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--pr-text);
+}
+
+.pr-check {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--pr-accent);
+}
+
+.pr-outcome {
+  border: 1px solid color-mix(in srgb, var(--pr-accent) 22%, transparent);
+  background: color-mix(in srgb, var(--pr-accent) 7%, transparent);
+  border-radius: 10px;
+  padding: 13px 15px;
+}
+
+.pr-outcome .pr-block-label {
+  color: var(--pr-accent);
+}
+
+.pr-card-spacer {
+  flex: 1 1 auto;
+}
+
+/* ── Buttons ─────────────────────────────────────────────────── */
+.pr-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border-radius: 10px;
+  padding: 13px 24px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.22s ease, color 0.22s ease, transform 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.pr-btn-primary {
+  background: var(--pr-accent);
+  color: var(--pr-btn-text);
+  border: 1px solid transparent;
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--pr-accent) 30%, transparent);
+}
+
+.pr-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px color-mix(in srgb, var(--pr-accent) 42%, transparent);
+}
+
+.pr-btn-ghost {
+  background: transparent;
+  color: var(--pr-muted);
+  border: 1px solid var(--pr-border-strong);
+}
+
+.pr-btn-ghost:hover {
+  color: var(--pr-ink);
+  border-color: color-mix(in srgb, var(--pr-accent) 50%, transparent);
+  background: color-mix(in srgb, var(--pr-accent) 6%, transparent);
+  transform: translateY(-2px);
+}
+
+.pr-btn-block {
+  width: 100%;
+}
+
+/* ── Service category ────────────────────────────────────────── */
+.pr-cat-head {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 18px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--pr-border);
+}
+
+.pr-cat-icon {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border-radius: 9px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  line-height: 1;
+  color: var(--pr-accent);
+  background: color-mix(in srgb, var(--pr-accent) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--pr-accent) 22%, transparent);
+}
+
+.pr-cat-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--pr-ink);
+}
+
+.pr-item {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--pr-border);
+}
+
+.pr-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.pr-item-name {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--pr-text);
+}
+
+.pr-item-price {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--pr-accent);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Add-ons ─────────────────────────────────────────────────── */
+.pr-addon {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 18px;
+  border: 1px solid var(--pr-border);
+  border-radius: 12px;
+  background: var(--pr-surface);
+  transition: border-color 0.25s ease, background-color 0.25s ease;
+}
+
+.pr-addon:hover {
+  border-color: color-mix(in srgb, var(--pr-accent) 35%, transparent);
+  background: var(--pr-surface-2);
+}
+
+.pr-addon-mark {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: var(--pr-accent);
+}
+
+.pr-addon-name {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--pr-ink);
+  margin-bottom: 5px;
+}
+
+.pr-addon-desc {
+  font-size: 12px;
+  line-height: 1.65;
+  color: var(--pr-muted);
+}
+
+/* ── FAQ ─────────────────────────────────────────────────────── */
+.pr-faq-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .pr-faq-grid {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 64px;
+  }
+  .pr-faq-aside {
+    position: sticky;
+    top: 112px;
+  }
+}
+
+.pr-faq-aside p {
+  font-size: 13px;
+  line-height: 1.85;
+  color: var(--pr-muted);
+  margin-top: 14px;
+  max-width: 320px;
+}
+
+.pr-faq-aside a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 18px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--pr-accent);
+  text-decoration: none;
+}
+
+.pr-faq-aside a:hover {
+  text-decoration: underline;
+}
+
+.pr-faq-list {
+  border-top: 1px solid var(--pr-border);
+}
+
+.pr-faq-item {
+  border-bottom: 1px solid var(--pr-border);
+}
+
+.pr-faq-q {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 20px 0;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  color: var(--pr-ink);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.45;
+  transition: color 0.2s ease;
+}
+
+.pr-faq-q:hover {
+  color: var(--pr-accent);
+}
+
+.pr-faq-toggle {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--pr-border-strong);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--pr-accent);
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.2s ease;
+}
+
+.pr-faq-q:hover .pr-faq-toggle {
+  border-color: color-mix(in srgb, var(--pr-accent) 55%, transparent);
+}
+
+.pr-faq-toggle.is-open {
+  transform: rotate(45deg);
+  border-color: color-mix(in srgb, var(--pr-accent) 55%, transparent);
+}
+
+.pr-faq-a {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pr-faq-a.is-open {
+  grid-template-rows: 1fr;
+}
+
+.pr-faq-a > div {
+  overflow: hidden;
+}
+
+.pr-faq-a p {
+  font-size: 13.5px;
+  line-height: 1.8;
+  color: var(--pr-muted);
+  padding: 0 40px 22px 0;
+}
+
+/* ── Closing CTA ─────────────────────────────────────────────── */
+.pr-cta {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--pr-accent) 32%, transparent);
+  border-radius: 20px;
+  background: var(--pr-surface);
+  padding: clamp(36px, 5vw, 64px);
+  text-align: center;
+  box-shadow: var(--pr-shadow);
+}
+
+.pr-cta h2 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(1.7rem, 3.6vw, 2.6rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  color: var(--pr-ink);
+  max-width: 660px;
+  margin: 0 auto 18px;
+}
+
+.pr-cta p {
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--pr-muted);
+  max-width: 560px;
+  margin: 0 auto 30px;
+}
+
+.pr-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* Compact on phones so both CTAs fit one line instead of wrapping. */
+@media (max-width: 560px) {
+  .pr-cta-actions .pr-btn {
+    padding: 11px 16px;
+    font-size: 9.5px;
+  }
+}
+
+.pr-cta-note {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--pr-dim);
+  margin-top: 30px;
+}
+
+@media (max-width: 560px) {
+  /* Removed: forcing every .pr-btn to width:100% here split the closing CTA
+     pair onto two lines. Package buttons already use .pr-btn-block for their
+     full-width treatment. */
+  .pr-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+}

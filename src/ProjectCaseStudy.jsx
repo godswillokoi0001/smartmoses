@@ -27,10 +27,10 @@ export default function ProjectCaseStudy({ project, onNavigate, ThemeToggle }) {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
-    document.title = `${project.title} — Godswill Okoi`
+    document.title = `${project.title} — Smart Moses`
     const description = `${project.description} Read the complete case study detailing the challenge, role, implementation, and outcome.`
     document.querySelector('meta[name="description"]')?.setAttribute('content', description)
-    document.querySelector('meta[property="og:title"]')?.setAttribute('content', `${project.title} — Godswill Okoi`)
+    document.querySelector('meta[property="og:title"]')?.setAttribute('content', `${project.title} — Smart Moses`)
     document.querySelector('meta[property="og:description"]')?.setAttribute('content', description)
     document.querySelector('link[rel="canonical"]')?.setAttribute(
       'href',

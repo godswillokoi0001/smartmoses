@@ -1,9 +1,12 @@
-import { useScroll, useTransform, AnimatePresence, motion, MotionConfig } from 'framer-motion'
+import {
+  useScroll, useTransform, useMotionValue, useSpring,
+  AnimatePresence, motion, MotionConfig,
+} from 'framer-motion'
 import { useRef, useState, useEffect, createContext, useContext } from 'react'
 import {
   ArrowRight, ArrowUpRight, ChevronDown, Menu, X, Mail,
   Monitor, Layers, Code2, Wrench, Rocket, MapPin, Target, Sparkles,
-  ExternalLink as ExternalLinkIcon, CheckCircle2, Sun, Moon, Globe,
+  CheckCircle2, Sun, Moon, Globe, Download,
 } from 'lucide-react'
 import PricingPage from './PricingPage.jsx'
 import ProjectCaseStudy from './ProjectCaseStudy.jsx'
@@ -33,7 +36,9 @@ const THEMES = {
     text:          '#F8FAFC',
     btnText:       '#0D1422',
     muted:         '#94A3B8',
-    dim:           '#64748B',
+    // Raised from #64748B: the old value only reached 4.4:1 on #090D16, which
+    // fails WCAG AA for the many 9–11px labels and footnotes that use it.
+    dim:           '#8593A6',
     navBgScrolled: 'rgba(9,13,22,0.92)',
     navBgTop:      'rgba(9,13,22,0.55)',
     gridLines:     'rgba(148,163,184,0.04)',
@@ -64,7 +69,8 @@ const THEMES = {
     text:          '#1E293B',
     btnText:       '#FFFFFF',
     muted:         '#475569',
-    dim:           '#64748B',
+    // Raised from #64748B: only 4.2:1 on #F8FAFC, below the 4.5:1 AA floor.
+    dim:           '#5B6675',
     navBgScrolled: 'rgba(255,255,255,0.92)',
     navBgTop:      'rgba(248,250,252,0.7)',
     gridLines:     'rgba(15,23,42,0.035)',
@@ -250,11 +256,19 @@ const NAV_LINKS = [
   { label: 'Contact', href: '#contact' },
 ]
 
+/* Words of the hero headline, revealed one by one on load. */
+const HERO_HEAD = ['I', 'design', 'and', 'build', 'websites', 'that', 'make', 'growing', 'businesses']
+
 const EMAIL        = 'smartmoses@gmail.com'
 const GITHUB_URL   = 'https://github.com/godswillokoi0001'
 const WHATSAPP_URL =
   'https://wa.me/2348137038180?text=' +
-  encodeURIComponent("Hi Godswill, I'd like to discuss a project.")
+  encodeURIComponent("Hi Smart Moses, I'd like to discuss a project.")
+
+// Drop the PDF at this exact public path to activate every résumé link.
+// The asset is not in the repo yet — see public/assets/pdf/README.txt.
+const RESUME_PATH     = '/assets/pdf/Smart-Moses-Resume.pdf'
+const RESUME_FILENAME = 'Smart-Moses-Resume.pdf'
 
 const SERVICES = [
   {
@@ -403,6 +417,109 @@ const fadeUp = (delay = 0, distance = 28) => ({
   transition: { duration: 0.65, ease, delay },
 })
 
+/* Word-by-word masked reveal for the hero headline: each word slides up
+   out of its own overflow-hidden box, staggered left to right. */
+function WordReveal({ children, delay = 0 }) {
+  return (
+    <span style={{
+      display: 'inline-block', overflow: 'hidden', verticalAlign: 'bottom',
+      /* room for descenders (g, y) so the mask never clips them */
+      paddingBottom: '0.16em', marginBottom: '-0.16em',
+    }}>
+      <motion.span
+        style={{ display: 'inline-block' }}
+        initial={{ y: '112%', opacity: 0 }}
+        animate={{ y: '0%', opacity: 1 }}
+        transition={{ duration: 0.75, delay, ease }}
+      >
+        {children}
+      </motion.span>
+    </span>
+  )
+}
+
+/* 3D perspective tilt for project mockups. Fine pointers only, disabled for
+   reduced-motion users. */
+function TiltCard({ children }) {
+  const reduced = useReducedMotion()
+  const [fine, setFine] = useState(false)
+  const mvX = useMotionValue(0)
+  const mvY = useMotionValue(0)
+  const rotateY = useSpring(mvX, { stiffness: 150, damping: 18, mass: 0.4 })
+  const rotateX = useSpring(mvY, { stiffness: 150, damping: 18, mass: 0.4 })
+
+  useEffect(() => {
+    setFine(window.matchMedia('(pointer: fine)').matches)
+  }, [])
+
+  if (!fine || reduced) return <div>{children}</div>
+
+  const onMove = (e) => {
+    const r = e.currentTarget.getBoundingClientRect()
+    mvX.set(((e.clientX - r.left) / r.width - 0.5) * 7)
+    mvY.set(-((e.clientY - r.top) / r.height - 0.5) * 6)
+  }
+  const onLeave = () => { mvX.set(0); mvY.set(0) }
+
+  return (
+    <div style={{ perspective: 1200 }} onMouseMove={onMove} onMouseLeave={onLeave}>
+      <motion.div style={{ rotateY, rotateX, transformStyle: 'preserve-3d' }}>
+        {children}
+      </motion.div>
+    </div>
+  )
+}
+
+/* Desktop-only cursor garnish: a lagging accent ring plus a snappy dot.
+   Never replaces the native cursor — purely decorative, and it is not
+   mounted on touch devices or for reduced-motion users. */
+function CursorGlow() {
+  const reduced = useReducedMotion()
+  const [on, setOn] = useState(false)
+  const [big, setBig] = useState(false)
+  const mx = useMotionValue(-240)
+  const my = useMotionValue(-240)
+  const ringX = useSpring(mx, { stiffness: 170, damping: 22, mass: 0.5 })
+  const ringY = useSpring(my, { stiffness: 170, damping: 22, mass: 0.5 })
+  const dotX = useSpring(mx, { stiffness: 900, damping: 42, mass: 0.25 })
+  const dotY = useSpring(my, { stiffness: 900, damping: 42, mass: 0.25 })
+
+  useEffect(() => {
+    if (reduced) return undefined
+    if (!window.matchMedia('(pointer: fine)').matches) return undefined
+    setOn(true)
+    const move = (e) => {
+      mx.set(e.clientX)
+      my.set(e.clientY)
+      setBig(!!(e.target && e.target.closest && e.target.closest('a,button,[role="radio"]')))
+    }
+    window.addEventListener('pointermove', move, { passive: true })
+    return () => window.removeEventListener('pointermove', move)
+  }, [reduced, mx, my])
+
+  if (!on) return null
+  return (
+    <>
+      <motion.div aria-hidden="true"
+        animate={{ scale: big ? 1.85 : 1, opacity: big ? 0.9 : 0.5 }}
+        transition={{ duration: 0.25, ease }}
+        style={{
+          position: 'fixed', top: 0, left: 0, width: 30, height: 30,
+          marginLeft: -15, marginTop: -15, borderRadius: 999,
+          border: '1px solid var(--motion-accent)',
+          pointerEvents: 'none', zIndex: 10000, x: ringX, y: ringY,
+        }} />
+      <motion.div aria-hidden="true"
+        style={{
+          position: 'fixed', top: 0, left: 0, width: 5, height: 5,
+          marginLeft: -2.5, marginTop: -2.5, borderRadius: 999,
+          background: 'var(--motion-accent)',
+          pointerEvents: 'none', zIndex: 10000, x: dotX, y: dotY,
+        }} />
+    </>
+  )
+}
+
 /* ═══════════════════════════════════════════════════════════════
    SHARED UI COMPONENTS
    ═══════════════════════════════════════════════════════════════ */
@@ -422,8 +539,7 @@ function Pill({ children, accent }) {
           border: `1px solid ${col}`, animation: 'chipPing 2.4s ease-out infinite' }} />
         <span style={{ width: 5, height: 5, borderRadius: '50%', background: col }} />
       </span>
-      <span style={{ fontSize: 9.5, textTransform: 'uppercase', letterSpacing: '0.3em',
-        color: `${col}CC`, fontFamily: FONT_B, fontWeight: 600 }}>
+      <span className="pill-label" style={{ color: col, fontFamily: FONT_B, fontWeight: 600 }}>
         {children}
       </span>
     </div>
@@ -436,14 +552,14 @@ function PrimaryBtn({ href, children, onClick }) {
   const hoverBg = T.isDark ? '#0ea572' : '#047857'
 
   return (
-    <a href={href} onClick={onClick}
+    <a href={href} onClick={onClick} className="btn-shine btn-cta"
       onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
       style={{
-        display: 'inline-flex', alignItems: 'center', gap: 9,
-        borderRadius: 10, padding: '13px 22px',
+        display: 'inline-flex', alignItems: 'center',
+        borderRadius: 10,
         background: hov ? hoverBg : T.accent,
         color: T.btnText,
-        fontSize: 11, fontWeight: 700, letterSpacing: '0.07em',
+        fontWeight: 700,
         textTransform: 'uppercase', fontFamily: FONT_B, textDecoration: 'none',
         flexShrink: 0,
         boxShadow: hov ? `0 10px 32px ${T.accent}40` : `0 4px 16px ${T.accent}28`,
@@ -462,21 +578,54 @@ function GhostBtn({ href, children, onClick }) {
   const { T } = useTheme()
   const [hov, setHov] = useState(false)
   return (
-    <a href={href} onClick={onClick}
+    <a href={href} onClick={onClick} className="btn-cta"
       onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
       style={{
-        display: 'inline-flex', alignItems: 'center', gap: 8,
-        borderRadius: 10, padding: '13px 20px',
+        display: 'inline-flex', alignItems: 'center',
+        borderRadius: 10,
         border: `1px solid ${hov ? T.accent + '55' : T.borderSub}`,
         background: hov ? `${T.accent}0D` : 'transparent',
         color: hov ? (T.isDark ? T.white : T.accent) : T.muted,
-        fontSize: 11, fontWeight: 600, letterSpacing: '0.06em',
+        fontWeight: 600,
         textTransform: 'uppercase', fontFamily: FONT_B, textDecoration: 'none',
         flexShrink: 0,
         transform: hov ? 'translateY(-2px)' : 'translateY(0)',
         transition: 'all 0.22s cubic-bezier(0.22,1,0.36,1)',
       }}>
       {children}
+    </a>
+  )
+}
+
+function ResumeBtn({ onClick, style = {} }) {
+  const { T } = useTheme()
+  const [hov, setHov] = useState(false)
+  return (
+    <a
+      href={RESUME_PATH}
+      download={RESUME_FILENAME}
+      onClick={onClick}
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
+      aria-label="Download résumé as a PDF"
+      title="Download résumé (PDF)"
+      className="btn-cta"
+      style={{
+        display: 'inline-flex', alignItems: 'center',
+        borderRadius: 10,
+        border: `1px solid ${hov ? T.accent + '55' : T.borderSub}`,
+        background: hov ? `${T.accent}0D` : 'transparent',
+        color: hov ? (T.isDark ? T.white : T.accent) : T.muted,
+        fontWeight: 600,
+        textTransform: 'uppercase', fontFamily: FONT_B, textDecoration: 'none',
+        flexShrink: 0,
+        transform: hov ? 'translateY(-2px)' : 'translateY(0)',
+        transition: 'all 0.22s cubic-bezier(0.22,1,0.36,1)',
+        ...style,
+      }}
+    >
+      <Download size={14} strokeWidth={2.2} aria-hidden="true" style={{ flexShrink: 0 }} />
+      <span className="resume-btn-label">Résumé</span>
     </a>
   )
 }
@@ -515,12 +664,22 @@ function SectionShell({ id, children, noBorder }) {
 function Label({ children }) {
   const { T } = useTheme()
   return (
-    <p style={{
-      fontSize: 9, textTransform: 'uppercase', letterSpacing: '0.32em',
-      color: T.accent, fontFamily: FONT_B, fontWeight: 600, marginBottom: 20,
-    }}>
-      {children}
-    </p>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
+      <motion.span
+        aria-hidden="true"
+        initial={{ scaleX: 0, opacity: 0 }}
+        whileInView={{ scaleX: 1, opacity: 1 }}
+        viewport={{ once: true, amount: 0.5 }}
+        transition={{ duration: 0.6, ease }}
+        style={{ width: 22, height: 1, background: T.accent, transformOrigin: '0% 50%', flexShrink: 0 }}
+      />
+      <p style={{
+        fontSize: 9, textTransform: 'uppercase', letterSpacing: '0.32em',
+        color: T.accent, fontFamily: FONT_B, fontWeight: 600, margin: 0,
+      }}>
+        {children}
+      </p>
+    </div>
   )
 }
 
@@ -547,11 +706,30 @@ function Nav({ onNavigate }) {
   const { T } = useTheme()
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+  const [active, setActive] = useState('')
+  const { scrollYProgress } = useScroll()
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 48)
     window.addEventListener('scroll', fn, { passive: true })
     return () => window.removeEventListener('scroll', fn)
+  }, [])
+
+  /* Scroll-spy: highlights the section currently in view and drives the
+     layoutId pill that slides between nav links. */
+  useEffect(() => {
+    const els = NAV_LINKS.map(l => document.querySelector(l.href)).filter(Boolean)
+    if (!els.length) return undefined
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((en) => {
+          if (en.isIntersecting) setActive('#' + en.target.id)
+        })
+      },
+      { rootMargin: '-45% 0px -50% 0px', threshold: 0 },
+    )
+    els.forEach(el => io.observe(el))
+    return () => io.disconnect()
   }, [])
 
   const close = () => setOpen(false)
@@ -575,7 +753,7 @@ function Nav({ onNavigate }) {
       }}
     >
       <div style={{
-        pointerEvents: 'all',
+        pointerEvents: 'all', position: 'relative',
         width: 'calc(100% - 32px)', maxWidth: 1100,
         background: scrolled ? T.navBgScrolled : T.navBgTop,
         border: `1px solid ${scrolled ? T.borderSub : T.border}`,
@@ -591,18 +769,19 @@ function Nav({ onNavigate }) {
             href="/"
             onClick={(e) => onNavigate('/', e)}
             style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}
-            aria-label="Godswill Okoi — home"
+            aria-label="Smart Moses — home"
           >
             <SMBadge size={30} />
             <span style={{ fontFamily: FONT_H, fontSize: 14, fontWeight: 700, color: T.white, letterSpacing: '-0.01em' }}>
-              Godswill Okoi
+              Smart Moses
             </span>
           </a>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
             <nav style={{ display: 'flex', alignItems: 'center', gap: 2 }} className="nav-desktop" aria-label="Primary">
               {NAV_LINKS.map(link => (
-                <NavLink key={link.href} href={link.href} onClick={(e) => handleNavClick(link.href, e)}>
+                <NavLink key={link.href} href={link.href} active={active === link.href}
+                  onClick={(e) => handleNavClick(link.href, e)}>
                   {link.label}
                 </NavLink>
               ))}
@@ -634,6 +813,17 @@ function Nav({ onNavigate }) {
           </div>
         </div>
 
+        {/* Reading-progress rail across the bottom edge of the nav pill */}
+        <motion.div
+          aria-hidden="true"
+          style={{
+            position: 'absolute', bottom: -1, left: 0, right: 0, height: 2,
+            background: `linear-gradient(90deg, ${T.accent}, ${T.accentAlt})`,
+            borderRadius: '0 0 14px 14px',
+            scaleX: scrollYProgress, transformOrigin: '0% 50%',
+          }}
+        />
+
         <AnimatePresence>
           {open && (
             <motion.div
@@ -648,27 +838,19 @@ function Nav({ onNavigate }) {
                 {NAV_LINKS.map(link => (
                   <a key={link.href} href={link.href} onClick={(e) => { close(); handleNavClick(link.href, e); }}
                     style={{
-                      padding: '11px 0', fontSize: 13, color: T.text, textDecoration: 'none',
+                      padding: '14px 0', fontSize: 13.5, color: T.text, textDecoration: 'none',
                       fontFamily: FONT_B, borderBottom: `1px solid ${T.border}`,
                     }}>
                     {link.label}
                   </a>
                 ))}
 
-                <div style={{
-                  padding: '12px 0 6px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  borderBottom: `1px solid ${T.border}`,
-                }}>
-                  <span style={{ fontSize: 12, color: T.dim, fontFamily: FONT_B, fontWeight: 500 }}>
-                    Theme:
-                  </span>
-                  <ThemeToggle showLabels />
-                </div>
+                {/* Theme switching lives in the navbar itself, not here. */}
 
-                <div style={{ marginTop: 12 }}>
+                {/* Stacked full-width so the tap target never wraps or breaks
+                    on narrow phones. The résumé lives only at the end of the
+                    page (contact + footer), not in the nav. */}
+                <div className="menu-actions" style={{ marginTop: 12, display: 'flex', flexDirection: 'column', gap: 10 }}>
                   <PrimaryBtn href="#contact" onClick={(e) => { close(); handleNavClick('#contact', e); }}>
                     Let's Talk
                   </PrimaryBtn>
@@ -682,19 +864,31 @@ function Nav({ onNavigate }) {
   )
 }
 
-function NavLink({ href, children, onClick }) {
+function NavLink({ href, children, onClick, active }) {
   const { T } = useTheme()
   const [hov, setHov] = useState(false)
   return (
     <a href={href} onClick={onClick}
       onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
       style={{
+        position: 'relative',
         padding: '8px 13px', fontSize: 11.5, letterSpacing: '0.03em',
-        color: hov ? T.white : T.muted, textDecoration: 'none',
+        color: hov || active ? T.white : T.muted, textDecoration: 'none',
         borderRadius: 8, fontFamily: FONT_B, fontWeight: 500,
         transition: 'color 0.2s',
       }}>
-      {children}
+      {active && (
+        <motion.span
+          aria-hidden="true"
+          layoutId="nav-active-pill"
+          transition={{ type: 'spring', stiffness: 420, damping: 34 }}
+          style={{
+            position: 'absolute', inset: 0, borderRadius: 8,
+            background: T.toggleActiveBg, border: `1px solid ${T.borderSub}`,
+          }}
+        />
+      )}
+      <span style={{ position: 'relative' }}>{children}</span>
     </a>
   )
 }
@@ -710,10 +904,14 @@ function Hero() {
   const yParallax = useTransform(scrollYProgress, [0, 1], ['0%', reduced ? '0%' : '8%'])
 
   return (
-    <section id="top" ref={ref}
+    <section id="top" ref={ref} className="hero-section"
       style={{
-        position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center',
-        paddingTop: 140, paddingBottom: 100, overflow: 'hidden',
+        position: 'relative', display: 'flex', alignItems: 'center',
+        // Kept deliberately tight so the hero CTAs stay above the fold on a
+        // laptop viewport; the section used to be 1075px tall on a 900px screen.
+        paddingTop: 'clamp(108px, 13vh, 132px)',
+        paddingBottom: 'clamp(64px, 9vh, 92px)',
+        overflow: 'hidden',
       }}>
       {/* Subtle grid */}
       <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
@@ -727,12 +925,12 @@ function Hero() {
           position: 'absolute', top: '-10%', left: '-8%', width: '55%', height: '65%',
           background: `radial-gradient(ellipse, ${T.heroGlow1}, transparent 65%)`,
           pointerEvents: 'none',
-        }} />
+        }} className="aurora aurora-a" />
         <div style={{
           position: 'absolute', bottom: '-8%', right: '-5%', width: '45%', height: '55%',
           background: `radial-gradient(ellipse, ${T.heroGlow2}, transparent 65%)`,
           pointerEvents: 'none',
-        }} />
+        }} className="aurora aurora-b" />
       </div>
 
       <motion.div style={{ y: yParallax, position: 'relative', zIndex: 10, width: '100%',
@@ -740,32 +938,44 @@ function Hero() {
         <div className="hero-grid">
           <div>
             <motion.div {...fadeUp(0.05)} style={{ marginBottom: 0 }}>
-              <Pill accent>● Available for Business Websites &amp; Landing Pages</Pill>
+              <Pill accent>Available for Business Websites &amp; Landing Pages</Pill>
             </motion.div>
 
-            <motion.div {...fadeUp(0.15)} style={{ marginBottom: 24 }}>
+            <div style={{ marginBottom: 24 }}>
               <h1 style={{
-                fontFamily: FONT_H, fontSize: 'clamp(1.9rem,5.5vw,3.6rem)', fontWeight: 800,
-                lineHeight: 1.05, letterSpacing: '-0.03em', color: T.white, maxWidth: 700,
+                fontFamily: FONT_H, fontSize: 'clamp(2.15rem, 4.4vw, 3.05rem)', fontWeight: 800,
+                lineHeight: 1.06, letterSpacing: '-0.035em', color: T.white, maxWidth: 660,
               }}>
-                I design and build websites that make growing businesses{' '}
-                <span style={{ color: T.accent }}>look legit.</span>
+                {HERO_HEAD.map((word, i) => (
+                  /* Trailing space lives in a plain wrapper span: adjacent
+                     inline-blocks would otherwise render with no gap. */
+                  <span key={`${word}-${i}`}>
+                    <WordReveal delay={0.26 + i * 0.045}>{word}</WordReveal>
+                    {' '}
+                  </span>
+                ))}
+                <WordReveal delay={0.26 + HERO_HEAD.length * 0.045}>
+                  <span className="accent-shine">look legit.</span>
+                </WordReveal>
               </h1>
-            </motion.div>
+            </div>
 
             <motion.p {...fadeUp(0.25)}
               style={{
                 fontSize: 'clamp(14px,1.55vw,16px)', lineHeight: 1.85, color: T.muted,
                 maxWidth: 540, marginBottom: 36, fontFamily: FONT_B,
               }}>
-              Hi, I'm Godswill (Smart Moses). I'm a web designer and frontend developer turning
-              Figma designs, messy ideas, and outdated pages into clean, fast, mobile-friendly
+              Hi, I'm Smart Moses. I'm a web designer and frontend developer turning Figma
+              designs, messy ideas, and outdated pages into clean, fast, mobile-friendly
               websites that build trust and drive inquiries.
             </motion.p>
 
-            <motion.div {...fadeUp(0.32)} style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 28 }}>
+            <motion.div {...fadeUp(0.32)} className="cta-actions" style={{ marginBottom: 28 }}>
               <PrimaryBtn href="#work">View My Work</PrimaryBtn>
-              <GhostBtn href="#contact">Let's Talk About Your Project</GhostBtn>
+              <GhostBtn href="#contact">
+                <span className="lbl-wide">Let's Talk About Your Project</span>
+                <span className="lbl-narrow">Let's Talk</span>
+              </GhostBtn>
             </motion.div>
 
             <motion.p {...fadeUp(0.4)}
@@ -781,21 +991,32 @@ function Hero() {
             initial={{ opacity: 0, y: 32 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.2, ease }}
-            whileHover={{ y: -6 }}
+            whileHover={{ y: -6, transition: { duration: 0.24, ease } }}
             style={{ position: 'relative' }}
           >
+            {/* Slowly rotating accent glow behind the portrait card
+                (desktop only — hidden below 900px so it can never bleed
+                into the headline column). */}
+            <div className="hero-glowring" aria-hidden="true"
+              style={{ background: `conic-gradient(from 0deg, transparent 0 55%, ${T.accent}66 70%, ${T.accentAlt}80%, transparent 100%)` }} />
             <div style={{
-              position: 'relative', borderRadius: 18, overflow: 'hidden',
+              position: 'relative', zIndex: 1, borderRadius: 18, overflow: 'hidden',
               border: `1px solid ${T.border}`,
               background: T.bgMid,
               boxShadow: T.cardShadow,
               transition: 'box-shadow 0.3s, border-color 0.3s',
             }}>
-              <img src="/images/me.jpeg" alt="Godswill Okoi — Web Designer and Frontend Developer"
-                style={{
-                  width: '100%', height: 'clamp(340px,40vw,440px)',
-                  objectFit: 'cover', objectPosition: 'top center', display: 'block',
-                }} />
+              <div className="hero-photo">
+              <img
+                src={T.isDark ? '/images/me.jpeg' : '/images/me-light.jpg'}
+                alt="Smart Moses — Web Designer and Frontend Developer"
+                  style={{
+                    width: '100%', height: 'clamp(320px,36vw,420px)',
+                    objectFit: 'cover', objectPosition: 'top center', display: 'block',
+                  }} />
+                <span className="hero-scan" aria-hidden="true"
+                  style={{ background: `linear-gradient(180deg, transparent, ${T.accent}2E 50%, transparent)` }} />
+              </div>
               <div style={{
                 padding: '16px 20px', borderTop: `1px solid ${T.border}`,
                 background: T.bgMid,
@@ -803,7 +1024,7 @@ function Hero() {
               }}>
                 <div>
                   <p style={{ fontFamily: FONT_H, fontSize: 13.5, fontWeight: 700, color: T.white, lineHeight: 1.2 }}>
-                    Godswill Okoi
+                    Smart Moses
                   </p>
                   <p style={{
                     fontSize: 8.5, color: T.dim, textTransform: 'uppercase',
@@ -885,6 +1106,7 @@ function ProjectEntry({ project: p, index: i, onNavigate }) {
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true, amount: 0.25 }}
         transition={{ duration: 0.85, ease }}>
+        <TiltCard>
         <a
           href={`/work/${p.slug}`}
           onClick={handleCaseStudyClick}
@@ -905,15 +1127,19 @@ function ProjectEntry({ project: p, index: i, onNavigate }) {
           />
           <span className="project-veil" style={{ background: T.projectVeil }} />
         </a>
+        </TiltCard>
         <span className="project-index" aria-hidden="true">{p.num}</span>
       </motion.div>
 
       {/* Body Details */}
       <motion.div className="project-body" {...fadeUp(0.12)}>
+        {/* Long categories used to wrap mid-row and strand the dot and tag.
+            The category now owns the left column and the tag always sits right. */}
         <p className="project-meta">
-          <span>{p.category}</span>
-          <span className="project-dot" aria-hidden="true" />
-          <span>{p.num === '01' ? 'Featured' : p.num === '02' ? 'Design-to-Code' : 'Multi-Page'}</span>
+          <span className="project-meta-category">{p.category}</span>
+          <span className="project-meta-tag">
+            {p.num === '01' ? 'Featured' : p.num === '02' ? 'Design-to-Code' : 'Multi-Page'}
+          </span>
         </p>
 
         <h3 className="project-title">
@@ -947,36 +1173,38 @@ function ProjectEntry({ project: p, index: i, onNavigate }) {
           </ul>
         </div>
 
+        {/* The two secondary links travel together so "Source" can never be
+            orphaned on a line of its own. */}
         <div className="project-foot">
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-            <a
-              href={`/work/${p.slug}`}
-              onClick={handleCaseStudyClick}
-              className="project-link-primary"
-              style={{
-                display: 'inline-flex', alignItems: 'center', gap: 7,
-                padding: '10px 18px', borderRadius: 8,
-                background: T.accent, color: T.btnText,
-                fontSize: 11, fontWeight: 700, letterSpacing: '0.04em',
-                textTransform: 'uppercase', textDecoration: 'none',
-                boxShadow: `0 4px 14px ${T.accent}28`,
-                transition: 'all 0.2s ease',
-              }}
-            >
-              <span>Read Case Study</span>
-              <ArrowRight size={13} strokeWidth={2.5} aria-hidden="true" />
-            </a>
+          <a
+            href={`/work/${p.slug}`}
+            onClick={handleCaseStudyClick}
+            className="project-link-primary btn-shine"
+            style={{
+              display: 'inline-flex', alignItems: 'center',
+              borderRadius: 8,
+              background: T.accent, color: T.btnText,
+              fontWeight: 700,
+              textTransform: 'uppercase', textDecoration: 'none',
+              boxShadow: `0 4px 14px ${T.accent}28`,
+              transition: 'all 0.2s ease',
+            }}
+          >
+            <span>Read Case Study</span>
+            <ArrowRight size={13} strokeWidth={2.5} aria-hidden="true" />
+          </a>
 
+          <div className="project-link-group">
             <a
               href={p.live}
               target="_blank"
               rel="noopener noreferrer"
               className="project-link-ghost"
               style={{
-                display: 'inline-flex', alignItems: 'center', gap: 6,
-                padding: '9px 14px', borderRadius: 8,
+                display: 'inline-flex', alignItems: 'center',
+                borderRadius: 8,
                 border: `1px solid ${T.borderSub}`, color: T.text,
-                fontSize: 11, fontWeight: 600, letterSpacing: '0.04em',
+                fontWeight: 600,
                 textTransform: 'uppercase', textDecoration: 'none',
                 transition: 'all 0.2s ease',
               }}
@@ -992,10 +1220,10 @@ function ProjectEntry({ project: p, index: i, onNavigate }) {
               rel="noopener noreferrer"
               className="project-link-ghost"
               style={{
-                display: 'inline-flex', alignItems: 'center', gap: 6,
-                padding: '9px 14px', borderRadius: 8,
+                display: 'inline-flex', alignItems: 'center',
+                borderRadius: 8,
                 border: `1px solid ${T.borderSub}`, color: T.muted,
-                fontSize: 11, fontWeight: 600, letterSpacing: '0.04em',
+                fontWeight: 600,
                 textTransform: 'uppercase', textDecoration: 'none',
                 transition: 'all 0.2s ease',
               }}
@@ -1030,7 +1258,14 @@ function Services() {
       <div className="services-grid">
         {SERVICES.map((s, i) => (
           <motion.div key={s.num} {...fadeUp(i * 0.08)}
-            whileHover={{ y: -4 }}
+            whileHover={{ y: -6, transition: { duration: 0.22, ease } }}
+            onPointerMove={(e) => {
+              /* Cursor-tracking spotlight: the card reports where the pointer
+                 is and a radial gradient follows it. */
+              const r = e.currentTarget.getBoundingClientRect()
+              e.currentTarget.style.setProperty('--mx', `${e.clientX - r.left}px`)
+              e.currentTarget.style.setProperty('--my', `${e.clientY - r.top}px`)
+            }}
             className="service-card"
             style={{
               padding: 'clamp(24px,3vw,32px)',
@@ -1164,7 +1399,7 @@ function About() {
 
         <motion.div {...fadeUp(0.1)} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
           {[
-            "I'm Godswill Okoi (Smart Moses). I'm a web designer and frontend developer based in Nigeria, focused on building websites that are clean, fast, and genuinely useful to the businesses they represent.",
+            "I'm Smart Moses (Godswill Okoi). I'm a web designer and frontend developer based in Nigeria, focused on building websites that are clean, fast, and genuinely useful to the businesses they represent.",
             "My background spans visual communication, graphic design, and video production before narrowing into frontend development. That breadth shows up in how I approach projects: understanding the business need, structuring content clearly, and executing the build without losing the design intent along the way.",
             "I don't pitch myself as a senior backend software architect. My core strength is frontend development: semantic HTML, clean CSS, React-based interfaces, and the kind of mobile-first responsiveness that doesn't feel like an afterthought.",
             "When I take on a project, I'm thinking about what a visitor actually needs to see within the first five seconds — and building toward that. Because a site that doesn't build trust or communicate clearly isn't doing its job.",
@@ -1243,34 +1478,27 @@ function Skills() {
   const { T } = useTheme()
   return (
     <SectionShell id="skills">
-      <motion.div {...fadeUp()} style={{ marginBottom: 'clamp(36px,5vw,56px)' }}>
+      <motion.div {...fadeUp()} style={{ marginBottom: 'clamp(20px,3vw,32px)' }}>
         <Label>Technical Skills</Label>
         <h2 style={{
-          fontFamily: FONT_H, fontSize: 'clamp(1.6rem,3.5vw,2.5rem)',
-          lineHeight: 1.08, letterSpacing: '-0.03em', color: T.white,
+          fontFamily: FONT_H, fontSize: 'clamp(1.35rem,2.6vw,1.9rem)',
+          lineHeight: 1.1, letterSpacing: '-0.03em', color: T.white,
         }}>
           The tools I build with.
         </h2>
       </motion.div>
-      <div className="skill-groups">
+
+      {/* One bordered panel of four dense rows: group label left, chips
+          wrapping on the right. The old four-card grid with per-card icon
+          headers ate most of a screen on both breakpoints. */}
+      <div className="skills-compact">
         {SKILL_GROUPS.map((g, i) => (
-          <motion.div key={g.label} {...fadeUp(i * 0.07)}
-            whileHover={{ y: -2 }}
-            className="skill-card"
-            style={{
-              border: `1px solid ${T.border}`,
-              borderRadius: 12,
-              background: T.bgMid,
-              transition: 'background-color 0.25s, border-color 0.25s',
-            }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-              <IconTile icon={g.icon} size={26} />
-              <p style={{ fontSize: 8.5, textTransform: 'uppercase', letterSpacing: '0.24em',
-                color: T.accent, fontFamily: FONT_B, fontWeight: 600 }}>
-                {g.label}
-              </p>
-            </div>
-            <div className="tech-grid">
+          <motion.div key={g.label} {...fadeUp(i * 0.05)} className="skills-row">
+            <span className="skills-row-label">
+              <IconTile icon={g.icon} size={20} />
+              {g.label}
+            </span>
+            <div className="skills-row-chips">
               {g.items.map(item => (
                 <TechTile key={item.slug} slug={item.slug} name={item.name} mono={item.mono} />
               ))}
@@ -1289,10 +1517,9 @@ function Contact() {
   const { T } = useTheme()
   return (
     <SectionShell id="contact">
-      <motion.div {...fadeUp()}
+      <motion.div {...fadeUp()} className="contact-card"
         style={{
           position: 'relative', borderRadius: 20, overflow: 'hidden',
-          padding: 'clamp(36px,6vw,72px)',
           border: `1px solid ${T.accent}35`,
           background: T.bgMid,
           boxShadow: T.cardShadow,
@@ -1326,9 +1553,10 @@ function Contact() {
               Whether you need a dedicated business website, a landing page conversion, or a Figma design
               turned into working code — let's discuss your project.
             </p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center' }}>
+            <div className="cta-actions">
               <PrimaryBtn href={`mailto:${EMAIL}`}>Send Me a Message</PrimaryBtn>
               <GhostBtn href={WHATSAPP_URL}>WhatsApp</GhostBtn>
+              <ResumeBtn />
             </div>
           </div>
 
@@ -1359,13 +1587,21 @@ function Contact() {
                 { icon: MapPin,   label: 'Based in',    value: 'Nigeria' },
                 { icon: Sparkles, label: 'Engagements', value: 'Freelance & Contract' },
               ].map(row => (
-                <div key={row.label} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                  <row.icon size={13} strokeWidth={2} aria-hidden="true"
-                    style={{ color: T.dim, flexShrink: 0 }} />
-                  <span style={{ fontSize: 11, color: T.dim, fontFamily: FONT_B,
-                    flexShrink: 0, width: 88 }}>{row.label}</span>
-                  <span style={{ fontSize: 11, color: T.text, fontFamily: FONT_B,
-                    fontWeight: 500, textAlign: 'right', flexGrow: 1 }}>{row.value}</span>
+                /* Label above value: the old side-by-side row squeezed the value
+                   into ~130px and wrapped "Web Design & Frontend Dev" mid-phrase. */
+                <div key={row.label} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+                  <row.icon size={14} strokeWidth={2} aria-hidden="true"
+                    style={{ color: T.dim, flexShrink: 0, marginTop: 2 }} />
+                  <div style={{ minWidth: 0 }}>
+                    <span style={{ display: 'block', fontSize: 9, textTransform: 'uppercase',
+                      letterSpacing: '0.22em', color: T.dim, fontFamily: FONT_B }}>
+                      {row.label}
+                    </span>
+                    <span style={{ display: 'block', fontSize: 11.5, color: T.text, fontFamily: FONT_B,
+                      fontWeight: 500, lineHeight: 1.45, marginTop: 3 }}>
+                      {row.value}
+                    </span>
+                  </div>
                 </div>
               ))}
             </div>
@@ -1399,7 +1635,7 @@ function Footer({ onNavigate }) {
               <SMBadge size={28} />
               <p style={{ fontFamily: FONT_H, fontSize: 14, fontWeight: 700, color: T.white,
                 letterSpacing: '-0.01em' }}>
-                Godswill Okoi
+                Smart Moses
               </p>
             </div>
             <p style={{ fontSize: 12, color: T.muted, lineHeight: 1.85, maxWidth: 300, fontFamily: FONT_B }}>
@@ -1411,7 +1647,7 @@ function Footer({ onNavigate }) {
             <div>
               <p style={{ fontSize: 8, textTransform: 'uppercase', letterSpacing: '0.3em',
                 color: T.dim, marginBottom: 14, fontFamily: FONT_B }}>Navigate</p>
-              <nav style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <nav style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                 {NAV_LINKS.map(link => (
                   <FooterLink key={link.href} href={link.href} onClick={(e) => handleNav(link.href, e)}>
                     {link.label}
@@ -1422,10 +1658,11 @@ function Footer({ onNavigate }) {
             <div>
               <p style={{ fontSize: 8, textTransform: 'uppercase', letterSpacing: '0.3em',
                 color: T.dim, marginBottom: 14, fontFamily: FONT_B }}>Connect</p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                 <FooterLink href={`mailto:${EMAIL}`}>{EMAIL}</FooterLink>
                 <FooterLink href={GITHUB_URL}>GitHub</FooterLink>
                 <FooterLink href={WHATSAPP_URL}>WhatsApp</FooterLink>
+                <FooterLink href={RESUME_PATH} download={RESUME_FILENAME}>Résumé (PDF)</FooterLink>
               </div>
             </div>
           </div>
@@ -1435,7 +1672,7 @@ function Footer({ onNavigate }) {
           display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 14,
         }}>
           <p style={{ fontSize: 10, color: T.dim, fontFamily: FONT_B }}>
-            © {new Date().getFullYear()} Godswill Okoi. All rights reserved.
+            © {new Date().getFullYear()} Smart Moses. All rights reserved.
           </p>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -1452,13 +1689,14 @@ function Footer({ onNavigate }) {
   )
 }
 
-function FooterLink({ href, children, onClick }) {
+function FooterLink({ href, children, onClick, download }) {
   const { T } = useTheme()
   const [hov, setHov] = useState(false)
   return (
-    <a href={href} onClick={onClick}
+    <a href={href} onClick={onClick} download={download}
       onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
       style={{
+        display: 'inline-block', padding: '7px 0',
         fontSize: 12, color: hov ? T.accent : T.muted, textDecoration: 'none',
         fontFamily: FONT_B, transition: 'color 0.2s', wordBreak: 'break-all',
       }}>
@@ -1602,16 +1840,119 @@ function MainContent() {
         .float-btn:active { transform: scale(0.96) !important; }
 
         /* Skill cards */
-        .skill-card { padding: 14px; transition: background-color 0.25s, border-color 0.25s; }
-        .skill-card:hover { border-color: ${T.accent}44; background: ${T.surface}; }
-        .skill-card:hover .icon-tile { border-color: ${T.accent}44; transform: scale(1.06) rotate(-2deg); }
-        @media (min-width: 640px) { .skill-card { padding: 20px; } }
 
-        /* Service cards */
-        .service-card { transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s, background-color 0.25s; }
+        /* Service cards — the lift is owned by framer-motion (inline transform),
+           so no CSS transform rule here; that clash is what the old !important
+           override was working around. */
+        .service-card {
+          position: relative; overflow: hidden; isolation: isolate;
+          transition: border-color 0.25s, box-shadow 0.25s, background-color 0.25s;
+        }
+        .service-card::before {
+          content: ''; position: absolute; z-index: 0; pointer-events: none;
+          inset: auto 0 0; height: 2px;
+          background: linear-gradient(90deg, ${T.accent}, ${T.accentAlt});
+          transform: scaleX(0); transform-origin: left;
+          transition: transform 0.45s cubic-bezier(0.22,1,0.36,1);
+        }
+        .service-card > * { position: relative; z-index: 1; }
         .service-card:hover {
           border-color: ${T.accent}44;
           box-shadow: ${T.isDark ? '0 18px 42px rgba(0,0,0,0.32), 0 0 0 1px ' + T.accent + '22' : '0 16px 36px rgba(15,23,42,0.06), 0 0 0 1px ' + T.accent + '33'};
+        }
+        .service-card:hover::before { transform: scaleX(1); }
+
+        /* ── MOTION GRAPHICS LAYER ─────────────────────── */
+        @keyframes auroraDrift {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          50%      { transform: translate(3.5%, 3%) scale(1.1); }
+        }
+        @keyframes accentShine {
+          0%   { background-position: 130% 0; }
+          100% { background-position: -130% 0; }
+        }
+        @keyframes spinRing { to { transform: rotate(360deg); } }
+        @keyframes scanSweep {
+          from { transform: translateY(-130%); }
+          to   { transform: translateY(260%); }
+        }
+        @keyframes nodePulse {
+          0%, 100% { box-shadow: 0 0 0 3px ${T.accent}2E; }
+          50%      { box-shadow: 0 0 0 8px ${T.accent}12; }
+        }
+
+        /* Hero glows slowly breathe and drift */
+        .aurora { animation: auroraDrift 16s ease-in-out infinite; will-change: transform; }
+        .aurora-b { animation-duration: 22s; animation-direction: reverse; }
+
+        /* Shimmer sweep across the hero accent phrase */
+        .accent-shine {
+          background: linear-gradient(100deg, ${T.accent} 25%, ${T.accentAlt} 45%, ${T.isDark ? '#A7F3D0' : '#065F46'} 52%, ${T.accent} 70%);
+          background-size: 240% 100%;
+          -webkit-background-clip: text; background-clip: text;
+          -webkit-text-fill-color: transparent; color: transparent;
+          animation: accentShine 7s linear infinite;
+        }
+
+        /* Rotating glow ring behind the hero portrait (desktop only) */
+        .hero-glowring {
+          display: none;
+          position: absolute; inset: -16px; z-index: 0;
+          border-radius: 30px; filter: blur(10px); opacity: 0.5;
+          animation: spinRing 12s linear infinite;
+          pointer-events: none;
+        }
+        @media (min-width: 900px) { .hero-glowring { display: block; } }
+
+        /* Scan-line sweep when hovering the hero photo */
+        .hero-photo { position: relative; overflow: hidden; }
+        .hero-photo .hero-scan {
+          position: absolute; left: 0; right: 0; top: 0; height: 55%;
+          pointer-events: none; transform: translateY(-130%); opacity: 0;
+        }
+        .hero-photo:hover .hero-scan { animation: scanSweep 1.4s cubic-bezier(0.22,1,0.36,1); }
+
+        /* Shine sweep across primary buttons on hover */
+        .btn-shine { position: relative; overflow: hidden; isolation: isolate; }
+        .btn-shine::after {
+          content: ''; position: absolute; z-index: 1; pointer-events: none;
+          top: 0; bottom: 0; left: -130%; width: 55%;
+          background: linear-gradient(100deg, transparent, rgba(255,255,255,0.32), transparent);
+          transform: skewX(-18deg);
+          transition: left 0.65s cubic-bezier(0.22,1,0.36,1);
+        }
+        .btn-shine:hover::after { left: 135%; }
+
+        /* Cursor-tracking spotlight behind service cards */
+        .service-card::after {
+          content: ''; position: absolute; z-index: 0; pointer-events: none; inset: 0;
+          border-radius: inherit;
+          background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 50%), ${T.accent}1F, transparent 62%);
+          opacity: 0; transition: opacity 0.35s ease;
+        }
+        .service-card:hover::after { opacity: 1; }
+
+        /* Grouped buttons (2–3 together) sit on ONE row. On phones they are
+           compacted — smaller padding/type, short label variant, trailing
+           icons dropped — so the group still fits a single line. Measured:
+           at 390px the hero pair and the contact trio fit ~358px of content. */
+        .cta-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+        .btn-cta { padding: 13px 20px; font-size: 11px; letter-spacing: 0.06em; gap: 8px; white-space: nowrap; }
+        .lbl-narrow { display: none; }
+        /* Single button in the mobile menu still fills the sheet width. */
+        .menu-actions > a { justify-content: center; }
+        @media (max-width: 560px) {
+          .cta-actions { gap: 8px; }
+          .btn-cta { padding: 10px 13px; font-size: 9.5px; letter-spacing: 0.03em; gap: 6px; }
+          .lbl-wide { display: none; }
+          .lbl-narrow { display: inline; }
+        }
+        /* Last resort for narrow phones (≤440px): trim padding/type a step
+           more so the trio still holds one line at a 360px viewport. */
+        @media (max-width: 440px) {
+          .cta-actions { gap: 6px; }
+          .cta-actions > a { padding-left: 11px; padding-right: 11px; font-size: 9px; letter-spacing: 0.02em; }
+          .cta-actions > a > svg { display: none; }
         }
 
         :focus-visible {
@@ -1619,6 +1960,10 @@ function MainContent() {
           outline-offset: 3px;
           border-radius: 4px;
         }
+
+        /* HERO — svh with a vh fallback so mobile browser chrome can't push the
+           call-to-action row off screen. */
+        .hero-section { min-height: 100vh; min-height: 100svh; }
 
         /* HERO GRID */
         .hero-grid {
@@ -1640,6 +1985,9 @@ function MainContent() {
         }
         @media (min-width: 900px) {
           .philosophy-grid { grid-template-columns: 0.9fr 1.1fr; gap: 72px; }
+          /* The heading column is short and used to leave ~350px of dead space;
+             sticking it keeps the section visually balanced while scrolling. */
+          .philosophy-grid > :first-child { position: sticky; top: 116px; }
         }
 
         /* SERVICES GRID */
@@ -1661,13 +2009,32 @@ function MainContent() {
         .sticky-col { position: static; }
         @media (min-width: 900px) { .sticky-col { position: sticky; top: 110px; } }
 
-        /* SKILL GROUPS */
-        .skill-groups { display: flex; flex-direction: column; gap: 8px; }
-        @media (min-width: 640px) { .skill-groups { gap: 10px; } }
-
-        /* TECH TILES */
-        .tech-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 6px; }
-        @media (min-width: 640px) { .tech-grid { grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 7px; } }
+        /* SKILLS — one panel of dense rows: label column + wrapping chips */
+        .skills-compact {
+          border: 1px solid ${T.border}; border-radius: 14px;
+          background: ${T.bgMid}; overflow: hidden;
+          transition: background-color 0.25s, border-color 0.25s;
+        }
+        .skills-row {
+          display: flex; flex-direction: column; gap: 10px;
+          padding: 13px clamp(14px, 2vw, 20px);
+          border-top: 1px solid ${T.border};
+        }
+        .skills-row:first-child { border-top: none; }
+        .skills-row-label {
+          display: flex; align-items: center; gap: 9px;
+          font-family: 'Inter', sans-serif; font-size: 9px; font-weight: 600;
+          text-transform: uppercase; letter-spacing: 0.2em; color: ${T.accent};
+          line-height: 1.4;
+        }
+        .skills-row-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+        @media (min-width: 780px) {
+          .skills-row {
+            flex-direction: row; align-items: center; gap: 20px;
+            padding-top: 11px; padding-bottom: 11px;
+          }
+          .skills-row-label { width: 212px; flex-shrink: 0; }
+        }
         .tech-tile {
           display: flex; flex-direction: row; align-items: center;
           gap: 8px; padding: 7px 10px 7px 7px; min-width: 0;
@@ -1700,8 +2067,8 @@ function MainContent() {
           display: grid; grid-template-columns: 1fr; gap: 32px; align-items: center;
         }
         @media (min-width: 900px) {
-          .project-entry { grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: 56px; }
-          .project-entry.is-flipped { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); }
+          .project-entry { grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr); gap: 56px; }
+          .project-entry.is-flipped { grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr); }
           .project-entry.is-flipped .project-media { order: 2; }
           .project-entry.is-flipped .project-body { order: 1; }
         }
@@ -1718,19 +2085,28 @@ function MainContent() {
           filter: saturate(${T.isDark ? '0.88' : '0.96'}) contrast(1.02);
         }
         .project-media a:hover img { transform: scale(1.035); filter: saturate(1) contrast(1.04); }
+        /* Was white-on-transparent, which disappeared over the light project
+           screenshots. It now carries its own scrim. */
         .project-index {
-          position: absolute; top: 14px; left: 16px;
+          position: absolute; top: 14px; left: 14px; z-index: 2;
+          display: inline-flex; align-items: center; justify-content: center;
+          min-width: 34px; height: 26px; padding: 0 9px; border-radius: 7px;
+          background: rgba(9,13,22,0.72);
+          backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+          border: 1px solid rgba(255,255,255,0.14);
           font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11px;
-          font-weight: 700; letter-spacing: 0.2em; color: rgba(255,255,255,0.7);
-          text-shadow: 0 2px 12px rgba(0,0,0,0.7); pointer-events: none;
+          font-weight: 700; letter-spacing: 0.14em; color: #F8FAFC;
+          pointer-events: none;
         }
         .project-body { min-width: 0; }
         .project-meta {
-          display: flex; align-items: center; gap: 10px;
+          display: flex; align-items: baseline; justify-content: space-between;
+          flex-wrap: wrap; gap: 6px 18px;
           font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.24em;
           font-weight: 600; color: ${T.accent}; margin-bottom: 12px; font-family: 'Inter', sans-serif;
         }
-        .project-dot { width: 3px; height: 3px; border-radius: 50%; background: ${T.dim}; flex-shrink: 0; }
+        .project-meta-category { flex: 1 1 auto; min-width: 0; }
+        .project-meta-tag { flex: 0 0 auto; color: ${T.dim}; text-align: right; }
         .project-title {
           font-family: 'Plus Jakarta Sans', sans-serif;
           font-size: clamp(1.4rem, 2.8vw, 2.1rem);
@@ -1748,9 +2124,35 @@ function MainContent() {
         .project-contrib-text {
           font-family: 'Inter', sans-serif; font-size: 12.5px; line-height: 1.75; color: ${T.text};
         }
-        .project-foot {
-          display: flex; align-items: center; justify-content: space-between;
-          flex-wrap: wrap; gap: 16px;
+        .project-foot { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .project-link-group { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+        .project-link-primary {
+          padding: 10px 14px; font-size: 10.5px; letter-spacing: 0.04em;
+          gap: 7px; white-space: nowrap;
+        }
+        .project-link-ghost {
+          padding: 9px 11px; font-size: 10.5px; letter-spacing: 0.04em;
+          gap: 6px; white-space: nowrap;
+        }
+        @media (max-width: 560px) {
+          .project-foot { gap: 8px; }
+          .project-link-primary { padding: 8px 11px; font-size: 9px; }
+          .project-link-ghost { padding: 7px 9px; font-size: 9px; gap: 5px; }
+          /* The trailing arrow would push the group past one line. */
+          .project-link-ghost svg:last-child { display: none; }
+        }
+        @media (max-width: 400px) {
+          .project-link-primary > svg,
+          .project-link-ghost svg { display: none; }
+        }
+
+        /* Pill and résumé label need their own rules so the small-screen
+           adjustments don't have to fight inline styles. */
+        .pill-label {
+          font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.3em; line-height: 1.5;
+        }
+        @media (max-width: 560px) {
+          .pill-label { font-size: 8.5px; letter-spacing: 0.14em; }
         }
         .project-tech {
           display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0; padding: 0;
@@ -1792,6 +2194,7 @@ function MainContent() {
           width: 8px; height: 8px; border-radius: 50%;
           background: ${T.accent}; transform: translateX(-50%);
           box-shadow: 0 0 0 3px ${T.accent}28;
+          animation: nodePulse 3s ease-in-out infinite;
         }
         .timeline-period {
           font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600;
@@ -1821,6 +2224,11 @@ function MainContent() {
         .cta-grid { display: grid; grid-template-columns: 1fr; gap: 36px; align-items: center; }
         @media (min-width: 900px) { .cta-grid { grid-template-columns: 1.3fr 0.7fr; gap: 52px; } }
 
+        /* Contact card: horizontal padding used to be 36px minimum, which
+           cut the inner row to ~267px on phones — just under the ~286px the
+           three CTA buttons need, forcing a wrap. */
+        .contact-card { padding: clamp(28px, 6vw, 72px) clamp(20px, 6vw, 72px); }
+
         /* FOOTER GRID */
         .footer-grid { display: grid; grid-template-columns: 1fr; gap: 32px; }
         @media (min-width: 720px) { .footer-grid { grid-template-columns: 1.4fr 1fr; } }
@@ -1845,32 +2253,51 @@ function MainContent() {
         }
       `}</style>
 
-      {showPricing ? (
-        <PricingPage />
-      ) : isCaseStudy ? (
-        <div style={{ position: 'relative', minHeight: '100vh', background: T.bg, transition: 'background-color 0.25s' }}>
-          <ProjectCaseStudy
-            project={caseStudyProject}
-            onNavigate={navigateTo}
-            ThemeToggle={ThemeToggle}
-          />
-          <Footer onNavigate={navigateTo} />
-          <FloatingContact />
-        </div>
-      ) : (
-        <div style={{ position: 'relative', minHeight: '100vh', background: T.bg, transition: 'background-color 0.25s' }}>
-          <Nav onNavigate={navigateTo} />
-          <Hero />
-          <Work onNavigate={navigateTo} />
-          <Services />
-          <Philosophy />
-          <About />
-          <Skills />
-          <Contact />
-          <Footer onNavigate={navigateTo} />
-          <FloatingContact />
-        </div>
-      )}
+      <CursorGlow />
+
+      {/* Nav lives outside the page-transition wrapper: framer-motion applies
+          a transform during transitions, and a transformed ancestor would
+          break the nav's position:fixed. */}
+      {!showPricing && !isCaseStudy && <Nav onNavigate={navigateTo} />}
+
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={showPricing ? 'pricing' : isCaseStudy ? currentPath : 'home'}
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.3, ease }}
+        >
+          {showPricing ? (
+            <div style={{ position: 'relative', minHeight: '100vh', background: T.bg, transition: 'background-color 0.25s' }}>
+              <PricingPage onNavigate={navigateTo} ThemeToggle={ThemeToggle} />
+              <Footer onNavigate={navigateTo} />
+            </div>
+          ) : isCaseStudy ? (
+            <div style={{ position: 'relative', minHeight: '100vh', background: T.bg, transition: 'background-color 0.25s' }}>
+              <ProjectCaseStudy
+                project={caseStudyProject}
+                onNavigate={navigateTo}
+                ThemeToggle={ThemeToggle}
+              />
+              <Footer onNavigate={navigateTo} />
+            </div>
+          ) : (
+            <div style={{ position: 'relative', minHeight: '100vh', background: T.bg, transition: 'background-color 0.25s' }}>
+              <Hero />
+              <Work onNavigate={navigateTo} />
+              <Services />
+              <Philosophy />
+              <About />
+              <Skills />
+              <Contact />
+              <Footer onNavigate={navigateTo} />
+            </div>
+          )}
+        </motion.div>
+      </AnimatePresence>
+
+      <FloatingContact />
     </>
   )
 }

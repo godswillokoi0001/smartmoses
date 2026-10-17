@@ -151,6 +151,16 @@ html[data-theme="light"] {
   gap: 12px;
 }
 
+/* Compact on phones so both actions fit one line (~325px at a 390px
+   viewport) instead of wrapping. */
+@media (max-width: 560px) {
+  .case-actions .case-link {
+    padding: 0 14px;
+    font-size: 9.5px;
+    gap: 6px;
+  }
+}
+
 .case-link {
   display: inline-flex;
   align-items: center;
