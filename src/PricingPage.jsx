@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ArrowLeft, ArrowRight, Check, Mail, MessageCircle, Plus } from 'lucide-react';
 import './PricingPage.css';
 
@@ -335,6 +335,14 @@ function FaqItem({ faq }) {
 /* ─── PAGE ──────────────────────────────────────────────────────── */
 
 export default function PricingPage({ onNavigate, ThemeToggle }) {
+  useEffect(() => {
+    const previousTitle = document.title;
+    document.title = 'Smart Moses — Pricing & Creative Packages';
+    return () => {
+      document.title = previousTitle;
+    };
+  }, []);
+
   const go = (url) => (e) => {
     if (!onNavigate) return;
     e.preventDefault();

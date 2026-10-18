@@ -6,7 +6,7 @@ import { useRef, useState, useEffect, createContext, useContext } from 'react'
 import {
   ArrowRight, ArrowUpRight, ChevronDown, Menu, X, Mail,
   Monitor, Layers, Code2, Wrench, Rocket, MapPin, Target, Sparkles,
-  CheckCircle2, Sun, Moon, Globe, Download,
+  CheckCircle2, Sun, Moon, Globe,
 } from 'lucide-react'
 import PricingPage from './PricingPage.jsx'
 import ProjectCaseStudy from './ProjectCaseStudy.jsx'
@@ -154,7 +154,7 @@ function ThemeProvider({ children }) {
     if (metaThemeColor) {
       metaThemeColor.setAttribute('content', T.bg)
     }
-  }, [resolvedTheme, T.bg])
+  }, [resolvedTheme, T.bg, T.accent, T.accentAlt])
 
   return (
     <ThemeContext.Provider value={{ mode, theme: resolvedTheme, setMode, T }}>
@@ -1548,7 +1548,6 @@ function Contact() {
             <div className="cta-actions">
               <PrimaryBtn href={`mailto:${EMAIL}`}>Send Me a Message</PrimaryBtn>
               <GhostBtn href={WHATSAPP_URL}>WhatsApp</GhostBtn>
-              <ResumeBtn />
             </div>
           </div>
 
@@ -1654,7 +1653,6 @@ function Footer({ onNavigate }) {
                 <FooterLink href={`mailto:${EMAIL}`}>{EMAIL}</FooterLink>
                 <FooterLink href={GITHUB_URL}>GitHub</FooterLink>
                 <FooterLink href={WHATSAPP_URL}>WhatsApp</FooterLink>
-                <FooterLink href={RESUME_PATH} download={RESUME_FILENAME}>Résumé (PDF)</FooterLink>
               </div>
             </div>
           </div>

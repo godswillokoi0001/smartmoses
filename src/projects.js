@@ -23,7 +23,7 @@ export const PROJECTS = [
     stack: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Resend'],
     live: 'https://www.raytoprolog.com/',
     source: 'https://github.com/godswillokoi0001/rayto-prolog',
-    image: '/projects/rayto-prolog-project-mockup.png',
+    image: '/projects/rayto-prolog-project-mockup.jpg',
     imageAlt: 'Rayto Prolog logistics website mockup presented across desktop and mobile screens',
     highlights: [
       { label: 'Project Type', value: 'Client Website (Smotiva Digital)' },

@@ -5,7 +5,8 @@ import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 
 export default [
-  { ignores: ['dist'] },
+  // Downloaded reference sites are a creative reference library, not app code.
+  { ignores: ['dist', 'other portfolios/**'] },
   {
     files: ['**/*.{js,jsx}'],
     languageOptions: {
