@@ -243,6 +243,42 @@ html[data-theme="light"] {
   font-family: 'Inter', sans-serif;
 }
 
+.case-supporting-screens {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.case-supporting-figure {
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--case-border);
+  border-radius: 12px;
+  background: var(--case-figure-bg);
+}
+
+.case-supporting-figure img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.case-supporting-figure figcaption {
+  padding: 10px 13px;
+  border-top: 1px solid var(--case-border);
+  color: var(--case-dim);
+  font: 10px/1.4 'Inter', sans-serif;
+  letter-spacing: 0.03em;
+}
+
+@media (max-width: 560px) {
+  .case-supporting-screens {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ── Content Sections ── */
 .case-content {
   max-width: 900px;

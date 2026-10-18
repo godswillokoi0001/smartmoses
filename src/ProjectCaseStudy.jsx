@@ -115,6 +115,17 @@ export default function ProjectCaseStudy({ project, onNavigate, ThemeToggle }) {
               Official project mockup for {project.name}.
             </figcaption>
           </figure>
+
+          {project.gallery?.length > 0 && (
+            <div className="case-supporting-screens" aria-label="Supporting project screens">
+              {project.gallery.map((screen) => (
+                <figure className="case-supporting-figure" key={screen.src}>
+                  <img src={screen.src} alt={screen.alt} loading="eager" />
+                  <figcaption>{screen.label}</figcaption>
+                </figure>
+              ))}
+            </div>
+          )}
         </section>
 
         {/* Structured Case Study Content */}

@@ -255,6 +255,7 @@ const NAV_LINKS = [
   { label: 'About',   href: '#about' },
   { label: 'Contact', href: '#contact' },
 ]
+const PRICING_LINK = { label: 'Pricing', href: '/pricingpage' }
 
 /* Words of the hero headline, revealed one by one on load. */
 const HERO_HEAD = ['I', 'design', 'and', 'build', 'websites', 'that', 'make', 'growing', 'businesses']
@@ -739,6 +740,8 @@ function Nav({ onNavigate }) {
       if (window.location.pathname !== '/') {
         onNavigate('/' + href, e)
       }
+    } else {
+      onNavigate(href, e)
     }
   }
 
@@ -785,6 +788,9 @@ function Nav({ onNavigate }) {
                   {link.label}
                 </NavLink>
               ))}
+              <NavLink href={PRICING_LINK.href} active={false}>
+                {PRICING_LINK.label}
+              </NavLink>
             </nav>
 
             <div className="nav-desktop" style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -844,6 +850,14 @@ function Nav({ onNavigate }) {
                     {link.label}
                   </a>
                 ))}
+                <a href={PRICING_LINK.href}
+                  onClick={close}
+                  style={{
+                    padding: '14px 0', fontSize: 13.5, color: T.text, textDecoration: 'none',
+                    fontFamily: FONT_B, borderBottom: `1px solid ${T.border}`,
+                  }}>
+                  {PRICING_LINK.label}
+                </a>
 
                 {/* Theme switching lives in the navbar itself, not here. */}
 
@@ -1113,7 +1127,7 @@ function ProjectEntry({ project: p, index: i, onNavigate }) {
           <img
             src={p.image}
             alt={p.imageAlt}
-            loading={i === 0 ? 'eager' : 'lazy'}
+            loading="eager"
             decoding="async"
             style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
           />

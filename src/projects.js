@@ -9,7 +9,7 @@ export const PROJECTS = [
     role: 'Business understanding, content, UI direction & frontend development',
     context: 'Client project acquired and delivered through Smotiva Digital Ltd, where I am the Founder/CEO and also contributed as the frontend developer.',
     overview: 'A logistics business needs to explain what it offers, communicate its services clearly, and give prospective customers a straightforward way to make enquiries. Rayto Prolog needed a dedicated website that could present its business professionally and help visitors understand where its services fit their needs.',
-    challenge: 'A logistics business needs to explain what it offers, communicate its services clearly, and give prospective customers a straightforward way to make enquiries. Rayto Prolog needed a dedicated website that could present its business professionally and help visitors understand where its services fit their needs.',
+    challenge: 'The challenge was balancing detailed logistics information with a clear path to enquiry, without making the business website feel difficult to navigate.',
     approach: 'I worked on the project through Smotiva Digital Ltd, combining business understanding, website content, UI design, and frontend development. I helped shape the content and interface around the client’s needs, then implemented the website in React. The site includes dedicated service pages, information about industries served, company information, and contact options such as WhatsApp and an enquiry form.',
     built: [
       'Frontend experience structured around core logistics services and industry sectors',
@@ -25,6 +25,9 @@ export const PROJECTS = [
     source: 'https://github.com/godswillokoi0001/rayto-prolog',
     image: '/projects/rayto-prolog-project-mockup.jpg',
     imageAlt: 'Rayto Prolog logistics website mockup presented across desktop and mobile screens',
+    gallery: [
+      { src: '/projects/rayto-prolog-screen.jpg', alt: 'Rayto Prolog homepage showing logistics services and enquiry actions', label: 'Homepage composition' },
+    ],
     highlights: [
       { label: 'Project Type', value: 'Client Website (Smotiva Digital)' },
       { label: 'Role', value: 'Design, Content & Frontend Build' },
@@ -42,7 +45,7 @@ export const PROJECTS = [
     role: 'Frontend Developer — Design Implementation',
     context: 'Completed while working at Technolix Digitals. My role was to implement an existing Figma design in code.',
     overview: 'The task was to turn an existing Figma design into a working website for Vista MFB while preserving the intended visual direction. That meant translating the supplied layouts and styling into a consistent frontend implementation rather than treating the design as a loose reference.',
-    challenge: 'The task was to turn an existing Figma design into a working website for Vista MFB while preserving the intended visual direction. That meant translating the supplied layouts and styling into a consistent frontend implementation rather than treating the design as a loose reference.',
+    challenge: 'The challenge was preserving the supplied Figma direction while translating its layouts, spacing, and interactions into a responsive implementation.',
     approach: 'While working at Technolix Digitals, I handled the design-to-code implementation. I translated the supplied design into a React website, paying attention to layout, spacing, typography, component styling, and consistency across the pages. The implementation includes Home, About, and Contact pages, with navigation and page transitions.',
     built: [
       'Faithful translation of Figma design specifications into production React components',
@@ -56,7 +59,7 @@ export const PROJECTS = [
     stack: ['React', 'Vite', 'React Router', 'Tailwind CSS', 'Framer Motion'],
     live: 'https://vistamfb.com/',
     source: 'https://github.com/godswillokoi0001/vista',
-    image: '/projects/vista-project-mockup.png',
+    image: '/projects/vista-project-mockup.jpg',
     imageAlt: 'Vista MFB financial website shown on laptop and smartphone mockups',
     highlights: [
       { label: 'Project Type', value: 'Design-to-Code Implementation' },
@@ -75,7 +78,7 @@ export const PROJECTS = [
     role: 'Frontend Developer on the Development Team',
     context: 'Part of my full-time frontend developer role at Azawire Africa as part of the development team.',
     overview: 'A digital financial services business needs to explain different offerings to different audiences without making the website difficult to navigate. Azawire Africa’s website needed to present its personal and business offerings, provide information about its products, and guide visitors to the relevant sections.',
-    challenge: 'A digital financial services business needs to explain different offerings to different audiences without making the website difficult to navigate. Azawire Africa’s website needed to present its personal and business offerings, provide information about its products, and guide visitors to the relevant sections.',
+    challenge: 'The challenge was helping personal and business visitors find the right financial offering within a broader multi-page product experience.',
     approach: 'I worked as a frontend developer, implementing website pages and navigation as part of the development team. I worked through the frontend requirements and focused on making the pages and user flows work as intended. The React implementation includes separate personal and business experiences, product information, pricing, blog and FAQ sections, and relevant waitlist or registration flows where supported by the existing code.',
     built: [
       'Implementation of distinct visitor journeys for personal vs. business offerings',
@@ -89,8 +92,11 @@ export const PROJECTS = [
     stack: ['React', 'Vite', 'React Router', 'Tailwind CSS', 'Framer Motion'],
     live: 'https://www.azawireafrica.com/',
     source: 'https://github.com/godswillokoi0001/azawire-africa',
-    image: '/projects/azawire-project-mockup.png',
+    image: '/projects/azawire-project-mockup.jpg',
     imageAlt: 'Azawire Africa multi-page digital financial website mockup across devices',
+    gallery: [
+      { src: '/projects/azawire-africa-screen.jpg', alt: 'Azawire Africa homepage showing personal and business navigation', label: 'Homepage and audience navigation' },
+    ],
     highlights: [
       { label: 'Role Context', value: 'In-House Frontend Team' },
       { label: 'Experience Structure', value: 'Personal & Business Flows' },
