@@ -27,15 +27,38 @@ export default function ProjectCaseStudy({ project, onNavigate, ThemeToggle }) {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
+
+    // Capture the home-page metadata so it can be restored on unmount.
+    // Without this, navigating from a case study back to the homepage (a
+    // client-side route change) leaves the tab title, canonical URL, and
+    // meta description pointing at the case study.
+    const previousTitle = document.title
+    const descriptionMeta = document.querySelector('meta[name="description"]')
+    const ogTitleMeta = document.querySelector('meta[property="og:title"]')
+    const ogDescriptionMeta = document.querySelector('meta[property="og:description"]')
+    const canonicalLink = document.querySelector('link[rel="canonical"]')
+    const previousDescription = descriptionMeta?.getAttribute('content')
+    const previousOgTitle = ogTitleMeta?.getAttribute('content')
+    const previousOgDescription = ogDescriptionMeta?.getAttribute('content')
+    const previousCanonical = canonicalLink?.getAttribute('href')
+
     document.title = `${project.title} — Smart Moses`
     const description = `${project.description} Read the complete case study detailing the challenge, role, implementation, and outcome.`
-    document.querySelector('meta[name="description"]')?.setAttribute('content', description)
-    document.querySelector('meta[property="og:title"]')?.setAttribute('content', `${project.title} — Smart Moses`)
-    document.querySelector('meta[property="og:description"]')?.setAttribute('content', description)
-    document.querySelector('link[rel="canonical"]')?.setAttribute(
+    descriptionMeta?.setAttribute('content', description)
+    ogTitleMeta?.setAttribute('content', `${project.title} — Smart Moses`)
+    ogDescriptionMeta?.setAttribute('content', description)
+    canonicalLink?.setAttribute(
       'href',
       `https://smartmoses.vercel.app/work/${project.slug}`,
     )
+
+    return () => {
+      document.title = previousTitle
+      if (previousDescription != null) descriptionMeta?.setAttribute('content', previousDescription)
+      if (previousOgTitle != null) ogTitleMeta?.setAttribute('content', previousOgTitle)
+      if (previousOgDescription != null) ogDescriptionMeta?.setAttribute('content', previousOgDescription)
+      if (previousCanonical != null) canonicalLink?.setAttribute('href', previousCanonical)
+    }
   }, [project])
 
   const handleNav = (url, e) => {
@@ -106,8 +129,13 @@ export default function ProjectCaseStudy({ project, onNavigate, ThemeToggle }) {
             <img
               src={project.image}
               alt={project.imageAlt}
+              /* The rendered box below is a fixed 16:10 (aspect-ratio in
+                 ProjectCaseStudy.css). Declaring 2000x1250 matches that ratio
+                 exactly, so the browser reserves the correct space before the
+                 image loads — the old 2000x1600 reserved a taller box and
+                 caused a layout shift on every case-study page. */
               width="2000"
-              height="1600"
+              height="1250"
               fetchPriority="high"
               loading="eager"
             />

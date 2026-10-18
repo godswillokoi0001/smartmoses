@@ -6,7 +6,7 @@ import { useRef, useState, useEffect, createContext, useContext } from 'react'
 import {
   ArrowRight, ArrowUpRight, ChevronDown, Menu, X, Mail,
   Monitor, Layers, Code2, Wrench, Rocket, MapPin, Target, Sparkles,
-  CheckCircle2, Sun, Moon, Globe,
+  CheckCircle2, Sun, Moon, Globe, Download,
 } from 'lucide-react'
 import PricingPage from './PricingPage.jsx'
 import ProjectCaseStudy from './ProjectCaseStudy.jsx'
@@ -788,7 +788,8 @@ function Nav({ onNavigate }) {
                   {link.label}
                 </NavLink>
               ))}
-              <NavLink href={PRICING_LINK.href} active={false}>
+              <NavLink href={PRICING_LINK.href} active={false}
+                onClick={(e) => handleNavClick(PRICING_LINK.href, e)}>
                 {PRICING_LINK.label}
               </NavLink>
             </nav>
@@ -851,7 +852,7 @@ function Nav({ onNavigate }) {
                   </a>
                 ))}
                 <a href={PRICING_LINK.href}
-                  onClick={close}
+                  onClick={(e) => { close(); handleNavClick(PRICING_LINK.href, e); }}
                   style={{
                     padding: '14px 0', fontSize: 13.5, color: T.text, textDecoration: 'none',
                     fontFamily: FONT_B, borderBottom: `1px solid ${T.border}`,
