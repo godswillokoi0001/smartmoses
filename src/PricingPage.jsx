@@ -130,7 +130,6 @@ const PACKAGES = [
 const INDIVIDUAL_SERVICES = [
   {
     category: 'Web Design & Development',
-    icon: '🌐',
     items: [
       { name: 'Landing Page', price: '₦120,000' },
       { name: 'Business Website', price: '₦250,000' },
@@ -141,7 +140,6 @@ const INDIVIDUAL_SERVICES = [
   },
   {
     category: 'Visual Design',
-    icon: '✦',
     items: [
       { name: 'Social Media Design Package', price: '₦50,000' },
       { name: 'Brand Visual System', price: '₦120,000' },
@@ -151,7 +149,6 @@ const INDIVIDUAL_SERVICES = [
   },
   {
     category: 'Video Editing',
-    icon: '▶',
     items: [
       { name: 'Short-form Video Editing', price: '₦40,000' },
       { name: 'Promotional Video', price: '₦100,000' },
@@ -276,9 +273,6 @@ function ServiceCategory({ category }) {
   return (
     <article className="pr-card">
       <div className="pr-cat-head">
-        <span className="pr-cat-icon" aria-hidden="true">
-          {category.icon}
-        </span>
         <h3 className="pr-cat-title">{category.category}</h3>
       </div>
       <div>
@@ -362,20 +356,19 @@ export default function PricingPage({ onNavigate, ThemeToggle }) {
       </div>
 
       {/* ── HERO ── */}
-      <header className="pr-hero">
+      <section className="pr-hero" aria-labelledby="pricing-title">
         <div className="pr-container">
           <p className="pr-eyebrow">Pricing</p>
-          <h1>
+          <h1 id="pricing-title">
             Pricing &amp; <em>creative packages</em>
           </h1>
           <p className="pr-hero-lede">
-            Strategic digital support for brands, businesses, and creators who want to build a
-            stronger, more premium online presence.
+            Monthly design and development support for businesses that want their website and
+            social content kept consistent.
           </p>
           <p className="pr-hero-note">
-            Every package is structured to help brands communicate better visually, look more
-            professional online, and maintain consistent digital presence through design, content,
-            development, and visual storytelling.
+            Each package combines design, content, and frontend work, so your online presence
+            stays in one pair of hands instead of being passed between freelancers.
           </p>
 
           <dl className="pr-stats">
@@ -387,7 +380,7 @@ export default function PricingPage({ onNavigate, ThemeToggle }) {
             ))}
           </dl>
         </div>
-      </header>
+      </section>
 
       {/* ── 01 MONTHLY PACKAGES ── */}
       <section className="pr-section">
@@ -395,8 +388,8 @@ export default function PricingPage({ onNavigate, ThemeToggle }) {
           <SectionLabel number="01" label="Monthly Packages" />
           <h2 className="pr-h2">Monthly Creative Packages</h2>
           <p className="pr-lede">
-            Ongoing digital brand support structured to deliver consistent value, growth, and
-            creative excellence every month.
+            Ongoing support for businesses that publish regularly and want that work delivered
+            on a predictable schedule.
           </p>
 
           <div className="pr-pkg-grid" style={{ marginTop: 40 }}>

@@ -1,21 +1,12 @@
 Résumé PDF
-===========
+==========
 
-This directory is where the résumé PDF belongs.
+No résumé PDF is currently present, so the portfolio does not show a download
+link that would lead to a missing file.
 
-Expected filename (must match RESUME_PATH in src/App.jsx):
+If you want to publish one, add the approved PDF here as:
 
     Smart-Moses-Resume.pdf
 
-Current state
--------------
-The PDF is NOT in the repository yet. The download link in src/App.jsx is
-already wired to the filename above, so nothing else needs to change.
-
-To publish the résumé:
-
-1. Copy the PDF into this directory and name it
-   Smart-Moses-Resume.pdf
-2. That is all. The Contact section button will serve it.
-
-The link is a plain public download — no gate, no request step.
+Then add a download link to the header or contact area in src/App.jsx and
+update TODO.md.

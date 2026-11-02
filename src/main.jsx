@@ -1,5 +1,8 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import '@fontsource/instrument-serif/latin-400.css'
+import '@fontsource/instrument-serif/latin-italic.css'
+import '@fontsource-variable/dm-sans'
 import './index.css'
 import App from './App.jsx'
 

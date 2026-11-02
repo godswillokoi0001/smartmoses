@@ -26,7 +26,8 @@ export default function ProjectCaseStudy({ project, onNavigate, ThemeToggle }) {
   const next = PROJECTS[(projectIndex + 1) % PROJECTS.length]
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' })
 
     // Capture the home-page metadata so it can be restored on unmount.
     // Without this, navigating from a case study back to the homepage (a
@@ -73,7 +74,7 @@ export default function ProjectCaseStudy({ project, onNavigate, ThemeToggle }) {
   return (
     <div className="case-page">
       {/* Top Bar with Back Link & Theme Switcher */}
-      <div className="case-topbar">
+      <header className="case-topbar">
         <a className="case-back" href="/#work" onClick={(e) => handleNav('/#work', e)}>
           <ArrowLeft size={16} aria-hidden="true" />
           <span>Back to selected work</span>
@@ -84,9 +85,9 @@ export default function ProjectCaseStudy({ project, onNavigate, ThemeToggle }) {
             <ThemeToggle showLabels={false} />
           </div>
         )}
-      </div>
+      </header>
 
-      <main>
+      <main id="case-main">
         {/* Hero Header */}
         <header className="case-hero">
           <div className="case-eyebrow">
@@ -102,6 +103,10 @@ export default function ProjectCaseStudy({ project, onNavigate, ThemeToggle }) {
             <div>
               <span className="case-meta-label">My Role</span>
               <span className="case-meta-value">{project.role}</span>
+            </div>
+            <div>
+              <span className="case-meta-label">Project Year</span>
+              <span className="case-meta-value">{project.year || 'Not provided'}</span>
             </div>
             <div>
               <span className="case-meta-label">Project Context</span>
