@@ -616,12 +616,11 @@ function BrowserFrame({ url, children }) {
   )
 }
 
-function ProjectEntry({ project, index, onNavigate }) {
+function ProjectEntry({ project, index, onNavigate, isReverse }) {
   const openCaseStudy = (e) => onNavigate(`/work/${project.slug}`, e)
-  const isReverse = index % 2 === 1
 
   return (
-    <Reveal
+    <motion.div
       className={`project-entry${isReverse ? ' project-entry--reverse' : ''}`}
       delay={0}
     >
@@ -705,7 +704,7 @@ function ProjectEntry({ project, index, onNavigate }) {
           )}
         </div>
       </div>
-    </Reveal>
+    </motion.div>
   )
 }
 
@@ -733,6 +732,7 @@ function Work({ onNavigate }) {
               project={project}
               index={i}
               onNavigate={onNavigate}
+              isReverse={i % 2 === 1}
             />
           ))}
         </div>
@@ -758,19 +758,27 @@ function Services() {
           </p>
         </div>
 
-        <div className="service-list" role="list">
+        <div className="service-specimens" role="list">
           {SERVICES.map((service) => (
-            <Reveal className="service-row" key={service.number}>
-              <span className="service-row__num">{service.number}</span>
-              <div className="service-row__body">
-                <h3 className="service-row__title">{service.title}</h3>
-                <p className="service-row__detail">{service.detail}</p>
-                <span className="service-row__scope">{service.scope}</span>
+            <motion.div
+              key={service.number}
+              className="service-specimen"
+              whileHover={{ scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 200 }}
+              onclick={() => alert(service.title)}
+            >
+              <div className="service-specimen__frame">
+                <div className="service-specimen__visual">
+                  {service.svg}
+                </div>
+                <div className="service-specimen__overlay">
+                  <span className="service-specimen__num">{service.number}</span>
+                  <h3 className="service-specimen__title">{service.title}</h3>
+                  <p className="service-specimen__detail">{service.detail}</p>
+                  <span className="service-specimen__scope">{service.scope}</span>
+                </div>
               </div>
-              <div className="service-row__visual" aria-hidden="true">
-                {service.svg}
-              </div>
-            </Reveal>
+            </motion.div>
           ))}
         </div>
       </div>
