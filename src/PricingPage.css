@@ -1,12 +1,13 @@
 .pr-root {
-  --pr-bg: var(--color-bg);
-  --pr-surface: var(--color-surface-1);
-  --pr-raised: var(--color-surface-2);
-  --pr-ink: var(--color-text);
-  --pr-muted: var(--color-muted);
-  --pr-accent: var(--color-accent);
-  --pr-border: var(--color-border);
+  --pr-bg: var(--bg);
+  --pr-surface: var(--surface);
+  --pr-raised: var(--surface-2);
+  --pr-ink: var(--ink);
+  --pr-muted: var(--muted);
+  --pr-accent: var(--accent);
+  --pr-border: var(--border);
   min-height: 100vh;
+  padding-top: 73px;
   background: var(--pr-bg);
   color: var(--pr-ink);
   font-family: var(--font-body);
@@ -421,6 +422,11 @@
 
 .lbl-narrow {
   display: none;
+}
+
+@media (max-width: 420px) {
+  .lbl-wide { display: none; }
+  .lbl-narrow { display: inline; }
 }
 
 @media (min-width: 1180px) {

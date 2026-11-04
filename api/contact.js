@@ -44,7 +44,7 @@ export default async function contact(request, response) {
       },
       body: JSON.stringify({
         from: CONTACT_FROM_EMAIL,
-        to: [process.env.CONTACT_TO_EMAIL || 'smartmoses@gmail.com'],
+        to: [process.env.CONTACT_TO_EMAIL || 'smartmoses515@outlook.com'],
         reply_to: email,
         subject: `Portfolio enquiry from ${name.replace(/[\r\n]/g, ' ')}`,
         text: `Name: ${name}\nEmail: ${email}\n\n${message}`,

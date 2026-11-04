@@ -12,7 +12,7 @@ import './PricingPage.css';
    the portfolio's mint/teal system, and every button goes somewhere.
    ═══════════════════════════════════════════════════════════════ */
 
-const EMAIL = 'smartmoses@gmail.com';
+const EMAIL = 'smartmoses515@outlook.com';
 const WHATSAPP_URL =
   'https://wa.me/2348137038180?text=' +
   encodeURIComponent("Hi Smart Moses, I'd like to discuss a project.");
@@ -371,14 +371,14 @@ export default function PricingPage({ onNavigate, ThemeToggle }) {
             stays in one pair of hands instead of being passed between freelancers.
           </p>
 
-          <dl className="pr-stats">
+          <div className="pr-stats">
             {STATS.map((stat) => (
-              <div key={stat.label}>
-                <dd className="pr-stat-value">{stat.value}</dd>
-                <dt className="pr-stat-label">{stat.label}</dt>
+              <div className="pr-stat" key={stat.label}>
+                <span className="pr-stat-value">{stat.value}</span>
+                <span className="pr-stat-label">{stat.label}</span>
               </div>
             ))}
-          </dl>
+          </div>
         </div>
       </section>
 

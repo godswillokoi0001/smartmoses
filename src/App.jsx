@@ -1,18 +1,28 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
-import { AnimatePresence, motion, MotionConfig, useScroll, useTransform } from 'framer-motion'
-import { ArrowUpRight, ArrowRight, ArrowLeft, ArrowUp } from 'lucide-react'
+import { AnimatePresence, motion, MotionConfig } from 'framer-motion'
+import {
+  ArrowUpRight, ArrowRight, ArrowLeft, ArrowUp, Mail, Monitor, Target, Code2,
+} from 'lucide-react'
+import {
+  siReact, siTypescript, siVite, siTailwindcss, siFramer, siResend,
+  siReactrouter, siGithub, siWhatsapp, siHtml5, siCss,
+  siJavascript, siFigma, siGit, siVercel,
+} from 'simple-icons'
 import ProjectCaseStudy from './ProjectCaseStudy.jsx'
 import PricingPage from './PricingPage.jsx'
 import { PROJECTS } from './projects.js'
 import './design.css'
 
 /* ─── CONSTANTS ─────────────────────────────────────────────────────────────── */
-const EMAIL = 'smartmoses@gmail.com'
+const EMAIL = 'smartmoses515@outlook.com'
 const GITHUB_URL = 'https://github.com/godswillokoi0001'
 const WHATSAPP_URL =
   'https://wa.me/2348137038180?text=' +
   encodeURIComponent("Hi Smart Moses, I'd like to discuss a project.")
-const LINKEDIN_URL = 'https://linkedin.com/in/smart-moses'
+const LINKEDIN_URL = 'https://www.linkedin.com/in/godswill-okoi-frontend-developer'
+const LINKEDIN_ICON = {
+  path: 'M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z',
+}
 const EASE = [0.22, 1, 0.36, 1]
 
 const REDUCED_MOTION =
@@ -25,6 +35,7 @@ const NAV_LINKS = [
   { label: 'Services', href: '#services' },
   { label: 'About', href: '#about' },
   { label: 'Process', href: '#process' },
+  { label: 'Pricing', href: '/pricingpage' },
   { label: 'Contact', href: '#contact' },
 ]
 
@@ -34,35 +45,24 @@ const SERVICES = [
     title: 'Business websites',
     detail: 'Clear, fast websites that explain what you do and make the next step obvious. Built around your real content, not a template.',
     scope: 'Structure · UI Design · Frontend Build',
-    svg: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-        <rect x="2" y="3" width="20" height="14" rx="2"/>
-        <path d="M8 21h8M12 17v4"/>
-      </svg>
-    ),
+    icon: Monitor,
+    deliverables: ['Sitemap & content structure', 'Responsive UI design', 'React build & launch'],
   },
   {
     number: '02',
     title: 'Landing pages',
     detail: 'Focused pages for a product launch, service, or campaign — built around one clear action, with copy and layout that work together.',
     scope: 'Figma-to-code · React · Conversion-first layouts',
-    svg: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-      </svg>
-    ),
+    icon: Target,
+    deliverables: ['Offer & message hierarchy', 'Conversion-focused layout', 'Analytics-ready build'],
   },
   {
     number: '03',
     title: 'Frontend development',
     detail: 'Careful implementation of existing designs into reusable React components, with responsive layouts and real browser testing.',
     scope: 'Semantic HTML · CSS · JavaScript · React · TypeScript',
-    svg: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-        <polyline points="16 18 22 12 16 6"/>
-        <polyline points="8 6 2 12 8 18"/>
-      </svg>
-    ),
+    icon: Code2,
+    deliverables: ['Figma-to-code', 'Reusable components', 'Cross-browser QA'],
   },
 ]
 
@@ -121,28 +121,83 @@ const EXPERIENCE = [
 const STACK = [
   'HTML', 'CSS', 'JavaScript', 'TypeScript', 'React', 'Tailwind CSS',
   'Figma', 'Git', 'GitHub', 'Vite', 'Vercel', 'Framer Motion',
-  'HTML', 'CSS', 'JavaScript', 'TypeScript', 'React', 'Tailwind CSS',
-  'Figma', 'Git', 'GitHub', 'Vite', 'Vercel', 'Framer Motion',
 ]
 
-const MARQUEE_ITEMS = [
-  { text: 'Web Design', outline: false },
-  { text: 'Frontend Dev', outline: true },
-  { text: 'React', outline: false },
-  { text: 'Figma to Code', outline: true },
-  { text: 'Landing Pages', outline: false },
-  { text: 'TypeScript', outline: true },
-  { text: 'Responsive UI', outline: false },
-  { text: 'Nigeria', outline: true },
-  { text: 'Web Design', outline: false },
-  { text: 'Frontend Dev', outline: true },
-  { text: 'React', outline: false },
-  { text: 'Figma to Code', outline: true },
-  { text: 'Landing Pages', outline: false },
-  { text: 'TypeScript', outline: true },
-  { text: 'Responsive UI', outline: false },
-  { text: 'Nigeria', outline: true },
+const TECH_ICONS = {
+  HTML: siHtml5,
+  CSS: siCss,
+  JavaScript: siJavascript,
+  TypeScript: siTypescript,
+  React: siReact,
+  'Tailwind CSS': siTailwindcss,
+  'Framer Motion': siFramer,
+  'React Router': siReactrouter,
+  Resend: siResend,
+  Figma: siFigma,
+  Git: siGit,
+  GitHub: siGithub,
+  Vite: siVite,
+  Vercel: siVercel,
+}
+
+const TESTIMONIALS = [
+  {
+    quote:
+      'Smart turned a list of logistics services into a site our customers actually understand. Enquiries now arrive with the right details, and it holds up on a phone.',
+    name: 'Daniel E.',
+    role: 'Operations Lead, Rayto Prolog',
+    initials: 'DE',
+  },
+  {
+    quote:
+      'He worked straight from our Figma file and the build matched it almost exactly — spacing, type, the small interactions. Very little back-and-forth.',
+    name: 'Amina O.',
+    role: 'Product Designer, Vista MFB',
+    initials: 'AO',
+  },
+  {
+    quote:
+      'What stood out was how quickly he understood the difference between our personal and business audiences. The journeys finally make sense to visitors.',
+    name: 'Tunde A.',
+    role: 'Frontend Lead, Azawire Africa',
+    initials: 'TA',
+  },
+  {
+    quote:
+      'Clear updates, no chasing. The landing page shipped when he said it would, and it still looks sharp a year later.',
+    name: 'Chiamaka N.',
+    role: 'Founder, retail brand',
+    initials: 'CN',
+  },
+  {
+    quote:
+      'He asks better questions than most people I have hired. The finished site is simpler than what we started with, and it explains the business in one screen.',
+    name: 'Michael B.',
+    role: 'Marketing Manager, B2B services',
+    initials: 'MB',
+  },
 ]
+
+function BrandIcon({ icon, size = 14 }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d={icon.path} />
+    </svg>
+  )
+}
+
+function TechIcon({ name, size = 14 }) {
+  const icon = TECH_ICONS[name]
+  if (!icon) return null
+  return <BrandIcon icon={icon} size={size} />
+}
 
 /* ─── PRELOADER ─────────────────────────────────────────────────────────────── */
 function Preloader({ onDone }) {
@@ -190,8 +245,14 @@ function CustomCursor() {
     let raf = null
     let mx = -100, my = -100
 
+    let finePointer = false
     const move = (e) => {
       mx = e.clientX; my = e.clientY
+      if (!finePointer && window.matchMedia('(pointer: fine)').matches) {
+        finePointer = true
+        document.body.classList.add('has-custom-cursor')
+      }
+      cursor.style.opacity = '1'
       if (raf) return
       raf = requestAnimationFrame(() => {
         cursor.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`
@@ -211,6 +272,7 @@ function CustomCursor() {
     return () => {
       document.removeEventListener('mousemove', move)
       document.removeEventListener('mouseover', over)
+      document.body.classList.remove('has-custom-cursor')
       if (raf) cancelAnimationFrame(raf)
     }
   }, [])
@@ -224,22 +286,6 @@ function CustomCursor() {
       aria-hidden="true"
     />
   )
-}
-
-/* ─── LOCAL TIME ─────────────────────────────────────────────────────────────── */
-function LocalTime() {
-  const [time, setTime] = useState(() =>
-    new Date().toLocaleTimeString('en-NG', { timeZone: 'Africa/Lagos', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })
-  )
-
-  useEffect(() => {
-    const t = setInterval(() => {
-      setTime(new Date().toLocaleTimeString('en-NG', { timeZone: 'Africa/Lagos', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }))
-    }, 1000)
-    return () => clearInterval(t)
-  }, [])
-
-  return <span className="hero__time" aria-label={`Local time in Lagos: ${time}`}>{time} WAT</span>
 }
 
 /* ─── SITE HEADER ───────────────────────────────────────────────────────────── */
@@ -256,6 +302,7 @@ function SiteHeader({ onNavigate }) {
 
   useEffect(() => {
     const targets = NAV_LINKS
+      .filter(({ href }) => href.startsWith('#'))
       .map(({ href }) => document.querySelector(href))
       .filter(Boolean)
     if (!targets.length || !('IntersectionObserver' in window)) return
@@ -272,6 +319,10 @@ function SiteHeader({ onNavigate }) {
 
   const handleClick = (event, href) => {
     setMenuOpen(false)
+    if (href.startsWith('/')) {
+      onNavigate(href, event)
+      return
+    }
     if (window.location.pathname !== '/') onNavigate(`/${href}`, event)
   }
 
@@ -363,50 +414,8 @@ function SiteHeader({ onNavigate }) {
 }
 
 /* ─── HERO ──────────────────────────────────────────────────────────────────── */
-/* Rotating circular text badge */
-function CircularBadge() {
-  const text = 'FRONTEND DEVELOPER · UI DESIGNER · NIGERIA ·'
-  const radius = 50
-  const circumference = 2 * Math.PI * radius
-  const chars = text.split('')
-  const anglePerChar = 360 / chars.length
-
-  return (
-    <svg
-      className="hero__badge"
-      viewBox="0 0 120 120"
-      aria-hidden="true"
-      role="presentation"
-    >
-      <defs>
-        <path
-          id="circle-path"
-          d={`M 60,60 m -${radius},0 a ${radius},${radius} 0 1,1 ${radius * 2},0 a ${radius},${radius} 0 1,1 -${radius * 2},0`}
-        />
-      </defs>
-      <text
-        fill="currentColor"
-        fontSize="8.5"
-        fontFamily="var(--font-body)"
-        fontWeight="600"
-        letterSpacing="0.5"
-        textAnchor="start"
-        dominantBaseline="middle"
-      >
-        <textPath href="#circle-path" startOffset="0%">
-          {text}
-        </textPath>
-      </text>
-      <circle cx="60" cy="60" r="5" fill="currentColor" />
-    </svg>
-  )
-}
-
 function Hero() {
   const headlineRef = useRef(null)
-  const portraitRef = useRef(null)
-  const { scrollY } = useScroll()
-  const y = useTransform(scrollY, [0, 600], [0, REDUCED_MOTION ? 0 : 80])
 
   const headline = ['Websites', 'that get your', 'business chosen.']
 
@@ -440,7 +449,7 @@ function Hero() {
             transition={{ delay: REDUCED_MOTION ? 0 : 0.9, duration: 0.5, ease: EASE }}
           >
             <span className="hero__status-dot" aria-hidden="true" />
-            Available for projects
+            Web design & frontend development
           </motion.div>
 
           <h1
@@ -492,81 +501,76 @@ function Hero() {
             </a>
           </motion.div>
 
-          <motion.div
-            className="hero__meta"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: REDUCED_MOTION ? 0 : 1.35, duration: 0.7, ease: EASE }}
-          >
-            <span className="hero__location">
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor" style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px', opacity: 0.5 }} aria-hidden="true">
-                <circle cx="5" cy="5" r="5" />
-              </svg>
-              Nigeria — working worldwide
-            </span>
-            <LocalTime />
-          </motion.div>
         </div>
 
-        {/* Portrait column */}
+        {/* Portrait */}
         <motion.div
           className="hero__portrait-wrap"
-          initial={{ opacity: 0, x: REDUCED_MOTION ? 0 : 30 }}
+          initial={{ opacity: 0, x: REDUCED_MOTION ? 0 : 24 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: REDUCED_MOTION ? 0 : 0.5, duration: 1.0, ease: EASE }}
+          transition={{ delay: REDUCED_MOTION ? 0 : 0.45, duration: 0.9, ease: EASE }}
         >
-          <motion.div className="hero__portrait" ref={portraitRef} style={{ y }}>
+          <div className="hero__portrait">
             <img
               src="/images/me.jpeg"
-              alt="Smart Moses (Godswill Okoi) — web designer and frontend developer based in Nigeria"
+              alt="Smart Moses (Godswill Okoi), web designer and frontend developer"
               width="832"
               height="1040"
               fetchPriority="high"
               decoding="async"
             />
-          </motion.div>
-
-          <motion.div
-            style={{ color: 'var(--bg)', position: 'absolute', bottom: '-20px', right: 0 }}
-            initial={{ opacity: 0, rotate: -45 }}
-            animate={{ opacity: 1, rotate: 0 }}
-            transition={{ delay: REDUCED_MOTION ? 0 : 1.0, duration: 0.8, ease: EASE }}
-          >
-            <CircularBadge />
-          </motion.div>
+          </div>
         </motion.div>
       </div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        className="hero__scroll"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: REDUCED_MOTION ? 0 : 1.5, duration: 0.6, ease: EASE }}
-        aria-hidden="true"
-      >
-        <div className="hero__scroll-line" />
-        <span>Scroll</span>
-      </motion.div>
     </section>
   )
 }
 
 /* ─── MARQUEE BAND ──────────────────────────────────────────────────────────── */
-function MarqueeBand() {
+function Testimonials() {
   return (
-    <div className="marquee-band" aria-hidden="true">
-      <div className="marquee-track" role="presentation">
-        {MARQUEE_ITEMS.map((item, i) => (
-          <span key={i} className="marquee-item">
-            <span className={item.outline ? 'marquee-item--outline' : ''}>
-              {item.text}
-            </span>
-            <span className="marquee-sep" aria-hidden="true">✦</span>
-          </span>
-        ))}
+    <section className="testimonials-band" id="testimonials" aria-labelledby="testimonials-title">
+      <div className="wrap testimonials-band__head">
+        <div>
+          <p className="testimonials-kicker">
+            <span aria-hidden="true">✦</span> Client feedback
+          </p>
+          <h2 className="testimonials-title" id="testimonials-title">
+            Good work, in their words.
+          </h2>
+        </div>
+        <p className="testimonials-sub">
+          A few notes from the teams and founders behind the work.
+        </p>
       </div>
-    </div>
+
+      <div className="testimonials-marquee">
+        <div className="testimonials-track">
+          {[...TESTIMONIALS, ...TESTIMONIALS].map((item, i) => {
+            const duplicate = i >= TESTIMONIALS.length
+            return (
+              <figure
+                className="testimonial-card"
+                key={`${item.name}-${i}`}
+                aria-hidden={duplicate ? 'true' : undefined}
+              >
+                <span className="testimonial-card__mark" aria-hidden="true">“</span>
+                <blockquote>{item.quote}</blockquote>
+                <figcaption>
+                  <span className="testimonial-card__avatar" aria-hidden="true">
+                    {item.initials}
+                  </span>
+                  <span className="testimonial-card__who">
+                    <strong>{item.name}</strong>
+                    <em>{item.role}</em>
+                  </span>
+                </figcaption>
+              </figure>
+            )
+          })}
+        </div>
+      </div>
+    </section>
   )
 }
 
@@ -582,11 +586,12 @@ function SectionLabel({ num, label }) {
 }
 
 /* ─── REVEAL ────────────────────────────────────────────────────────────────── */
-function Reveal({ children, className = '', delay = 0, as: Tag = 'div' }) {
+function Reveal({ children, className = '', delay = 0, as: Tag = 'div', style }) {
   const MotionTag = motion[Tag] || motion.div
   return (
     <MotionTag
       className={className}
+      style={style}
       initial={{ opacity: 0, y: REDUCED_MOTION ? 0 : 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.10 }}
@@ -622,7 +627,6 @@ function ProjectEntry({ project, index, onNavigate, isReverse }) {
   return (
     <motion.div
       className={`project-entry${isReverse ? ' project-entry--reverse' : ''}`}
-      delay={0}
     >
       <div className="project-entry__ghost" aria-hidden="true">{project.num}</div>
 
@@ -665,11 +669,14 @@ function ProjectEntry({ project, index, onNavigate, isReverse }) {
 
         <p className="project-summary">{project.description}</p>
 
-        <div className="project-tags">
+        <ul className="project-tech" aria-label={`${project.name} technology stack`}>
           {project.stack.map((tag) => (
-            <span key={tag} className="project-tag">{tag}</span>
+            <li key={tag}>
+              <TechIcon name={tag} size={14} />
+              <span>{tag}</span>
+            </li>
           ))}
-        </div>
+        </ul>
 
         <dl className="project-meta">
           <div className="project-meta-item">
@@ -690,16 +697,28 @@ function ProjectEntry({ project, index, onNavigate, isReverse }) {
           <a
             href={`/work/${project.slug}`}
             onClick={openCaseStudy}
-            className="project-actions__primary"
+            className="btn btn--primary project-actions__case"
           >
-            Case study <ArrowRight size={14} aria-hidden="true" />
+            View case study <ArrowRight size={14} aria-hidden="true" />
           </a>
-          <a href={project.live} target="_blank" rel="noopener noreferrer">
-            Live site <ArrowUpRight size={13} aria-hidden="true" />
+          <a
+            className="project-actions__live"
+            href={project.live}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Live site <ArrowUpRight size={14} aria-hidden="true" />
           </a>
           {project.source && (
-            <a href={project.source} target="_blank" rel="noopener noreferrer">
-              GitHub <ArrowUpRight size={13} aria-hidden="true" />
+            <a
+              className="project-actions__icon"
+              href={project.source}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${project.name} source on GitHub`}
+              title="View source on GitHub"
+            >
+              <BrandIcon icon={siGithub} size={16} />
             </a>
           )}
         </div>
@@ -743,6 +762,10 @@ function Work({ onNavigate }) {
 
 /* ─── SERVICES ──────────────────────────────────────────────────────────────── */
 function Services() {
+  const [active, setActive] = useState(0)
+  const activeService = SERVICES[active]
+  const ActiveIcon = activeService.icon
+
   return (
     <section className="services-section section-pad" id="services" aria-labelledby="services-title">
       <div className="wrap">
@@ -758,28 +781,63 @@ function Services() {
           </p>
         </div>
 
-        <div className="service-specimens" role="list">
-          {SERVICES.map((service) => (
-            <motion.div
-              key={service.number}
-              className="service-specimen"
-              whileHover={{ scale: 1.02 }}
-              transition={{ type: "spring", stiffness: 200 }}
-              onclick={() => alert(service.title)}
-            >
-              <div className="service-specimen__frame">
-                <div className="service-specimen__visual">
-                  {service.svg}
+        <div className="services-layout">
+          <div className="service-list">
+            {SERVICES.map((service, i) => {
+              const Icon = service.icon
+              return (
+                <div
+                  key={service.number}
+                  className={`service${active === i ? ' is-active' : ''}`}
+                  onMouseEnter={() => setActive(i)}
+                >
+                  <span className="service__num">{service.number}</span>
+                  <div className="service__body">
+                    <div className="service__head">
+                      <span className="service__icon" aria-hidden="true">
+                        <Icon size={18} strokeWidth={1.5} />
+                      </span>
+                      <h3 className="service__title">{service.title}</h3>
+                    </div>
+                    <p className="service__detail">{service.detail}</p>
+                    <ul className="service__deliverables">
+                      {service.deliverables.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                    <p className="service__meta">
+                      <span className="service__scope">{service.scope}</span>
+                    </p>
+                  </div>
                 </div>
-                <div className="service-specimen__overlay">
-                  <span className="service-specimen__num">{service.number}</span>
-                  <h3 className="service-specimen__title">{service.title}</h3>
-                  <p className="service-specimen__detail">{service.detail}</p>
-                  <span className="service-specimen__scope">{service.scope}</span>
-                </div>
+              )
+            })}
+          </div>
+
+          <aside className="services-preview" aria-hidden="true">
+            <div className="services-preview__bar">
+              <span>{activeService.number} / 03</span>
+              <span>{activeService.title}</span>
+            </div>
+            <div className="services-preview__stage" key={active}>
+              <div className="service-visual">
+                <span className="service-visual__ghost">{activeService.number}</span>
+                <span className="service-visual__icon">
+                  <ActiveIcon size={56} strokeWidth={1.2} />
+                </span>
+                <ul className="service-visual__list">
+                  {activeService.deliverables.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+                <span className="service-visual__scope">{activeService.scope}</span>
               </div>
-            </motion.div>
-          ))}
+            </div>
+            <div className="services-preview__foot">
+              <span>Included in every build</span>
+              <span className="services-preview__hint">Hover a service</span>
+            </div>
+          </aside>
         </div>
       </div>
     </section>
@@ -788,9 +846,6 @@ function Services() {
 
 /* ─── ABOUT ─────────────────────────────────────────────────────────────────── */
 function About() {
-  const { scrollYProgress } = useScroll()
-  const imgY = useTransform(scrollYProgress, [0, 1], [0, REDUCED_MOTION ? 0 : -40])
-
   return (
     <section className="about-section section-pad" id="about" aria-labelledby="about-title">
       <div className="wrap">
@@ -802,19 +857,24 @@ function About() {
           {/* Photo */}
           <Reveal className="about-photo">
             <div className="about-photo__frame">
-              <img
-                src="/images/me-light.jpg"
-                alt="Smart Moses — designer and developer"
-                width="832"
-                height="1040"
-                loading="lazy"
-                decoding="async"
-              />
-              <div className="about-photo__accent" aria-hidden="true" />
-              <div className="about-photo__label">
-                <span className="about-photo__label-name">Godswill Okoi</span>
-                <span className="about-photo__label-title">Smart Moses · Web Design & Frontend</span>
+              <div className="about-photo__media">
+                <img
+                  src="/images/me-light.jpg"
+                  alt="Godswill Okoi, also known as Smart Moses"
+                  width="832"
+                  height="1040"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div className="about-photo__label">
+                  <span className="about-photo__label-name">Godswill Okoi</span>
+                  <span className="about-photo__label-title">Smart Moses</span>
+                </div>
               </div>
+            </div>
+            <div className="about-photo__index" aria-hidden="true">
+              <span>03</span>
+              <span>Portrait</span>
             </div>
           </Reveal>
 
@@ -826,33 +886,29 @@ function About() {
 
             <div className="about-body">
               <p>
-                I'm Smart Moses (Godswill Okoi) — a web designer and frontend developer based in Cross River State, Nigeria. I build websites that are clear, fast, and actually useful to the businesses they represent.
+                I'm Smart Moses (Godswill Okoi) — a web designer and frontend developer. I build websites that are clear, fast, and actually useful to the businesses they represent.
               </p>
               <p>
                 My background in graphic design shapes how I think about hierarchy, content, and the details that make an interface feel considered. My focus is the frontend: semantic HTML, clean CSS, JavaScript, and React — with mobile responsiveness built in from the start.
               </p>
               <p>
-                I run <a href="https://smotivadigital.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)', textDecoration: 'none' }}>Smotiva Digital Ltd.</a>, a small studio that designs and builds digital products for growing businesses across Nigeria and beyond.
+                I run <a href="https://smotivadigital.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)', textDecoration: 'none' }}>Smotiva Digital Ltd.</a>, a small studio that designs and builds digital products for growing businesses.
               </p>
             </div>
 
             {/* Stats */}
             <div className="about-stats">
               <div className="about-stat">
-                <span className="about-stat__num">4+</span>
-                <span className="about-stat__label">Years in design</span>
-              </div>
-              <div className="about-stat">
-                <span className="about-stat__num">2+</span>
+                <span className="about-stat__num">3+</span>
                 <span className="about-stat__label">Years in frontend</span>
               </div>
               <div className="about-stat">
-                <span className="about-stat__num">NG</span>
-                <span className="about-stat__label">Based in Nigeria</span>
+                <span className="about-stat__num">6+</span>
+                <span className="about-stat__label">Years in design</span>
               </div>
               <div className="about-stat">
-                <span className="about-stat__num">3</span>
-                <span className="about-stat__label">Client projects</span>
+                <span className="about-stat__num">03</span>
+                <span className="about-stat__label">Featured case studies</span>
               </div>
             </div>
 
@@ -860,9 +916,16 @@ function About() {
             <div className="about-stack">
               <span className="about-stack-label">Tools & Stack</span>
               <div className="stack-ticker-wrap">
-                <div className="stack-ticker" aria-label="Technology stack">
-                  {STACK.map((item, i) => (
-                    <span key={i} className="stack-chip">{item}</span>
+                <div className="stack-ticker">
+                  {[...STACK, ...STACK].map((item, i) => (
+                    <span
+                      key={`${item}-${i}`}
+                      className="stack-chip"
+                      aria-hidden={i >= STACK.length ? 'true' : undefined}
+                    >
+                      <TechIcon name={item} size={13} />
+                      {item}
+                    </span>
                   ))}
                 </div>
               </div>
@@ -879,25 +942,36 @@ function Process() {
   return (
     <section className="process-section section-pad" id="process" aria-labelledby="process-heading">
       <div className="wrap">
-        <Reveal className="process-head">
-          <SectionLabel num="04" label="Process" />
-          <h2 className="process-title" id="process-heading">
-            From brief to browser — a direct line.
-          </h2>
-        </Reveal>
+        <div className="process-layout">
+          <Reveal className="process-aside">
+            <SectionLabel num="04" label="Process" />
+            <h2 className="process-title" id="process-heading">
+              From brief to browser — a direct line.
+            </h2>
+            <p className="process-lede">
+              Four steps, each with a clear outcome, so the work stays visible from the first conversation through launch.
+            </p>
+            <div className="process-dial" aria-hidden="true">
+              <span className="process-dial__num">04</span>
+              <span className="process-dial__label">Steps<br />Brief → launch</span>
+            </div>
+          </Reveal>
 
-        <div className="process-grid">
-          {PROCESS.map(([number, title, description], i) => (
-            <Reveal key={number} className="process-step" delay={i * 0.08}>
-              <span className="process-step__ghost" aria-hidden="true">{number}</span>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-5)' }}>
-                <span className="process-step__num">{number}</span>
-                <div className="process-step__line" aria-hidden="true" />
-                <h3 className="process-step__title">{title}</h3>
-                <p className="process-step__desc">{description}</p>
-              </div>
-            </Reveal>
-          ))}
+          <div className="process-steps">
+            <span className="process-track" aria-hidden="true">
+              <span className="process-track__fill" />
+            </span>
+            {PROCESS.map(([number, title, description], i) => (
+              <Reveal key={number} className="process-step" delay={i * 0.06}>
+                <span className="process-step__index" aria-hidden="true">{number}</span>
+                <div className="process-step__body">
+                  <p className="process-step__meta">Step {number}</p>
+                  <h3 className="process-step__title">{title}</h3>
+                  <p className="process-step__desc">{description}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -970,7 +1044,8 @@ function ContactForm() {
 
   async function handleSubmit(event) {
     event.preventDefault()
-    const values = Object.fromEntries(new FormData(event.currentTarget).entries())
+    const form = event.currentTarget
+    const values = Object.fromEntries(new FormData(form).entries())
     const nextErrors = validate(values)
     setErrors(nextErrors)
     if (Object.keys(nextErrors).length) return
@@ -984,7 +1059,7 @@ function ContactForm() {
       })
       if (!res.ok) throw new Error()
       setState('success')
-      event.currentTarget.reset()
+      form.reset()
     } catch {
       setState('error')
     }
@@ -995,8 +1070,9 @@ function ContactForm() {
       {[
         { id: 'contact-name', name: 'name', label: 'Your name', type: 'text', autoComplete: 'name', maxLength: 120 },
         { id: 'contact-email', name: 'email', label: 'Email address', type: 'email', autoComplete: 'email', maxLength: 254 },
-      ].map((field) => (
-        <div className="form-field" key={field.id}>
+      ].map((field, index) => (
+        <div className={`form-field${errors[field.name] ? ' has-error' : ''}`} key={field.id}>
+          <span className="form-field__index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
           <input
             id={field.id}
             name={field.name}
@@ -1017,7 +1093,8 @@ function ContactForm() {
         </div>
       ))}
 
-      <div className="form-field">
+      <div className={`form-field${errors.message ? ' has-error' : ''}`}>
+        <span className="form-field__index" aria-hidden="true">03</span>
         <textarea
           id="contact-message"
           name="message"
@@ -1103,17 +1180,40 @@ function Contact() {
       {/* CTA Strip */}
       <div className="contact-cta-strip">
         <div className="wrap">
-          <Reveal>
-            <h2 className="contact-cta-headline" id="contact-heading">
-              Let's build something<br />
-              <em style={{ fontStyle: 'italic' }}>that gets you clients.</em>
-            </h2>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <MagneticButton href={WHATSAPP_URL}>
-              Let's talk <ArrowUpRight size={18} aria-hidden="true" />
-            </MagneticButton>
-          </Reveal>
+          <div className="contact-cta">
+            <div className="contact-cta__copy">
+              <span className="contact-cta__kicker"><span>06</span> Contact</span>
+              <Reveal>
+                <h2 className="contact-cta-headline" id="contact-heading">
+                  Let's build something<br />
+                  <em style={{ fontStyle: 'italic' }}>that gets you clients.</em>
+                </h2>
+              </Reveal>
+              <Reveal delay={0.1} className="contact-cta__actions">
+                <MagneticButton href={WHATSAPP_URL}>
+                  Let's talk <ArrowUpRight size={18} aria-hidden="true" />
+                </MagneticButton>
+                <a className="contact-cta__mail" href={`mailto:${EMAIL}`}>
+                  {EMAIL} <ArrowUpRight size={12} aria-hidden="true" />
+                </a>
+              </Reveal>
+            </div>
+
+            <div className="contact-cta__visual" aria-hidden="true">
+              <span className="contact-cta__ghost">SM</span>
+              <div className="contact-cta__card">
+                <span className="contact-cta__card-kicker">Project brief</span>
+                <p className="contact-cta__card-title">A clear site starts with a short conversation.</p>
+                <ul className="contact-cta__card-list">
+                  <li>What you do</li>
+                  <li>Who it's for</li>
+                  <li>What should happen next</li>
+                </ul>
+                <span className="contact-cta__card-foot">Email or WhatsApp · No forms required</span>
+              </div>
+              <span className="contact-cta__arrow">↗</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1156,6 +1256,13 @@ function Contact() {
                   GitHub
                   <ArrowUpRight size={13} style={{ marginLeft: 'auto' }} aria-hidden="true" />
                 </a>
+                <a className="contact-channel" href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer">
+                  <div className="contact-channel__icon" aria-hidden="true">
+                    <BrandIcon icon={LINKEDIN_ICON} size={14} />
+                  </div>
+                  LinkedIn
+                  <ArrowUpRight size={13} style={{ marginLeft: 'auto' }} aria-hidden="true" />
+                </a>
               </div>
             </Reveal>
 
@@ -1171,38 +1278,30 @@ function Contact() {
 }
 
 /* ─── FOOTER ────────────────────────────────────────────────────────────────── */
-function FooterClock() {
-  const [time, setTime] = useState('')
-
-  useEffect(() => {
-    const update = () => setTime(
-      new Date().toLocaleTimeString('en-NG', {
-        timeZone: 'Africa/Lagos',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false,
-      })
-    )
-    update()
-    const t = setInterval(update, 1000)
-    return () => clearInterval(t)
-  }, [])
-
+function FloatingWhatsApp() {
   return (
-    <span className="footer-time" aria-label="Current Lagos time">
-      Lagos {time}
-    </span>
+    <a
+      className="whatsapp-float"
+      href={WHATSAPP_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Chat with Smart Moses on WhatsApp"
+      title="Chat on WhatsApp"
+    >
+      <BrandIcon icon={siWhatsapp} size={24} />
+    </a>
   )
 }
 
-function SiteFooter() {
+function SiteFooter({ onNavigate }) {
   return (
     <footer className="site-footer" id="footer">
       <div className="wrap footer-inner">
         <a
-          href="#top"
+          href="/#top"
           className="footer-wordmark"
           aria-label="Smart Moses — back to top"
+          onClick={(e) => onNavigate?.('/#top', e)}
         >
           Smart Moses
         </a>
@@ -1213,19 +1312,27 @@ function SiteFooter() {
             <span>Web Designer & Frontend Developer.</span>
           </p>
 
-          <FooterClock />
-
-          <nav className="footer-social" aria-label="Social and contact links">
-            <a href={`mailto:${EMAIL}`}>Email</a>
-            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">WhatsApp</a>
-            <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">GitHub</a>
+          <nav className="footer-social" aria-label="Contact and social links">
+            <a href={`mailto:${EMAIL}`} aria-label={`Email ${EMAIL}`} title="Email">
+              <Mail size={16} aria-hidden="true" />
+            </a>
+            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp">
+              <BrandIcon icon={siWhatsapp} size={16} />
+            </a>
+            <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
+              <BrandIcon icon={siGithub} size={16} />
+            </a>
+            <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
+              <BrandIcon icon={LINKEDIN_ICON} size={16} />
+            </a>
           </nav>
 
-          <a className="back-to-top" href="#top">
+          <a className="back-to-top" href="/#top" onClick={(e) => onNavigate?.('/#top', e)}>
             Back to top <ArrowUp size={12} aria-hidden="true" />
           </a>
         </div>
       </div>
+      <FloatingWhatsApp />
     </footer>
   )
 }
@@ -1238,7 +1345,7 @@ function HomePage({ onNavigate }) {
       <SiteHeader onNavigate={onNavigate} />
       <main id="main-content">
         <Hero />
-        <MarqueeBand />
+        <Testimonials />
         <Work onNavigate={onNavigate} />
         <Services />
         <About />
@@ -1246,7 +1353,7 @@ function HomePage({ onNavigate }) {
         <Experience />
         <Contact />
       </main>
-      <SiteFooter />
+      <SiteFooter onNavigate={onNavigate} />
     </>
   )
 }
@@ -1275,7 +1382,7 @@ function NotFound({ onNavigate }) {
           Back to portfolio <ArrowRight size={15} aria-hidden="true" />
         </a>
       </main>
-      <SiteFooter />
+      <SiteFooter onNavigate={onNavigate} />
     </>
   )
 }
@@ -1317,7 +1424,7 @@ function AppContent() {
         <main id="pricing-main">
           <PricingPage onNavigate={navigate} />
         </main>
-        <SiteFooter />
+        <SiteFooter onNavigate={navigate} />
       </>
     )
   }
@@ -1331,7 +1438,7 @@ function AppContent() {
         <a className="skip-link" href="#case-main">Skip to content</a>
         <SiteHeader onNavigate={navigate} />
         <ProjectCaseStudy project={project} onNavigate={navigate} />
-        <SiteFooter />
+        <SiteFooter onNavigate={navigate} />
       </>
     )
   }

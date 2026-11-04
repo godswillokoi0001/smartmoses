@@ -57,7 +57,7 @@ export default function ProjectCaseStudy({ project, onNavigate }) {
   }
 
   return (
-    <main id="case-main" style={{ paddingTop: '80px', background: 'var(--bg)' }}>
+    <main id="case-main" style={{ background: 'var(--bg)' }}>
       {/* Hero */}
       <section className="case-hero">
         <div className="case-hero__img" aria-hidden="true">
