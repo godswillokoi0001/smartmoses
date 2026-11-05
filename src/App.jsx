@@ -264,7 +264,7 @@ function TechIcon({ name, size = 14 }) {
 }
 
 /* ─── FIRST-VISIT INTRO ─────────────────────────────────────────────────────── */
-const INTRO_SLIDES = [2700, 2900, 2900, 1600]
+const INTRO_SLIDES = [3400, 3700, 3900, 2200]
 const INTRO_TOTAL = INTRO_SLIDES.reduce((total, duration) => total + duration, 0)
 
 function StaggerWords({ text, highlights = [] }) {
@@ -276,9 +276,9 @@ function StaggerWords({ text, highlights = [] }) {
       <span className="intro__word" key={`${word}-${i}`}>
         <motion.span
           className={hot ? 'intro__hl' : undefined}
-          initial={{ y: REDUCED_MOTION ? 0 : '110%', opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: REDUCED_MOTION ? 0 : 0.1 + i * 0.038, duration: 0.55, ease: EASE }}
+          initial={{ y: REDUCED_MOTION ? 0 : '118%', opacity: 0, rotate: REDUCED_MOTION ? 0 : 4, filter: REDUCED_MOTION ? 'blur(0px)' : 'blur(7px)' }}
+          animate={{ y: 0, opacity: 1, rotate: 0, filter: 'blur(0px)' }}
+          transition={{ delay: REDUCED_MOTION ? 0 : 0.14 + i * 0.055, type: 'spring', stiffness: 92, damping: 17, mass: 0.85 }}
         >
           {word}{i < words.length - 1 ? '\u00A0' : ''}
         </motion.span>
@@ -327,10 +327,20 @@ function IntroSequence({ onComplete }) {
   }, [finish])
 
   const slideMotion = {
-    initial: { opacity: 0, y: REDUCED_MOTION ? 0 : 16 },
-    animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: REDUCED_MOTION ? 0 : -12 },
-    transition: { duration: REDUCED_MOTION ? 0.01 : 0.45, ease: EASE },
+    initial: {
+      opacity: 0,
+      y: REDUCED_MOTION ? 0 : 38,
+      scale: REDUCED_MOTION ? 1 : 0.985,
+      filter: REDUCED_MOTION ? 'blur(0px)' : 'blur(12px)',
+    },
+    animate: { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' },
+    exit: {
+      opacity: 0,
+      y: REDUCED_MOTION ? 0 : -28,
+      scale: REDUCED_MOTION ? 1 : 1.012,
+      filter: REDUCED_MOTION ? 'blur(0px)' : 'blur(8px)',
+    },
+    transition: { duration: REDUCED_MOTION ? 0.12 : 0.85, ease: [0.16, 1, 0.3, 1] },
   }
 
   return (
@@ -340,6 +350,35 @@ function IntroSequence({ onComplete }) {
       aria-modal="true"
       aria-label="Introduction from Smart Moses"
     >
+      <div className="intro__ambient" aria-hidden="true">
+        <motion.span
+          className="intro__orb intro__orb--a"
+          animate={REDUCED_MOTION ? undefined : {
+            x: [0, 70, -30, 0],
+            y: [0, -50, 40, 0],
+            scale: [1, 1.15, 0.95, 1],
+          }}
+          transition={REDUCED_MOTION ? undefined : { duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.span
+          className="intro__orb intro__orb--b"
+          animate={REDUCED_MOTION ? undefined : {
+            x: [0, -60, 25, 0],
+            y: [0, 45, -35, 0],
+            scale: [1, 0.9, 1.12, 1],
+          }}
+          transition={REDUCED_MOTION ? undefined : { duration: 23, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.span
+          className="intro__orb intro__orb--c"
+          animate={REDUCED_MOTION ? undefined : { x: [0, 40, -50, 0], y: [0, 30, -20, 0] }}
+          transition={REDUCED_MOTION ? undefined : { duration: 16, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <span className="intro__ring" />
+        <span className="intro__scan" />
+        <span className="intro__ghost">SM</span>
+      </div>
+
       <div className="intro__top">
         <span className="intro__brand">Smart Moses · Portfolio</span>
         <button ref={skipRef} type="button" className="intro__skip" onClick={() => finish(true)}>
@@ -699,19 +738,7 @@ function Hero() {
             animate={{ opacity: 1 }}
             transition={{ delay: REDUCED_MOTION ? 0 : 1.1, duration: 0.7, ease: EASE }}
           >
-            I design and build fast, modern, mobile-first websites from scratch that make your business look credible instantly—and turn visitors into inquiries.
-          </motion.p>
-
-          <motion.p
-            className="hero__body"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: REDUCED_MOTION ? 0 : 1.25, duration: 0.7, ease: EASE }}
-          >
-            Every business looking to hire a web designer or frontend developer cares about two things:
-            credibility and conversions. Instead of patching bloated templates, I build clean, responsive
-            digital experiences in React and Tailwind CSS that make it effortless for your customers to
-            understand your value and get in touch.
+            Fast, modern websites built from scratch in React and Tailwind — no bloated templates. Just a credible presence that turns visitors into inquiries.
           </motion.p>
 
           <motion.div
