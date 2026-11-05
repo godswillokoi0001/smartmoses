@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { AnimatePresence, motion, MotionConfig } from 'framer-motion'
 import {
-  ArrowUpRight, ArrowRight, ArrowLeft, ArrowUp, Mail, Monitor, Target, Code2,
+  ArrowUpRight, ArrowRight, ArrowDown, ArrowUp, Mail, Monitor, Target, Code2,
+  RotateCcw, Copy, Check, RefreshCw, Layers, Gauge, ShieldCheck,
+  MessagesSquare, Gem, Handshake,
 } from 'lucide-react'
 import {
   siReact, siTypescript, siVite, siTailwindcss, siFramer, siResend,
@@ -32,37 +34,99 @@ const REDUCED_MOTION =
 
 const NAV_LINKS = [
   { label: 'Work', href: '#work' },
+  { label: 'Why Hire Me', href: '#why-hire-me' },
   { label: 'Services', href: '#services' },
   { label: 'About', href: '#about' },
-  { label: 'Process', href: '#process' },
-  { label: 'Pricing', href: '/pricingpage' },
-  { label: 'Contact', href: '#contact' },
+]
+
+const TRUST_ITEMS = [
+  { label: 'Custom Website Design' },
+  { label: 'React.js', tech: 'React' },
+  { label: 'Tailwind CSS', tech: 'Tailwind CSS' },
+  { label: 'Responsive UI/UX' },
+  { label: 'High-Converting Landing Pages' },
+  { label: 'Website Redesigns' },
+  { label: 'Clean Frontend Architecture' },
+  { label: 'Mobile-First Execution' },
+]
+
+const PROBLEMS = [
+  {
+    num: '01',
+    title: 'Broken templates hurt trust',
+    body: 'When a prospective client visits your site on their phone and runs into broken layouts, slow loading, or confusing menus, they don’t email you to complain—they quietly leave for a competitor.',
+    icon: ShieldCheck,
+  },
+  {
+    num: '02',
+    title: 'Pretty design without direction fails',
+    body: 'A website shouldn’t just sit there looking like a digital brochure. If visitors cannot tell what you offer within 5 seconds or find an obvious way to contact you, you are leaking leads every single day.',
+    icon: Target,
+  },
+  {
+    num: '03',
+    title: 'Built from scratch for real outcomes',
+    body: 'I strip away clunky templates and build custom, high-speed frontend websites tailored to your brand—guiding your visitors smoothly from their first click straight to your inquiry inbox.',
+    icon: Code2,
+  },
+]
+
+const WHY_PILLARS = [
+  {
+    num: '01',
+    title: '100% custom execution',
+    tag: 'Zero lazy templates',
+    body: 'Every layout is crafted specifically for your brand goals, your audience, and your mobile users.',
+    icon: Gem,
+  },
+  {
+    num: '02',
+    title: 'Designed for business outcomes',
+    tag: 'Not just code',
+    body: 'Your customers don’t care about code syntax—they care about how fast your page loads and how easy it is to work with you. I build with your buyer’s journey in mind.',
+    icon: Gauge,
+  },
+  {
+    num: '03',
+    title: 'Transparent, honest scope',
+    tag: 'No overpromising',
+    body: 'I specialize strictly in high-impact web design and frontend development. I never overpromise things outside my lane, and I deliver exactly what we agree on—on time.',
+    icon: Handshake,
+  },
+  {
+    num: '04',
+    title: 'Fast, written-first communication',
+    tag: 'No time-wasting meetings',
+    body: 'No endless meetings required. We can scope your project, review live preview links, and launch smoothly with clear, fast written updates.',
+    icon: MessagesSquare,
+  },
 ]
 
 const SERVICES = [
   {
     number: '01',
-    title: 'Business websites',
-    detail: 'Clear, fast websites that explain what you do and make the next step obvious. Built around your real content, not a template.',
-    scope: 'Structure · UI Design · Frontend Build',
+    title: 'Custom website design & frontend development',
+    tag: 'Primary',
+    detail: 'Complete websites built from scratch using React, Tailwind CSS, and modern web standards. Fast, mobile-responsive, and structured to convert visitors into leads without bloated templates.',
+    scope: 'Website strategy · UI design · React & Tailwind build',
     icon: Monitor,
-    deliverables: ['Sitemap & content structure', 'Responsive UI design', 'React build & launch'],
+    deliverables: ['Custom React & Tailwind build', 'Mobile-first responsive UI', 'Conversion-focused page structure'],
   },
   {
     number: '02',
-    title: 'Landing pages',
-    detail: 'Focused pages for a product launch, service, or campaign — built around one clear action, with copy and layout that work together.',
-    scope: 'Figma-to-code · React · Conversion-first layouts',
-    icon: Target,
-    deliverables: ['Offer & message hierarchy', 'Conversion-focused layout', 'Analytics-ready build'],
+    title: 'Website redesigns & frontend modernization',
+    detail: 'Already have a site or a SaaS web app with an outdated public landing page? I rebuild your customer-facing frontend from the ground up while linking seamlessly into your existing portals or workflows.',
+    scope: 'Audit · Redesign · Frontend rebuild',
+    icon: RefreshCw,
+    deliverables: ['UX & content audit', 'Modern frontend rebuild', 'Seamless portal & workflow links'],
   },
   {
     number: '03',
-    title: 'Frontend development',
-    detail: 'Careful implementation of existing designs into reusable React components, with responsive layouts and real browser testing.',
-    scope: 'Semantic HTML · CSS · JavaScript · React · TypeScript',
-    icon: Code2,
-    deliverables: ['Figma-to-code', 'Reusable components', 'Cross-browser QA'],
+    title: 'High-converting landing pages & visual assets',
+    detail: 'Focused landing pages, brand graphics, and promotional visuals designed with clear visual hierarchy so your marketing campaigns actually turn clicks into customer inquiries.',
+    scope: 'Offer strategy · Landing page · Campaign visuals',
+    icon: Layers,
+    deliverables: ['Single-action page structure', 'Campaign graphics & visual assets', 'Analytics-ready build'],
   },
 ]
 
@@ -197,6 +261,153 @@ function TechIcon({ name, size = 14 }) {
   const icon = TECH_ICONS[name]
   if (!icon) return null
   return <BrandIcon icon={icon} size={size} />
+}
+
+/* ─── FIRST-VISIT INTRO ─────────────────────────────────────────────────────── */
+const INTRO_SLIDES = [2700, 2900, 2900, 1600]
+const INTRO_TOTAL = INTRO_SLIDES.reduce((total, duration) => total + duration, 0)
+
+function StaggerWords({ text, highlights = [] }) {
+  const words = text.split(' ')
+  return words.map((word, i) => {
+    const clean = word.replace(/[^\w'’]/g, '')
+    const hot = highlights.includes(clean)
+    return (
+      <span className="intro__word" key={`${word}-${i}`}>
+        <motion.span
+          className={hot ? 'intro__hl' : undefined}
+          initial={{ y: REDUCED_MOTION ? 0 : '110%', opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: REDUCED_MOTION ? 0 : 0.1 + i * 0.038, duration: 0.55, ease: EASE }}
+        >
+          {word}{i < words.length - 1 ? '\u00A0' : ''}
+        </motion.span>
+      </span>
+    )
+  })
+}
+
+function IntroSequence({ onComplete }) {
+  const [slide, setSlide] = useState(0)
+  const [exiting, setExiting] = useState(false)
+  const skipRef = useRef(null)
+  const doneRef = useRef(false)
+  const timers = useRef([])
+
+  const finish = useCallback((fast = false) => {
+    if (doneRef.current) return
+    doneRef.current = true
+    timers.current.forEach(clearTimeout)
+    timers.current = []
+    try { sessionStorage.setItem('introSeen', 'true') } catch { /* storage may be blocked */ }
+    setExiting(true)
+    timers.current.push(setTimeout(onComplete, fast ? 320 : 820))
+  }, [onComplete])
+
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    skipRef.current?.focus({ preventScroll: true })
+
+    let elapsed = 0
+    INTRO_SLIDES.forEach((duration, i) => {
+      if (i > 0) timers.current.push(setTimeout(() => setSlide(i), elapsed))
+      elapsed += duration
+    })
+    timers.current.push(setTimeout(() => finish(), INTRO_TOTAL))
+
+    const onKey = (event) => { if (event.key === 'Escape') finish(true) }
+    window.addEventListener('keydown', onKey)
+    return () => {
+      timers.current.forEach(clearTimeout)
+      timers.current = []
+      window.removeEventListener('keydown', onKey)
+      document.body.style.overflow = previousOverflow
+    }
+  }, [finish])
+
+  const slideMotion = {
+    initial: { opacity: 0, y: REDUCED_MOTION ? 0 : 16 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: REDUCED_MOTION ? 0 : -12 },
+    transition: { duration: REDUCED_MOTION ? 0.01 : 0.45, ease: EASE },
+  }
+
+  return (
+    <div
+      className={`intro${exiting ? ' is-exiting' : ''}`}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Introduction from Smart Moses"
+    >
+      <div className="intro__top">
+        <span className="intro__brand">Smart Moses · Portfolio</span>
+        <button ref={skipRef} type="button" className="intro__skip" onClick={() => finish(true)}>
+          Skip intro <ArrowRight size={13} aria-hidden="true" />
+        </button>
+      </div>
+
+      <div className="intro__stage">
+        <AnimatePresence mode="wait">
+          {slide === 0 && (
+            <motion.div className="intro__slide" key="intro-1" {...slideMotion}>
+              <p className="intro__index">01 / 04 — Pattern interrupt</p>
+              <p className="intro__line">
+                <StaggerWords
+                  text="You’re probably here because your business needs more customers, stronger trust, and higher sales."
+                  highlights={['more', 'customers', 'stronger', 'trust', 'higher', 'sales']}
+                />
+              </p>
+            </motion.div>
+          )}
+
+          {slide === 1 && (
+            <motion.div className="intro__slide" key="intro-2" {...slideMotion}>
+              <p className="intro__index">02 / 04 — The core truth</p>
+              <p className="intro__line">
+                Trust me — I won’t waste your time. Every business owner who hires me wants one thing:{' '}
+                <span className="intro__conversions">CONVERSIONS</span>, not just another pretty{' '}
+                <span className="intro__strike">static page</span>.
+              </p>
+            </motion.div>
+          )}
+
+          {slide === 2 && (
+            <motion.div className="intro__slide" key="intro-3" {...slideMotion}>
+              <p className="intro__index">03 / 04 — The introduction</p>
+              <p className="intro__line">
+                Hey there, I’m <strong>Godswill Okoi</strong> (Smart Moses). I design and build fast,
+                modern frontend websites from scratch that turn casual clicks into paying clients.
+              </p>
+              <p className="intro__badge">
+                Web Designer &amp; Frontend Developer <span aria-hidden="true">•</span> React &amp; Tailwind CSS
+              </p>
+            </motion.div>
+          )}
+
+          {slide === 3 && (
+            <motion.div className="intro__slide" key="intro-4" {...slideMotion}>
+              <p className="intro__index">04 / 04 — The proof</p>
+              <p className="intro__line intro__line--xl">Let’s look at the proof.</p>
+              <p className="intro__sub">Selected work · Live builds · Real business outcomes</p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      <div className="intro__bottom">
+        <div className="intro__progress" aria-hidden="true">
+          <motion.span
+            className="intro__bar"
+            initial={{ width: '0%' }}
+            animate={{ width: '100%' }}
+            transition={{ duration: INTRO_TOTAL / 1000, ease: 'linear' }}
+          />
+        </div>
+        <span className="intro__count">{String(slide + 1).padStart(2, '0')} / 04</span>
+      </div>
+    </div>
+  )
 }
 
 /* ─── PRELOADER ─────────────────────────────────────────────────────────────── */
@@ -337,6 +548,10 @@ function SiteHeader({ onNavigate }) {
         >
           <span className="wordmark__mark" aria-hidden="true">SM</span>
           <span className="wordmark__name">Smart Moses</span>
+          <span className="wordmark__status">
+            <span className="wordmark__status-dot" aria-hidden="true" />
+            Available for New Projects
+          </span>
         </a>
 
         <nav className="desktop-nav" aria-label="Main navigation">
@@ -357,7 +572,7 @@ function SiteHeader({ onNavigate }) {
           href="#contact"
           onClick={(e) => handleClick(e, '#contact')}
         >
-          Start a project <ArrowUpRight size={13} aria-hidden="true" />
+          Send a Quick Message <ArrowRight size={13} aria-hidden="true" />
         </a>
 
         <button
@@ -403,8 +618,8 @@ function SiteHeader({ onNavigate }) {
               href="#contact"
               onClick={(e) => handleClick(e, '#contact')}
             >
-              Start a project
-              <ArrowUpRight size={14} aria-hidden="true" />
+              Send a Quick Message
+              <ArrowRight size={14} aria-hidden="true" />
             </a>
           </motion.nav>
         )}
@@ -417,7 +632,7 @@ function SiteHeader({ onNavigate }) {
 function Hero() {
   const headlineRef = useRef(null)
 
-  const headline = ['Websites', 'that get your', 'business chosen.']
+  const headline = ['Stop Losing', 'High-Paying', 'Customers to an', 'Outdated Website.']
 
   useEffect(() => {
     if (REDUCED_MOTION) return
@@ -449,7 +664,7 @@ function Hero() {
             transition={{ delay: REDUCED_MOTION ? 0 : 0.9, duration: 0.5, ease: EASE }}
           >
             <span className="hero__status-dot" aria-hidden="true" />
-            Web design & frontend development
+            Godswill Okoi <span aria-hidden="true">•</span> Web Designer &amp; Frontend Developer (React &amp; Tailwind CSS)
           </motion.div>
 
           <h1
@@ -461,7 +676,7 @@ function Hero() {
             {headline.map((line, li) => (
               <span key={li} style={{ display: 'block' }}>
                 {line.split(' ').map((word, wi) => {
-                  const isAccent = word === 'chosen.'
+                  const isAccent = li === headline.length - 1
                   return (
                     <span key={wi} className="word" aria-hidden="true">
                       <span
@@ -484,7 +699,19 @@ function Hero() {
             animate={{ opacity: 1 }}
             transition={{ delay: REDUCED_MOTION ? 0 : 1.1, duration: 0.7, ease: EASE }}
           >
-            I design and build responsive websites for growing businesses — pairing clear visual direction with careful frontend work.
+            I design and build fast, modern, mobile-first websites from scratch that make your business look credible instantly—and turn visitors into inquiries.
+          </motion.p>
+
+          <motion.p
+            className="hero__body"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: REDUCED_MOTION ? 0 : 1.25, duration: 0.7, ease: EASE }}
+          >
+            Every business looking to hire a web designer or frontend developer cares about two things:
+            credibility and conversions. Instead of patching bloated templates, I build clean, responsive
+            digital experiences in React and Tailwind CSS that make it effortless for your customers to
+            understand your value and get in touch.
           </motion.p>
 
           <motion.div
@@ -493,11 +720,13 @@ function Hero() {
             animate={{ opacity: 1 }}
             transition={{ delay: REDUCED_MOTION ? 0 : 1.2, duration: 0.7, ease: EASE }}
           >
-            <a className="btn btn--primary" href="#contact">
-              Start a project <ArrowRight size={15} aria-hidden="true" />
-            </a>
-            <a className="btn btn--ghost" href="#work">
-              Selected work
+            <Magnetic>
+              <a className="btn btn--primary" href="#work">
+                Explore My Live Builds <ArrowDown size={15} aria-hidden="true" />
+              </a>
+            </Magnetic>
+            <a className="btn btn--ghost" href="#contact">
+              Request a Free Homepage Concept <ArrowRight size={15} aria-hidden="true" />
             </a>
           </motion.div>
 
@@ -521,6 +750,135 @@ function Hero() {
             />
           </div>
         </motion.div>
+      </div>
+
+      <div className="hero__trust" aria-label="Capabilities and tools">
+        <div className="hero-trust__track">
+          {[...TRUST_ITEMS, ...TRUST_ITEMS].map((item, i) => {
+            const duplicate = i >= TRUST_ITEMS.length
+            return (
+              <span
+                className="hero-trust__item"
+                key={`${item.label}-${i}`}
+                aria-hidden={duplicate ? 'true' : undefined}
+              >
+                {item.tech && <TechIcon name={item.tech} size={12} />}
+                {item.label}
+              </span>
+            )
+          })}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ─── REALITY CHECK ─────────────────────────────────────────────────────────── */
+function BeforeAfterSlider() {
+  const [position, setPosition] = useState(56)
+
+  return (
+    <div className="compare" style={{ '--pos': `${position}%` }}>
+      <div className="compare__pane compare__pane--before" aria-hidden="true">
+        <span className="compare__tag">Before · template clutter</span>
+        <div className="compare__browser">
+          <span className="compare__bar"><i /><i /><i /></span>
+          <div className="compare__page">
+            <div className="compare__nav">
+              <span className="compare__logo" />
+              <span className="compare__links"><i /><i /><i /></span>
+            </div>
+            <div className="compare__hero">
+              <span className="compare__eyebrow" />
+              <span className="compare__headline" />
+              <span className="compare__headline compare__headline--short" />
+              <span className="compare__line" />
+              <span className="compare__line compare__line--short" />
+              <span className="compare__cta" />
+            </div>
+            <div className="compare__visual"><span /></div>
+            <div className="compare__cards"><span /><span /><span /></div>
+          </div>
+        </div>
+      </div>
+
+      <div className="compare__pane compare__pane--after" aria-hidden="true">
+        <span className="compare__tag">After · clear, conversion-first build</span>
+        <div className="compare__browser">
+          <span className="compare__bar"><i /><i /><i /></span>
+          <div className="compare__page">
+            <div className="compare__nav">
+              <span className="compare__logo" />
+              <span className="compare__links"><i /><i /><i /></span>
+            </div>
+            <div className="compare__hero">
+              <span className="compare__eyebrow" />
+              <span className="compare__headline" />
+              <span className="compare__headline compare__headline--short" />
+              <span className="compare__line" />
+              <span className="compare__line compare__line--short" />
+              <span className="compare__cta" />
+            </div>
+            <div className="compare__visual"><span /></div>
+            <div className="compare__cards"><span /><span /><span /></div>
+          </div>
+        </div>
+      </div>
+
+      <div className="compare__handle" aria-hidden="true"><span /></div>
+      <input
+        className="compare__range"
+        type="range"
+        min="6"
+        max="94"
+        value={position}
+        onChange={(event) => setPosition(Number(event.target.value))}
+        aria-label="Drag to compare a cluttered template with a clean, high-converting Smart Moses build"
+      />
+    </div>
+  )
+}
+
+function RealityCheck() {
+  return (
+    <section className="reality-section section-pad" id="reality" aria-labelledby="reality-title">
+      <div className="wrap">
+        <div className="reality-head">
+          <Reveal><SectionLabel num="01" label="The real problem" /></Reveal>
+          <Reveal delay={0.05}>
+            <h2 className="reality-title" id="reality-title">
+              Your business is great in real life.<br />
+              <em>Does your website show it?</em>
+            </h2>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <p className="reality-sub">
+              Most visitors make a trust decision before they read a word. Here’s what quietly costs
+              you enquiries — and what I do instead.
+            </p>
+          </Reveal>
+        </div>
+
+        <div className="reality-grid">
+          {PROBLEMS.map(({ num, title, body, icon: Icon }, index) => (
+            <Reveal className="reality-card" key={title} delay={index * 0.07}>
+              <span className="reality-card__num" aria-hidden="true">{num}</span>
+              <span className="reality-card__icon" aria-hidden="true">
+                <Icon size={22} strokeWidth={1.5} />
+              </span>
+              <h3>{title}</h3>
+              <p>{body}</p>
+            </Reveal>
+          ))}
+        </div>
+
+        <Reveal className="compare-block" delay={0.08}>
+          <div className="compare-block__head">
+            <h3>Cluttered template vs. a clear Smart Moses build.</h3>
+            <p>Drag the handle to compare</p>
+          </div>
+          <BeforeAfterSlider />
+        </Reveal>
       </div>
     </section>
   )
@@ -602,6 +960,29 @@ function Reveal({ children, className = '', delay = 0, as: Tag = 'div', style })
   )
 }
 
+/* ─── MAGNETIC ──────────────────────────────────────────────────────────────── */
+function Magnetic({ children, strength = 0.18 }) {
+  const ref = useRef(null)
+
+  const handleMove = (event) => {
+    if (REDUCED_MOTION || !ref.current) return
+    const rect = ref.current.getBoundingClientRect()
+    const dx = (event.clientX - (rect.left + rect.width / 2)) * strength
+    const dy = (event.clientY - (rect.top + rect.height / 2)) * strength
+    ref.current.style.transform = `translate(${dx}px, ${dy}px)`
+  }
+
+  const handleLeave = () => {
+    if (ref.current) ref.current.style.transform = 'translate(0, 0)'
+  }
+
+  return (
+    <span className="magnetic" onMouseMove={handleMove} onMouseLeave={handleLeave}>
+      {children}
+    </span>
+  )
+}
+
 /* ─── WORK ──────────────────────────────────────────────────────────────────── */
 function BrowserFrame({ url, children }) {
   return (
@@ -623,10 +1004,28 @@ function BrowserFrame({ url, children }) {
 
 function ProjectEntry({ project, index, onNavigate, isReverse }) {
   const openCaseStudy = (e) => onNavigate(`/work/${project.slug}`, e)
+  const tiltRef = useRef(null)
+
+  const handleTilt = (event) => {
+    if (REDUCED_MOTION || !tiltRef.current) return
+    const rect = tiltRef.current.getBoundingClientRect()
+    const px = (event.clientX - rect.left) / rect.width - 0.5
+    const py = (event.clientY - rect.top) / rect.height - 0.5
+    tiltRef.current.style.transform =
+      `perspective(1200px) rotateX(${(-py * 4).toFixed(2)}deg) rotateY(${(px * 5).toFixed(2)}deg) scale(1.01)`
+  }
+
+  const resetTilt = () => {
+    if (tiltRef.current) tiltRef.current.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg) scale(1)'
+  }
 
   return (
     <motion.div
       className={`project-entry${isReverse ? ' project-entry--reverse' : ''}`}
+      initial={{ opacity: 0, y: REDUCED_MOTION ? 0 : 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.12 }}
+      transition={{ duration: 0.7, ease: EASE }}
     >
       <div className="project-entry__ghost" aria-hidden="true">{project.num}</div>
 
@@ -634,8 +1033,11 @@ function ProjectEntry({ project, index, onNavigate, isReverse }) {
       <div className="project-image-wrap">
         <a
           className="project-image-link"
+          ref={tiltRef}
           href={`/work/${project.slug}`}
           onClick={openCaseStudy}
+          onMouseMove={handleTilt}
+          onMouseLeave={resetTilt}
           aria-label={`View ${project.name} case study`}
           data-cursor-view="true"
         >
@@ -650,7 +1052,9 @@ function ProjectEntry({ project, index, onNavigate, isReverse }) {
               decoding="async"
             />
           </BrowserFrame>
-          <span className="project-view-label" aria-hidden="true">View →</span>
+          <span className="project-live-badge" aria-hidden="true">
+            <span className="project-live-dot" /> Live preview <ArrowUpRight size={12} />
+          </span>
         </a>
       </div>
 
@@ -731,18 +1135,19 @@ function Work({ onNavigate }) {
   return (
     <section className="work-section section-pad" id="work" aria-labelledby="work-heading">
       <div className="wrap">
-        <div className="work-section__head">
+        <Reveal className="work-section__head">
           <div>
-            <SectionLabel num="01" label="Selected Work" />
+            <SectionLabel num="02" label="Selected Work & Live Builds" />
             <h2 className="work-section__title" id="work-heading">
-              A few different briefs.<br />
-              <em style={{ fontStyle: 'italic', color: 'var(--muted)' }}>One clear standard.</em>
+              Don’t just take my word for it.<br />
+              <em style={{ fontStyle: 'italic', color: 'var(--muted)' }}>Inspect the live code and designs.</em>
             </h2>
           </div>
           <p className="work-section__sub">
-            Client and in-house work across logistics, financial services, and design-to-code builds.
+            Every project below was built with a focus on clean visual hierarchy, mobile responsiveness,
+            and real-world business clarity.
           </p>
-        </div>
+        </Reveal>
 
         <div className="project-list">
           {PROJECTS.map((project, i) => (
@@ -769,17 +1174,17 @@ function Services() {
   return (
     <section className="services-section section-pad" id="services" aria-labelledby="services-title">
       <div className="wrap">
-        <div className="services-head">
+        <Reveal className="services-head">
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-5)' }}>
-            <SectionLabel num="02" label="Services" />
+            <SectionLabel num="03" label="Services & Capabilities" />
             <h2 className="services-title" id="services-title">
-              Useful work, from first<br />layout to final build.
+              Everything you need for a sharp,<br />high-converting public web presence.
             </h2>
           </div>
           <p className="services-sub">
-            I work with early-stage and growing businesses who need a website that earns trust, not just a presence.
+            From first wireframe to production build — one partner accountable for the public face of your business.
           </p>
-        </div>
+        </Reveal>
 
         <div className="services-layout">
           <div className="service-list">
@@ -798,6 +1203,7 @@ function Services() {
                         <Icon size={18} strokeWidth={1.5} />
                       </span>
                       <h3 className="service__title">{service.title}</h3>
+                      {service.tag && <span className="service__tag">{service.tag}</span>}
                     </div>
                     <p className="service__detail">{service.detail}</p>
                     <ul className="service__deliverables">
@@ -844,13 +1250,61 @@ function Services() {
   )
 }
 
+/* ─── WHY HIRE ME ───────────────────────────────────────────────────────────── */
+function WhyHireMe() {
+  return (
+    <section className="why-section section-pad" id="why-hire-me" aria-labelledby="why-title">
+      <div className="wrap">
+        <div className="why-intro">
+          <Reveal>
+            <SectionLabel num="04" label="Why work with me" />
+            <h2 className="why-title" id="why-title">
+              Why businesses choose<br />
+              <em>to build with me.</em>
+            </h2>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <blockquote className="why-quote">
+              “Nobody will work as hard as me—I just won’t allow it. Nobody will learn all about your
+              brand as fast as I will, and most importantly, nobody else will treat your business like
+              it’s theirs.”
+            </blockquote>
+          </Reveal>
+        </div>
+
+        <div className="why-grid">
+          {WHY_PILLARS.map(({ num, title, tag, body, icon: Icon }) => (
+            <Reveal className="why-card" key={title}>
+              <div className="why-card__top">
+                <span className="why-card__icon" aria-hidden="true">
+                  <Icon size={20} strokeWidth={1.5} />
+                </span>
+                <span className="why-card__num" aria-hidden="true">{num}</span>
+              </div>
+              <h3>{title}</h3>
+              <p>{body}</p>
+              <span className="why-card__tag">{tag}</span>
+            </Reveal>
+          ))}
+        </div>
+
+        <Reveal className="why-cta" delay={0.1}>
+          <a className="btn btn--primary" href="#contact">
+            Send a Quick Message <ArrowRight size={15} aria-hidden="true" />
+          </a>
+        </Reveal>
+      </div>
+    </section>
+  )
+}
+
 /* ─── ABOUT ─────────────────────────────────────────────────────────────────── */
 function About() {
   return (
     <section className="about-section section-pad" id="about" aria-labelledby="about-title">
       <div className="wrap">
         <Reveal>
-          <SectionLabel num="03" label="About" />
+          <SectionLabel num="05" label="About" />
         </Reveal>
 
         <div className="about-inner" style={{ marginTop: 'var(--space-8)' }}>
@@ -881,12 +1335,12 @@ function About() {
           {/* Copy */}
           <Reveal className="about-copy" delay={0.1}>
             <h2 className="about-lede" id="about-title">
-              Design thinking,<br />grounded in the browser.
+              Design thinking,<br />grounded in the frontend.
             </h2>
 
             <div className="about-body">
               <p>
-                I'm Smart Moses (Godswill Okoi) — a web designer and frontend developer. I build websites that are clear, fast, and actually useful to the businesses they represent.
+                I'm Smart Moses (Godswill Okoi) — a web designer and frontend developer. I build websites that are clear, fast, and built to turn attention into enquiries.
               </p>
               <p>
                 My background in graphic design shapes how I think about hierarchy, content, and the details that make an interface feel considered. My focus is the frontend: semantic HTML, clean CSS, JavaScript, and React — with mobile responsiveness built in from the start.
@@ -944,7 +1398,7 @@ function Process() {
       <div className="wrap">
         <div className="process-layout">
           <Reveal className="process-aside">
-            <SectionLabel num="04" label="Process" />
+            <SectionLabel num="06" label="Process" />
             <h2 className="process-title" id="process-heading">
               From brief to browser — a direct line.
             </h2>
@@ -984,7 +1438,7 @@ function Experience() {
     <section className="experience-section section-pad" id="experience" aria-labelledby="experience-title">
       <div className="wrap">
         <Reveal>
-          <SectionLabel num="05" label="Experience" />
+          <SectionLabel num="07" label="Experience" />
           <h2
             id="experience-title"
             style={{
@@ -1012,7 +1466,6 @@ function Experience() {
                 <h3>{job.role}</h3>
                 <p className="experience-org">
                   {job.organization}
-                  <span> · {job.location}</span>
                 </p>
                 <ul>
                   {job.points.map((point) => (
@@ -1067,9 +1520,13 @@ function ContactForm() {
 
   return (
     <form className="contact-form" onSubmit={handleSubmit} noValidate>
+      <div className="contact-form__head">
+        <span>Project inquiry</span>
+        <span>03 fields</span>
+      </div>
       {[
         { id: 'contact-name', name: 'name', label: 'Your name', type: 'text', autoComplete: 'name', maxLength: 120 },
-        { id: 'contact-email', name: 'email', label: 'Email address', type: 'email', autoComplete: 'email', maxLength: 254 },
+        { id: 'contact-email', name: 'email', label: 'Your email', type: 'email', autoComplete: 'email', maxLength: 254 },
       ].map((field, index) => (
         <div className={`form-field${errors[field.name] ? ' has-error' : ''}`} key={field.id}>
           <span className="form-field__index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
@@ -1105,7 +1562,7 @@ function ContactForm() {
           aria-invalid={Boolean(errors.message)}
           aria-describedby={errors.message ? 'contact-message-error' : undefined}
         />
-        <label htmlFor="contact-message">Tell me about your project</label>
+        <label htmlFor="contact-message">Your current website or project idea</label>
         {errors.message && (
           <span className="field-error" id="contact-message-error" role="alert">
             {errors.message}
@@ -1121,13 +1578,14 @@ function ContactForm() {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
         <button className="btn btn--primary" type="submit" disabled={state === 'sending'}>
-          {state === 'sending' ? 'Sending…' : 'Send message'}
+          {state === 'sending' ? 'Sending…' : 'Send My Details'}
           <ArrowRight size={15} aria-hidden="true" />
         </button>
+        <p className="contact-form__note">Reply within 24 hours · No sales call required</p>
 
         {state === 'success' && (
           <p className="form-status form-status--success" aria-live="polite">
-            Message sent. I'll be in touch shortly.
+            Details sent. I'll reply within 24 hours.
           </p>
         )}
         {state === 'error' && (
@@ -1175,6 +1633,22 @@ function MagneticButton({ href, children }) {
 }
 
 function Contact() {
+  const [copied, setCopied] = useState(false)
+  const copyTimer = useRef(null)
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(EMAIL)
+      setCopied(true)
+      clearTimeout(copyTimer.current)
+      copyTimer.current = setTimeout(() => setCopied(false), 2400)
+    } catch {
+      window.location.href = `mailto:${EMAIL}`
+    }
+  }
+
+  useEffect(() => () => clearTimeout(copyTimer.current), [])
+
   return (
     <section className="contact-section" id="contact" aria-labelledby="contact-heading">
       {/* CTA Strip */}
@@ -1182,16 +1656,23 @@ function Contact() {
         <div className="wrap">
           <div className="contact-cta">
             <div className="contact-cta__copy">
-              <span className="contact-cta__kicker"><span>06</span> Contact</span>
+              <span className="contact-cta__kicker"><span>08</span> Ready to upgrade your site?</span>
               <Reveal>
                 <h2 className="contact-cta-headline" id="contact-heading">
-                  Let's build something<br />
-                  <em style={{ fontStyle: 'italic' }}>that gets you clients.</em>
+                  Let's build a website that<br />
+                  <em style={{ fontStyle: 'italic' }}>actually does justice to your business.</em>
                 </h2>
               </Reveal>
+              <Reveal delay={0.06}>
+                <p className="contact-cta__sub">
+                  You don't need to jump on a 45-minute sales call just to get started. Drop your
+                  website link or project idea below, and I'll reply with a clear plan (or a quick
+                  homepage concept idea) within 24 hours.
+                </p>
+              </Reveal>
               <Reveal delay={0.1} className="contact-cta__actions">
-                <MagneticButton href={WHATSAPP_URL}>
-                  Let's talk <ArrowUpRight size={18} aria-hidden="true" />
+                <MagneticButton href="#contact-form">
+                  Send a quick message <ArrowUpRight size={18} aria-hidden="true" />
                 </MagneticButton>
                 <a className="contact-cta__mail" href={`mailto:${EMAIL}`}>
                   {EMAIL} <ArrowUpRight size={12} aria-hidden="true" />
@@ -1202,14 +1683,14 @@ function Contact() {
             <div className="contact-cta__visual" aria-hidden="true">
               <span className="contact-cta__ghost">SM</span>
               <div className="contact-cta__card">
-                <span className="contact-cta__card-kicker">Project brief</span>
-                <p className="contact-cta__card-title">A clear site starts with a short conversation.</p>
+                <span className="contact-cta__card-kicker">What happens next</span>
+                <p className="contact-cta__card-title">No sales call. No pressure. Just a clear next step.</p>
                 <ul className="contact-cta__card-list">
-                  <li>What you do</li>
-                  <li>Who it's for</li>
-                  <li>What should happen next</li>
+                  <li>You send your site or idea</li>
+                  <li>I reply within 24 hours</li>
+                  <li>You get a plan or homepage concept</li>
                 </ul>
-                <span className="contact-cta__card-foot">Email or WhatsApp · No forms required</span>
+                <span className="contact-cta__card-foot">Written-first · No obligation</span>
               </div>
               <span className="contact-cta__arrow">↗</span>
             </div>
@@ -1218,15 +1699,27 @@ function Contact() {
       </div>
 
       {/* Form area */}
-      <div className="contact-form-area">
+      <div className="contact-form-area" id="contact-form">
         <div className="wrap">
           <div className="contact-form-inner">
             {/* Info */}
             <Reveal className="contact-info">
-              <SectionLabel num="06" label="Contact" />
+              <SectionLabel num="08" label="Contact" />
               <h3 className="contact-info-title">
-                Have a website to make clearer?
+                Tell me what you're building.
               </h3>
+              <p className="contact-info__note">
+                Drop your current website link or a short project idea. I'll reply with a clear plan
+                — or a homepage concept — within 24 hours.
+              </p>
+              <button
+                type="button"
+                className={`copy-email${copied ? ' is-copied' : ''}`}
+                onClick={copyEmail}
+              >
+                {copied ? <Check size={14} aria-hidden="true" /> : <Copy size={14} aria-hidden="true" />}
+                {copied ? 'Email copied to clipboard!' : 'Copy my email'}
+              </button>
               <div className="contact-channels">
                 <a className="contact-channel" href={`mailto:${EMAIL}`}>
                   <div className="contact-channel__icon" aria-hidden="true">
@@ -1273,6 +1766,22 @@ function Contact() {
           </div>
         </div>
       </div>
+
+      <AnimatePresence>
+        {copied && (
+          <motion.div
+            className="copy-toast-wrap"
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 14 }}
+            transition={{ duration: 0.25, ease: EASE }}
+          >
+            <span className="copy-toast" role="status">
+              <Check size={14} aria-hidden="true" /> Email copied to clipboard!
+            </span>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   )
 }
@@ -1293,7 +1802,7 @@ function FloatingWhatsApp() {
   )
 }
 
-function SiteFooter({ onNavigate }) {
+function SiteFooter({ onNavigate, onReplayIntro }) {
   return (
     <footer className="site-footer" id="footer">
       <div className="wrap footer-inner">
@@ -1327,9 +1836,16 @@ function SiteFooter({ onNavigate }) {
             </a>
           </nav>
 
-          <a className="back-to-top" href="/#top" onClick={(e) => onNavigate?.('/#top', e)}>
-            Back to top <ArrowUp size={12} aria-hidden="true" />
-          </a>
+          <div className="footer-actions">
+            {onReplayIntro && (
+              <button type="button" className="footer-replay" onClick={onReplayIntro}>
+                <RotateCcw size={11} aria-hidden="true" /> Replay intro
+              </button>
+            )}
+            <a className="back-to-top" href="/#top" onClick={(e) => onNavigate?.('/#top', e)}>
+              Back to top <ArrowUp size={12} aria-hidden="true" />
+            </a>
+          </div>
         </div>
       </div>
       <FloatingWhatsApp />
@@ -1338,22 +1854,24 @@ function SiteFooter({ onNavigate }) {
 }
 
 /* ─── HOME PAGE ─────────────────────────────────────────────────────────────── */
-function HomePage({ onNavigate }) {
+function HomePage({ onNavigate, onReplayIntro }) {
   return (
     <>
       <a className="skip-link" href="#main-content">Skip to main content</a>
       <SiteHeader onNavigate={onNavigate} />
       <main id="main-content">
         <Hero />
-        <Testimonials />
+        <RealityCheck />
         <Work onNavigate={onNavigate} />
+        <Testimonials />
         <Services />
+        <WhyHireMe />
         <About />
         <Process />
         <Experience />
         <Contact />
       </main>
-      <SiteFooter onNavigate={onNavigate} />
+      <SiteFooter onNavigate={onNavigate} onReplayIntro={onReplayIntro} />
     </>
   )
 }
@@ -1392,7 +1910,35 @@ function AppContent() {
   const [path, setPath] = useState(
     () => window.location.pathname.replace(/\/$/, '') || '/'
   )
-  const [loaded, setLoaded] = useState(false)
+  const [introOpen, setIntroOpen] = useState(() => {
+    if (window.location.pathname.replace(/\/$/, '') !== '') return false
+    if (REDUCED_MOTION) return false
+    try {
+      return sessionStorage.getItem('introSeen') !== 'true'
+    } catch {
+      return false
+    }
+  })
+  const [loaded, setLoaded] = useState(() => !introOpen)
+  const [revealing, setRevealing] = useState(false)
+  const revealTimer = useRef(null)
+
+  const finishIntro = useCallback(() => {
+    setIntroOpen(false)
+    setLoaded(true)
+    setRevealing(true)
+    clearTimeout(revealTimer.current)
+    revealTimer.current = setTimeout(() => setRevealing(false), 1600)
+  }, [])
+
+  const replayIntro = useCallback(() => {
+    clearTimeout(revealTimer.current)
+    setRevealing(false)
+    setIntroOpen(true)
+    window.scrollTo({ top: 0, behavior: REDUCED_MOTION ? 'auto' : 'smooth' })
+  }, [])
+
+  useEffect(() => () => clearTimeout(revealTimer.current), [])
 
   useEffect(() => {
     const sync = () => setPath(window.location.pathname.replace(/\/$/, '') || '/')
@@ -1451,7 +1997,13 @@ function AppContent() {
         {!loaded && <Preloader onDone={() => setLoaded(true)} key="preloader" />}
       </AnimatePresence>
       <CustomCursor />
-      <HomePage onNavigate={navigate} />
+      <div
+        className={`site-shell${revealing ? ' is-revealing' : ''}`}
+        inert={introOpen ? true : undefined}
+      >
+        <HomePage onNavigate={navigate} onReplayIntro={replayIntro} />
+      </div>
+      {introOpen && <IntroSequence onComplete={finishIntro} />}
     </>
   )
 }
