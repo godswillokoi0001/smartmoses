@@ -21,7 +21,7 @@ const EMAIL = 'smartmoses515@outlook.com'
 const GITHUB_URL = 'https://github.com/godswillokoi0001'
 const WHATSAPP_URL =
   'https://wa.me/2348137038180?text=' +
-  encodeURIComponent("Hi Smart Moses, I'd like to discuss a project.")
+  encodeURIComponent("Hi Godswill, I'd like to discuss a project.")
 const LINKEDIN_URL = 'https://www.linkedin.com/in/godswill-okoi-frontend-developer'
 const LINKEDIN_ICON = {
   path: 'M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z',
@@ -384,8 +384,7 @@ function IntroSequence({ onComplete }) {
 
       <div className="intro__top">
         <span className="intro__brand">
-          <LogoMark size={22} />
-          <span>Smart Moses <em>Creative</em></span>
+          <img src="/images/smart-moses-creative-logo.png" alt="Smart Moses Creative" width="176" height="52" />
         </span>
         <button ref={skipRef} type="button" className="intro__skip" onClick={() => finish(true)}>
           Skip intro <ArrowRight size={13} aria-hidden="true" />
@@ -430,7 +429,7 @@ function IntroSequence({ onComplete }) {
               <span className="intro__slide-num" aria-hidden="true">03</span>
               <p className="intro__index">03 / 04 — The introduction</p>
               <p className="intro__line">
-                Hey there, I’m <strong>Godswill Okoi</strong> (Smart Moses). I design and build fast,
+                Hey there, I’m <strong>Godswill Okoi</strong>, founder of Smart Moses Creative. I design and build fast,
                 modern frontend websites from scratch that turn casual clicks into paying clients.
               </p>
               <p className="intro__badge">
@@ -488,7 +487,7 @@ function Preloader({ onDone }) {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.7, ease: EASE }}
         >
-          <LogoMark size={58} />
+          <img src="/images/smart-moses-creative-logo.png" alt="" width="220" height="64" />
         </motion.div>
       </div>
       <div className="preloader__bar" />
@@ -599,16 +598,7 @@ function SiteHeader({ onNavigate }) {
           onClick={(e) => handleClick(e, '#top')}
           aria-label="Smart Moses — home"
         >
-          <LogoMark size={32} className="wordmark__mark" />
-          <span className="wordmark__divider" aria-hidden="true" />
-          <span className="wordmark__type">
-            <span className="wordmark__name">Smart Moses</span>
-            <span className="wordmark__sub">Creative</span>
-          </span>
-          <span className="wordmark__status">
-            <span className="wordmark__status-dot" aria-hidden="true" />
-            Available for New Projects
-          </span>
+          <img className="wordmark__logo" src="/images/smart-moses-creative-logo.png" alt="Smart Moses Creative" width="180" height="52" />
         </a>
 
         <nav className="desktop-nav" aria-label="Main navigation">
@@ -689,7 +679,7 @@ function SiteHeader({ onNavigate }) {
 function Hero() {
   const headlineRef = useRef(null)
 
-  const headline = ['Stop Losing', 'High-Paying', 'Customers to an', 'Outdated Website.']
+  const headline = ['Websites built', 'to earn trust', 'and bring in', 'better enquiries.']
 
   useEffect(() => {
     if (REDUCED_MOTION) return
@@ -720,8 +710,7 @@ function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: REDUCED_MOTION ? 0 : 0.9, duration: 0.5, ease: EASE }}
           >
-            <span className="hero__status-dot" aria-hidden="true" />
-            Godswill Okoi <span aria-hidden="true">•</span> Web Designer &amp; Frontend Developer (React &amp; Tailwind CSS)
+            Web Designer &amp; Frontend Developer
           </motion.div>
 
           <h1
@@ -786,10 +775,10 @@ function Hero() {
         >
           <div className="hero__portrait">
             <img
-              src="/images/me.jpeg"
-              alt="Smart Moses (Godswill Okoi), web designer and frontend developer"
-              width="832"
-              height="1040"
+              src="/images/godswill-okoi.png"
+              alt="Godswill Okoi, web designer and frontend developer"
+              width="800"
+              height="800"
               fetchPriority="high"
               decoding="async"
             />
@@ -819,71 +808,6 @@ function Hero() {
 }
 
 /* ─── REALITY CHECK ─────────────────────────────────────────────────────────── */
-function BeforeAfterSlider() {
-  const [position, setPosition] = useState(56)
-
-  return (
-    <div className="compare" style={{ '--pos': `${position}%` }}>
-      <div className="compare__pane compare__pane--before" aria-hidden="true">
-        <span className="compare__tag">Before · template clutter</span>
-        <div className="compare__browser">
-          <span className="compare__bar"><i /><i /><i /></span>
-          <div className="compare__page">
-            <div className="compare__nav">
-              <span className="compare__logo" />
-              <span className="compare__links"><i /><i /><i /></span>
-            </div>
-            <div className="compare__hero">
-              <span className="compare__eyebrow" />
-              <span className="compare__headline" />
-              <span className="compare__headline compare__headline--short" />
-              <span className="compare__line" />
-              <span className="compare__line compare__line--short" />
-              <span className="compare__cta" />
-            </div>
-            <div className="compare__visual"><span /></div>
-            <div className="compare__cards"><span /><span /><span /></div>
-          </div>
-        </div>
-      </div>
-
-      <div className="compare__pane compare__pane--after" aria-hidden="true">
-        <span className="compare__tag">After · clear, conversion-first build</span>
-        <div className="compare__browser">
-          <span className="compare__bar"><i /><i /><i /></span>
-          <div className="compare__page">
-            <div className="compare__nav">
-              <span className="compare__logo" />
-              <span className="compare__links"><i /><i /><i /></span>
-            </div>
-            <div className="compare__hero">
-              <span className="compare__eyebrow" />
-              <span className="compare__headline" />
-              <span className="compare__headline compare__headline--short" />
-              <span className="compare__line" />
-              <span className="compare__line compare__line--short" />
-              <span className="compare__cta" />
-            </div>
-            <div className="compare__visual"><span /></div>
-            <div className="compare__cards"><span /><span /><span /></div>
-          </div>
-        </div>
-      </div>
-
-      <div className="compare__handle" aria-hidden="true"><span /></div>
-      <input
-        className="compare__range"
-        type="range"
-        min="6"
-        max="94"
-        value={position}
-        onChange={(event) => setPosition(Number(event.target.value))}
-        aria-label="Drag to compare a cluttered template with a clean, high-converting Smart Moses build"
-      />
-    </div>
-  )
-}
-
 function RealityCheck() {
   return (
     <section className="reality-section section-pad" id="reality" aria-labelledby="reality-title">
@@ -917,13 +841,6 @@ function RealityCheck() {
           ))}
         </div>
 
-        <Reveal className="compare-block" delay={0.08}>
-          <div className="compare-block__head">
-            <h3>Cluttered template vs. a clear Smart Moses build.</h3>
-            <p>Drag the handle to compare</p>
-          </div>
-          <BeforeAfterSlider />
-        </Reveal>
       </div>
     </section>
   )
@@ -1097,9 +1014,6 @@ function ProjectEntry({ project, index, onNavigate, isReverse }) {
               decoding="async"
             />
           </BrowserFrame>
-          <span className="project-live-badge" aria-hidden="true">
-            <span className="project-live-dot" /> Live preview <ArrowUpRight size={12} />
-          </span>
         </a>
       </div>
 
@@ -1213,8 +1127,6 @@ function Work({ onNavigate }) {
 /* ─── SERVICES ──────────────────────────────────────────────────────────────── */
 function Services() {
   const [active, setActive] = useState(0)
-  const activeService = SERVICES[active]
-  const ActiveIcon = activeService.icon
 
   return (
     <section className="services-section section-pad" id="services" aria-labelledby="services-title">
@@ -1265,30 +1177,6 @@ function Services() {
             })}
           </div>
 
-          <aside className="services-preview" aria-hidden="true">
-            <div className="services-preview__bar">
-              <span>{activeService.number} / 03</span>
-              <span>{activeService.title}</span>
-            </div>
-            <div className="services-preview__stage" key={active}>
-              <div className="service-visual">
-                <span className="service-visual__ghost">{activeService.number}</span>
-                <span className="service-visual__icon">
-                  <ActiveIcon size={56} strokeWidth={1.2} />
-                </span>
-                <ul className="service-visual__list">
-                  {activeService.deliverables.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-                <span className="service-visual__scope">{activeService.scope}</span>
-              </div>
-            </div>
-            <div className="services-preview__foot">
-              <span>Included in every build</span>
-              <span className="services-preview__hint">Hover a service</span>
-            </div>
-          </aside>
         </div>
       </div>
     </section>
@@ -1358,22 +1246,14 @@ function About() {
             <div className="about-photo__frame">
               <div className="about-photo__media">
                 <img
-                  src="/images/me-light.jpg"
-                  alt="Godswill Okoi, also known as Smart Moses"
-                  width="832"
-                  height="1040"
+                  src="/images/godswill-okoi.png"
+                  alt="Godswill Okoi, founder of Smart Moses Creative"
+                  width="800"
+                  height="800"
                   loading="lazy"
                   decoding="async"
                 />
-                <div className="about-photo__label">
-                  <span className="about-photo__label-name">Godswill Okoi</span>
-                  <span className="about-photo__label-title">Smart Moses</span>
-                </div>
               </div>
-            </div>
-            <div className="about-photo__index" aria-hidden="true">
-              <span>03</span>
-              <span>Portrait</span>
             </div>
           </Reveal>
 
@@ -1385,7 +1265,7 @@ function About() {
 
             <div className="about-body">
               <p>
-                I'm Smart Moses (Godswill Okoi) — a web designer and frontend developer. I build websites that are clear, fast, and built to turn attention into enquiries.
+                I'm Godswill Okoi, a web designer and frontend developer working under the Smart Moses Creative brand. I build websites that are clear, fast, and built to turn attention into enquiries.
               </p>
               <p>
                 My background in graphic design shapes how I think about hierarchy, content, and the details that make an interface feel considered. My focus is the frontend: semantic HTML, clean CSS, JavaScript, and React — with mobile responsiveness built in from the start.
@@ -1626,11 +1506,11 @@ function ContactForm() {
           {state === 'sending' ? 'Sending…' : 'Send My Details'}
           <ArrowRight size={15} aria-hidden="true" />
         </button>
-        <p className="contact-form__note">Reply within 24 hours · No sales call required</p>
+        <p className="contact-form__note">Quick replies · No sales call required</p>
 
         {state === 'success' && (
           <p className="form-status form-status--success" aria-live="polite">
-            Details sent. I'll reply within 24 hours.
+            Thanks for reaching out. I'll get back to you shortly.
           </p>
         )}
         {state === 'error' && (
@@ -1710,9 +1590,8 @@ function Contact() {
               </Reveal>
               <Reveal delay={0.06}>
                 <p className="contact-cta__sub">
-                  You don't need to jump on a 45-minute sales call just to get started. Drop your
-                  website link or project idea below, and I'll reply with a clear plan (or a quick
-                  homepage concept idea) within 24 hours.
+                  You don't need a sales call to get started. Send your website link or project idea,
+                  and I'll get back to you quickly with a clear next step.
                 </p>
               </Reveal>
               <Reveal delay={0.1} className="contact-cta__actions">
@@ -1732,8 +1611,8 @@ function Contact() {
                 <p className="contact-cta__card-title">No sales call. No pressure. Just a clear next step.</p>
                 <ul className="contact-cta__card-list">
                   <li>You send your site or idea</li>
-                  <li>I reply within 24 hours</li>
-                  <li>You get a plan or homepage concept</li>
+                  <li>A quick, considered reply</li>
+                  <li>A clear next step for your project</li>
                 </ul>
                 <span className="contact-cta__card-foot">Written-first · No obligation</span>
               </div>
@@ -1754,8 +1633,7 @@ function Contact() {
                 Tell me what you're building.
               </h3>
               <p className="contact-info__note">
-                Drop your current website link or a short project idea. I'll reply with a clear plan
-                — or a homepage concept — within 24 hours.
+                Drop your current website link or project idea. I'll get back to you quickly with a clear next step.
               </p>
               <button
                 type="button"
@@ -1857,16 +1735,12 @@ function SiteFooter({ onNavigate, onReplayIntro }) {
           aria-label="Smart Moses — back to top"
           onClick={(e) => onNavigate?.('/#top', e)}
         >
-          <LogoMark size={44} className="footer-wordmark__mark" />
-          <span className="footer-wordmark__type">
-            <span>Smart Moses</span>
-            <em>Creative</em>
-          </span>
+          <img className="footer-wordmark__logo" src="/images/smart-moses-creative-logo.png" alt="Smart Moses Creative" width="220" height="64" />
         </a>
 
         <div className="footer-row">
           <p className="footer-meta">
-            © {new Date().getFullYear()} Smart Moses (Godswill Okoi).{' '}
+            © {new Date().getFullYear()} Godswill Okoi · Smart Moses Creative.{' '}
             <span>Web Designer & Frontend Developer.</span>
           </p>
 
