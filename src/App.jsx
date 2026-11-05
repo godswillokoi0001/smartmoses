@@ -14,6 +14,7 @@ import ProjectCaseStudy from './ProjectCaseStudy.jsx'
 import PricingPage from './PricingPage.jsx'
 import { PROJECTS } from './projects.js'
 import './design.css'
+import './theme.css'
 
 /* ─── CONSTANTS ─────────────────────────────────────────────────────────────── */
 const EMAIL = 'smartmoses515@outlook.com'
@@ -263,6 +264,25 @@ function TechIcon({ name, size = 14 }) {
   return <BrandIcon icon={icon} size={size} />
 }
 
+/* Stacked-hexagon brand mark from the Smart Moses Creative identity */
+function LogoMark({ size = 34, className = '' }) {
+  return (
+    <svg
+      className={className}
+      width={size}
+      height={Math.round(size * 1.18)}
+      viewBox="0 0 44 52"
+      fill="none"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M22 2 42 13.5 34 18.2 22 11.4 10 18.2 2 13.5Z" fill="currentColor" />
+      <path d="M22 18.4 42 29.9 34 34.6 22 27.8 10 34.6 2 29.9Z" fill="currentColor" opacity=".78" />
+      <path d="M22 34.8 42 46.3 34 51 22 44.2 10 51 2 46.3Z" fill="currentColor" opacity=".55" />
+    </svg>
+  )
+}
+
 /* ─── FIRST-VISIT INTRO ─────────────────────────────────────────────────────── */
 const INTRO_SLIDES = [3400, 3700, 3900, 2200]
 const INTRO_TOTAL = INTRO_SLIDES.reduce((total, duration) => total + duration, 0)
@@ -326,23 +346,6 @@ function IntroSequence({ onComplete }) {
     }
   }, [finish])
 
-  const slideMotion = {
-    initial: {
-      opacity: 0,
-      y: REDUCED_MOTION ? 0 : 38,
-      scale: REDUCED_MOTION ? 1 : 0.985,
-      filter: REDUCED_MOTION ? 'blur(0px)' : 'blur(12px)',
-    },
-    animate: { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' },
-    exit: {
-      opacity: 0,
-      y: REDUCED_MOTION ? 0 : -28,
-      scale: REDUCED_MOTION ? 1 : 1.012,
-      filter: REDUCED_MOTION ? 'blur(0px)' : 'blur(8px)',
-    },
-    transition: { duration: REDUCED_MOTION ? 0.12 : 0.85, ease: [0.16, 1, 0.3, 1] },
-  }
-
   return (
     <div
       className={`intro${exiting ? ' is-exiting' : ''}`}
@@ -380,16 +383,25 @@ function IntroSequence({ onComplete }) {
       </div>
 
       <div className="intro__top">
-        <span className="intro__brand">Smart Moses · Portfolio</span>
+        <span className="intro__brand">
+          <LogoMark size={22} />
+          <span>Smart Moses <em>Creative</em></span>
+        </span>
         <button ref={skipRef} type="button" className="intro__skip" onClick={() => finish(true)}>
           Skip intro <ArrowRight size={13} aria-hidden="true" />
         </button>
       </div>
 
       <div className="intro__stage">
-        <AnimatePresence mode="wait">
-          {slide === 0 && (
-            <motion.div className="intro__slide" key="intro-1" {...slideMotion}>
+        <div className="intro__viewport">
+          <motion.div
+            className="intro__track"
+            animate={{ x: `${slide * -100}%` }}
+            transition={{ duration: REDUCED_MOTION ? 0.2 : 0.95, ease: [0.76, 0, 0.24, 1] }}
+          >
+          {(
+            <div className={`intro__slide${slide === 0 ? ' is-active' : ''}`} key="intro-1" aria-hidden={slide !== 0}>
+              <span className="intro__slide-num" aria-hidden="true">01</span>
               <p className="intro__index">01 / 04 — Pattern interrupt</p>
               <p className="intro__line">
                 <StaggerWords
@@ -397,22 +409,25 @@ function IntroSequence({ onComplete }) {
                   highlights={['more', 'customers', 'stronger', 'trust', 'higher', 'sales']}
                 />
               </p>
-            </motion.div>
+            </div>
           )}
 
-          {slide === 1 && (
-            <motion.div className="intro__slide" key="intro-2" {...slideMotion}>
+          {(
+            <div className={`intro__slide${slide === 1 ? ' is-active' : ''}`} key="intro-2" aria-hidden={slide !== 1}>
+              <span className="intro__slide-num" aria-hidden="true">02</span>
               <p className="intro__index">02 / 04 — The core truth</p>
               <p className="intro__line">
-                Trust me — I won’t waste your time. Every business owner who hires me wants one thing:{' '}
+                Trust me — I won’t waste your time. Every business owner who hires me wants
+                one thing:<br />
                 <span className="intro__conversions">CONVERSIONS</span>, not just another pretty{' '}
                 <span className="intro__strike">static page</span>.
               </p>
-            </motion.div>
+            </div>
           )}
 
-          {slide === 2 && (
-            <motion.div className="intro__slide" key="intro-3" {...slideMotion}>
+          {(
+            <div className={`intro__slide${slide === 2 ? ' is-active' : ''}`} key="intro-3" aria-hidden={slide !== 2}>
+              <span className="intro__slide-num" aria-hidden="true">03</span>
               <p className="intro__index">03 / 04 — The introduction</p>
               <p className="intro__line">
                 Hey there, I’m <strong>Godswill Okoi</strong> (Smart Moses). I design and build fast,
@@ -421,17 +436,19 @@ function IntroSequence({ onComplete }) {
               <p className="intro__badge">
                 Web Designer &amp; Frontend Developer <span aria-hidden="true">•</span> React &amp; Tailwind CSS
               </p>
-            </motion.div>
+            </div>
           )}
 
-          {slide === 3 && (
-            <motion.div className="intro__slide" key="intro-4" {...slideMotion}>
+          {(
+            <div className={`intro__slide${slide === 3 ? ' is-active' : ''}`} key="intro-4" aria-hidden={slide !== 3}>
+              <span className="intro__slide-num" aria-hidden="true">04</span>
               <p className="intro__index">04 / 04 — The proof</p>
               <p className="intro__line intro__line--xl">Let’s look at the proof.</p>
               <p className="intro__sub">Selected work · Live builds · Real business outcomes</p>
-            </motion.div>
+            </div>
           )}
-        </AnimatePresence>
+          </motion.div>
+        </div>
       </div>
 
       <div className="intro__bottom">
@@ -466,16 +483,13 @@ function Preloader({ onDone }) {
       transition={{ duration: 0.4, ease: EASE }}
     >
       <div className="preloader__logo">
-        {['S', 'M'].map((letter, i) => (
-          <motion.span
-            key={letter + i}
-            initial={{ y: '100%', opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: i * 0.12, duration: 0.7, ease: EASE }}
-          >
-            {letter}
-          </motion.span>
-        ))}
+        <motion.div
+          initial={{ y: 24, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.7, ease: EASE }}
+        >
+          <LogoMark size={58} />
+        </motion.div>
       </div>
       <div className="preloader__bar" />
     </motion.div>
@@ -585,8 +599,12 @@ function SiteHeader({ onNavigate }) {
           onClick={(e) => handleClick(e, '#top')}
           aria-label="Smart Moses — home"
         >
-          <span className="wordmark__mark" aria-hidden="true">SM</span>
-          <span className="wordmark__name">Smart Moses</span>
+          <LogoMark size={32} className="wordmark__mark" />
+          <span className="wordmark__divider" aria-hidden="true" />
+          <span className="wordmark__type">
+            <span className="wordmark__name">Smart Moses</span>
+            <span className="wordmark__sub">Creative</span>
+          </span>
           <span className="wordmark__status">
             <span className="wordmark__status-dot" aria-hidden="true" />
             Available for New Projects
@@ -1839,7 +1857,11 @@ function SiteFooter({ onNavigate, onReplayIntro }) {
           aria-label="Smart Moses — back to top"
           onClick={(e) => onNavigate?.('/#top', e)}
         >
-          Smart Moses
+          <LogoMark size={44} className="footer-wordmark__mark" />
+          <span className="footer-wordmark__type">
+            <span>Smart Moses</span>
+            <em>Creative</em>
+          </span>
         </a>
 
         <div className="footer-row">

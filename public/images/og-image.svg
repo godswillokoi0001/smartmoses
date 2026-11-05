@@ -1,16 +1,52 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
-  <title id="title">Godswill Okoi (Smart Moses) — Web Designer and Frontend Developer</title>
-  <desc id="description">A dark editorial title card for Godswill Okoi, also known as Smart Moses, web designer and frontend developer.</desc>
-  <rect width="1200" height="630" fill="#090D16" />
-  <path d="M72 74h1056M72 556h1056" fill="none" stroke="#F2F1EA" stroke-opacity=".16" />
-  <path d="M72 74v482" fill="none" stroke="#D4FF5C" stroke-width="3" />
-  <text x="104" y="119" fill="#D4FF5C" font-family="Arial, sans-serif" font-size="16" font-weight="600" letter-spacing="3">GODSWILL OKOI  /  SMART MOSES</text>
-  <text x="96" y="287" fill="#F2F1EA" font-family="Georgia, serif" font-size="132" letter-spacing="-4">Smart</text>
-  <text x="96" y="412" fill="#F2F1EA" font-family="Georgia, serif" font-size="132" letter-spacing="-4">Moses</text>
-  <text x="104" y="478" fill="#D4FF5C" font-family="Arial, sans-serif" font-size="19" font-weight="600" letter-spacing="2">WEB DESIGNER  /  FRONTEND DEVELOPER</text>
-  <text x="104" y="599" fill="#A8B1AD" font-family="Arial, sans-serif" font-size="17" letter-spacing=".4">High-converting business websites, built from scratch.</text>
-  <path d="M934 175h150M934 203h150M934 231h102" fill="none" stroke="#D4FF5C" stroke-width="2" />
-  <text x="933" y="311" fill="#F2F1EA" fill-opacity=".12" font-family="Georgia, serif" font-size="166" letter-spacing="-12">SM</text>
-  <text x="936" y="365" fill="#A8B1AD" font-family="Arial, sans-serif" font-size="11" font-weight="600" letter-spacing="2">REACT / TAILWIND CSS</text>
-  <text x="936" y="599" fill="#A8B1AD" font-family="Arial, sans-serif" font-size="13" letter-spacing="1">SMARTMOSES.VERCEL.APP</text>
+  <title id="title">Smart Moses Creative — Web Designer and Frontend Developer</title>
+  <desc id="description">A navy and gold share card for Godswill Okoi, also known as Smart Moses, web designer and frontend developer.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0B2059" />
+      <stop offset=".55" stop-color="#06112F" />
+      <stop offset="1" stop-color="#050A20" />
+    </linearGradient>
+    <radialGradient id="gold" cx=".82" cy=".1" r=".75">
+      <stop offset="0" stop-color="#F2B233" stop-opacity=".3" />
+      <stop offset=".55" stop-color="#F2B233" stop-opacity=".06" />
+      <stop offset="1" stop-color="#F2B233" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="blue" cx=".08" cy=".55" r=".7">
+      <stop offset="0" stop-color="#2E60D2" stop-opacity=".26" />
+      <stop offset="1" stop-color="#2E60D2" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <rect width="1200" height="630" fill="url(#blue)" />
+  <rect width="1200" height="630" fill="url(#gold)" />
+
+  <g stroke="#DBE3F7" stroke-opacity=".05">
+    <path d="M0 158h1200M0 315h1200M0 472h1200" />
+    <path d="M200 0v630M400 0v630M600 0v630M800 0v630M1000 0v630" />
+  </g>
+
+  <g transform="translate(80 62)" fill="#F7F8FC">
+    <path d="M22 2 42 13.5 34 18.2 22 11.4 10 18.2 2 13.5Z" />
+    <path d="M22 18.4 42 29.9 34 34.6 22 27.8 10 34.6 2 29.9Z" opacity=".8" />
+    <path d="M22 34.8 42 46.3 34 51 22 44.2 10 51 2 46.3Z" opacity=".58" />
+  </g>
+  <path d="M144 62v52" stroke="#DBE3F7" stroke-opacity=".26" />
+  <text x="164" y="89" fill="#F7F8FC" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" letter-spacing="-.5">Smart Moses</text>
+  <text x="165" y="113" fill="#F2B233" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" letter-spacing="5.5">CREATIVE</text>
+
+  <text x="76" y="332" fill="#F7F8FC" font-family="Arial, Helvetica, sans-serif" font-size="106" font-weight="800" letter-spacing="-6">Smart Moses</text>
+  <text x="76" y="466" fill="#F2B233" font-family="Arial, Helvetica, sans-serif" font-size="106" font-weight="800" letter-spacing="-6">Creative.</text>
+  <text x="82" y="528" fill="#A7B4D6" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="500">Web Designer &amp; Frontend Developer</text>
+  <text x="82" y="580" fill="#F7F8FC" font-family="Arial, Helvetica, sans-serif" font-size="18">High-converting business websites, built from scratch.</text>
+
+  <g transform="translate(1074 300)" fill="none" stroke="#F2B233" stroke-opacity=".28">
+    <circle r="164" />
+    <circle r="118" stroke-opacity=".16" />
+  </g>
+  <text x="1068" y="356" fill="#F7F8FC" fill-opacity=".08" font-family="Arial, Helvetica, sans-serif" font-size="156" font-weight="800" letter-spacing="-10" text-anchor="middle">SM</text>
+
+  <path d="M82 606h1036" stroke="#DBE3F7" stroke-opacity=".14" />
+  <text x="82" y="626" fill="#A7B4D6" font-family="Arial, Helvetica, sans-serif" font-size="12" letter-spacing="2">SMARTMOSES.VERCEL.APP</text>
 </svg>
