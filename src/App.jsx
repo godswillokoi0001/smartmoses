@@ -1135,7 +1135,7 @@ function Services() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-5)' }}>
             <SectionLabel num="03" label="Services & Capabilities" />
             <h2 className="services-title" id="services-title">
-              Everything you need for a sharp,<br />high-converting public web presence.
+              Everything you need for a sharp, high-converting public web presence.
             </h2>
           </div>
           <p className="services-sub">
@@ -1157,7 +1157,7 @@ function Services() {
                   <div className="service__body">
                     <div className="service__head">
                       <span className="service__icon" aria-hidden="true">
-                        <Icon size={18} strokeWidth={1.5} />
+                        <Icon size={20} strokeWidth={1.5} />
                       </span>
                       <h3 className="service__title">{service.title}</h3>
                       {service.tag && <span className="service__tag">{service.tag}</span>}
@@ -1210,7 +1210,7 @@ function WhyHireMe() {
             <Reveal className="why-card" key={title}>
               <div className="why-card__top">
                 <span className="why-card__icon" aria-hidden="true">
-                  <Icon size={20} strokeWidth={1.5} />
+                  <Icon size={24} strokeWidth={1.5} />
                 </span>
                 <span className="why-card__num" aria-hidden="true">{num}</span>
               </div>
@@ -1452,9 +1452,9 @@ function ContactForm() {
       {[
         { id: 'contact-name', name: 'name', label: 'Your name', type: 'text', autoComplete: 'name', maxLength: 120 },
         { id: 'contact-email', name: 'email', label: 'Your email', type: 'email', autoComplete: 'email', maxLength: 254 },
-      ].map((field, index) => (
+      ].map((field) => (
         <div className={`form-field${errors[field.name] ? ' has-error' : ''}`} key={field.id}>
-          <span className="form-field__index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+          <label htmlFor={field.id}>{field.label}</label>
           <input
             id={field.id}
             name={field.name}
@@ -1466,7 +1466,6 @@ function ContactForm() {
             aria-invalid={Boolean(errors[field.name])}
             aria-describedby={errors[field.name] ? `${field.id}-error` : undefined}
           />
-          <label htmlFor={field.id}>{field.label}</label>
           {errors[field.name] && (
             <span className="field-error" id={`${field.id}-error`} role="alert">
               {errors[field.name]}
@@ -1475,8 +1474,8 @@ function ContactForm() {
         </div>
       ))}
 
-      <div className={`form-field${errors.message ? ' has-error' : ''}`}>
-        <span className="form-field__index" aria-hidden="true">03</span>
+      <div className={`form-field form-field--wide${errors.message ? ' has-error' : ''}`}>
+        <label htmlFor="contact-message">Your current website or project idea</label>
         <textarea
           id="contact-message"
           name="message"
@@ -1487,7 +1486,6 @@ function ContactForm() {
           aria-invalid={Boolean(errors.message)}
           aria-describedby={errors.message ? 'contact-message-error' : undefined}
         />
-        <label htmlFor="contact-message">Your current website or project idea</label>
         {errors.message && (
           <span className="field-error" id="contact-message-error" role="alert">
             {errors.message}
@@ -1501,7 +1499,7 @@ function ContactForm() {
         <input id="contact-website" name="website" tabIndex="-1" autoComplete="off" />
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+      <div className="contact-form__actions">
         <button className="btn btn--primary" type="submit" disabled={state === 'sending'}>
           {state === 'sending' ? 'Sending…' : 'Send My Details'}
           <ArrowRight size={15} aria-hidden="true" />

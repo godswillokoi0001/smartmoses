@@ -8,9 +8,9 @@
       <stop offset="1" stop-color="#050A20" />
     </linearGradient>
     <radialGradient id="gold" cx=".82" cy=".1" r=".75">
-      <stop offset="0" stop-color="#F2B233" stop-opacity=".3" />
-      <stop offset=".55" stop-color="#F2B233" stop-opacity=".06" />
-      <stop offset="1" stop-color="#F2B233" stop-opacity="0" />
+      <stop offset="0" stop-color="#FFD166" stop-opacity=".3" />
+      <stop offset=".55" stop-color="#FFD166" stop-opacity=".06" />
+      <stop offset="1" stop-color="#FFD166" stop-opacity="0" />
     </radialGradient>
     <radialGradient id="blue" cx=".08" cy=".55" r=".7">
       <stop offset="0" stop-color="#2E60D2" stop-opacity=".26" />
@@ -34,14 +34,14 @@
   </g>
   <path d="M144 62v52" stroke="#DBE3F7" stroke-opacity=".26" />
   <text x="164" y="89" fill="#F7F8FC" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" letter-spacing="-.5">Smart Moses</text>
-  <text x="165" y="113" fill="#F2B233" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" letter-spacing="5.5">CREATIVE</text>
+  <text x="165" y="113" fill="#FFD166" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" letter-spacing="5.5">CREATIVE</text>
 
   <text x="76" y="332" fill="#F7F8FC" font-family="Arial, Helvetica, sans-serif" font-size="106" font-weight="800" letter-spacing="-6">Smart Moses</text>
-  <text x="76" y="466" fill="#F2B233" font-family="Arial, Helvetica, sans-serif" font-size="106" font-weight="800" letter-spacing="-6">Creative.</text>
+  <text x="76" y="466" fill="#FFD166" font-family="Arial, Helvetica, sans-serif" font-size="106" font-weight="800" letter-spacing="-6">Creative.</text>
   <text x="82" y="528" fill="#A7B4D6" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="500">Web Designer &amp; Frontend Developer</text>
   <text x="82" y="580" fill="#F7F8FC" font-family="Arial, Helvetica, sans-serif" font-size="18">High-converting business websites, built from scratch.</text>
 
-  <g transform="translate(1074 300)" fill="none" stroke="#F2B233" stroke-opacity=".28">
+  <g transform="translate(1074 300)" fill="none" stroke="#FFD166" stroke-opacity=".28">
     <circle r="164" />
     <circle r="118" stroke-opacity=".16" />
   </g>
