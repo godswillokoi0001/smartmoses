@@ -1669,3 +1669,252 @@ body::before {
     padding: 1.2rem;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FINAL DELIVERY PASS — local Bricolage cuts, darker atmosphere, site-wide
+   blueprint grid, quieter section titles, and a proper CTA card surface.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Local Bricolage Grotesque: use the supplied heavy cuts, not the packaged
+   variable font. 600 = SemiBold, 700 = Bold, 800 = ExtraBold. */
+@font-face {
+  font-family: 'Bricolage Grotesque Local';
+  src: url('/fonts/BRICOLAGEGROTESQUE-SEMIBOLD.TTF') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bricolage Grotesque Local';
+  src: url('/fonts/BRICOLAGEGROTESQUE-BOLD.TTF') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bricolage Grotesque Local';
+  src: url('/fonts/BRICOLAGEGROTESQUE-EXTRABOLD.TTF') format('truetype');
+  font-weight: 800 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --font-display: 'Bricolage Grotesque Local', 'Bricolage Grotesque', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+}
+
+/* Deeper, calmer page atmosphere */
+body {
+  background:
+    radial-gradient(70% 58% at 84% 0%, rgba(17, 44, 116, 0.24), transparent 66%),
+    radial-gradient(54% 48% at 0% 30%, rgba(7, 23, 69, 0.34), transparent 72%),
+    radial-gradient(80% 68% at 50% 100%, rgba(7, 17, 48, 0.5), transparent 74%),
+    linear-gradient(155deg, #050d22 0%, #030713 48%, #040a1b 100%);
+}
+
+body::before {
+  background:
+    radial-gradient(38% 36% at 84% 12%, rgba(255, 209, 102, 0.07), transparent 72%),
+    radial-gradient(52% 48% at 10% 46%, rgba(28, 68, 164, 0.1), transparent 74%),
+    radial-gradient(60% 50% at 60% 92%, rgba(17, 45, 124, 0.11), transparent 76%);
+  opacity: 0.55;
+}
+
+/* Blueprint grid across the dark chapters. Each section keeps its own tint,
+   while the gold major lines every fourth cell add a quieter, more crafted
+   rhythm than another flat gradient. */
+.reality-section,
+.testimonials-band,
+.work-section,
+.why-section,
+.about-section,
+.process-section,
+.experience-section,
+.contact-section,
+.site-footer {
+  background-image:
+    linear-gradient(rgba(219, 227, 247, 0.032) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(219, 227, 247, 0.032) 1px, transparent 1px),
+    linear-gradient(rgba(255, 209, 102, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 209, 102, 0.05) 1px, transparent 1px);
+  background-size:
+    72px 72px,
+    72px 72px,
+    288px 288px,
+    288px 288px;
+  background-attachment: fixed;
+}
+
+/* Section tints sit above the fixed page wash, not on top of the grid. */
+.reality-section {
+  background-color: rgba(5, 14, 36, 0.58);
+}
+
+.testimonials-band {
+  background-color: rgba(5, 12, 31, 0.66);
+}
+
+.why-section {
+  background-color: rgba(4, 10, 27, 0.3);
+}
+
+.about-section {
+  background-color: rgba(7, 18, 46, 0.58);
+}
+
+.hero::after {
+  background: radial-gradient(circle, rgba(255, 209, 102, 0.11), transparent 64%);
+}
+
+/* The white chapter carries the same grid in a low-contrast ink tone. */
+.services-section {
+  background-color: #f6f3ea;
+  background-image:
+    linear-gradient(rgba(7, 18, 48, 0.038) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(7, 18, 48, 0.038) 1px, transparent 1px),
+    linear-gradient(rgba(180, 123, 0, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(180, 123, 0, 0.07) 1px, transparent 1px);
+  background-size:
+    72px 72px,
+    72px 72px,
+    288px 288px,
+    288px 288px;
+}
+
+.contact-cta-strip::before {
+  background-image:
+    linear-gradient(rgba(7, 18, 48, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(7, 18, 48, 0.045) 1px, transparent 1px),
+    linear-gradient(rgba(180, 123, 0, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(180, 123, 0, 0.08) 1px, transparent 1px);
+  background-size:
+    72px 72px,
+    72px 72px,
+    288px 288px,
+    288px 288px;
+}
+
+/* Quieter section titles: one consistent scale after every section label. */
+.reality-title,
+.work-section__title,
+.services-title,
+.why-title,
+.about-lede,
+.process-title,
+.experience-title,
+.testimonials-title,
+.contact-cta-headline,
+.contact-info-title {
+  font-size: clamp(1.6rem, 2.35vw, 2.25rem);
+  line-height: 1.18;
+  letter-spacing: -0.035em;
+  font-weight: 800;
+  text-wrap: pretty;
+}
+
+.contact-cta-headline {
+  font-size: clamp(1.65rem, 2.55vw, 2.4rem);
+  max-width: 26ch;
+}
+
+.contact-info-title {
+  font-size: clamp(1.55rem, 2.25vw, 2.1rem);
+}
+
+.experience-title {
+  margin-top: var(--space-5);
+}
+
+/* “What happens next” is a real dark panel on the light CTA strip. */
+.contact-cta__card {
+  color: #f7f8fc;
+  border-color: rgba(255, 209, 102, 0.32);
+  background:
+    linear-gradient(rgba(232, 238, 255, 0.052) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232, 238, 255, 0.052) 1px, transparent 1px),
+    radial-gradient(110% 100% at 100% 0%, rgba(64, 115, 235, 0.34), transparent 64%),
+    linear-gradient(150deg, #10275c 0%, #081630 58%, #050e24 100%);
+  background-size: 26px 26px, 26px 26px, auto, auto;
+  box-shadow:
+    14px 18px 0 rgba(4, 10, 28, 0.16),
+    0 28px 60px rgba(4, 10, 28, 0.28);
+}
+
+.contact-cta__card-title {
+  color: #ffffff;
+}
+
+.contact-cta__card-list,
+.contact-cta__card-list li {
+  color: #c5d1e8;
+}
+
+.contact-cta__card-list li {
+  border-bottom-color: rgba(232, 238, 255, 0.12);
+}
+
+.contact-cta__card-foot {
+  color: #9dabc9;
+}
+
+/* Let the quieter headings breathe across the measure instead of being
+   squeezed into narrow ch boxes. */
+.reality-title {
+  max-width: 34ch;
+}
+
+.work-section__title {
+  max-width: 32ch;
+}
+
+.services-title {
+  max-width: 30ch;
+}
+
+.text-nowrap {
+  white-space: nowrap;
+}
+
+.why-title {
+  max-width: 24ch;
+}
+
+.process-title {
+  max-width: 20ch;
+}
+
+/* The old offset block is decorative, not content. */
+.about-photo::before {
+  display: none;
+}
+
+.services-section::after {
+  background: radial-gradient(
+    circle,
+    rgba(255, 209, 102, 0.24),
+    rgba(255, 209, 102, 0.06) 46%,
+    transparent 68%
+  );
+}
+
+@media (max-width: 899px) {
+  .reality-section,
+  .testimonials-band,
+  .work-section,
+  .why-section,
+  .about-section,
+  .process-section,
+  .experience-section,
+  .contact-section,
+  .site-footer,
+  .services-section,
+  .contact-cta-strip::before {
+    background-attachment: scroll;
+  }
+}

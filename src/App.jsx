@@ -704,15 +704,6 @@ function Hero() {
       <div className="wrap hero__inner">
         {/* Copy column */}
         <div className="hero__copy">
-          <motion.div
-            className="hero__status"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: REDUCED_MOTION ? 0 : 0.9, duration: 0.5, ease: EASE }}
-          >
-            Web Designer &amp; Frontend Developer
-          </motion.div>
-
           <h1
             id="hero-title"
             className="hero__headline"
@@ -1099,7 +1090,7 @@ function Work({ onNavigate }) {
             <SectionLabel num="02" label="Selected Work & Live Builds" />
             <h2 className="work-section__title" id="work-heading">
               Don’t just take my word for it.<br />
-              <em style={{ fontStyle: 'italic', color: 'var(--muted)' }}>Inspect the live code and designs.</em>
+              <em>Inspect the live code and designs.</em>
             </h2>
           </div>
           <p className="work-section__sub">
@@ -1135,7 +1126,8 @@ function Services() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-5)' }}>
             <SectionLabel num="03" label="Services & Capabilities" />
             <h2 className="services-title" id="services-title">
-              Everything you need for a sharp, high-converting public web presence.
+              Everything you need for a sharp,{' '}
+              <span className="text-nowrap">high-converting</span> public web presence.
             </h2>
           </div>
           <p className="services-sub">
@@ -1364,16 +1356,7 @@ function Experience() {
       <div className="wrap">
         <Reveal>
           <SectionLabel num="07" label="Experience" />
-          <h2
-            id="experience-title"
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(2rem, 4vw, 3.5rem)',
-              lineHeight: 1.05,
-              letterSpacing: '-0.02em',
-              marginTop: 'var(--space-5)',
-            }}
-          >
+          <h2 className="experience-title" id="experience-title">
             Work shaped by teams, clients, and real constraints.
           </h2>
         </Reveal>
@@ -1583,7 +1566,7 @@ function Contact() {
               <Reveal>
                 <h2 className="contact-cta-headline" id="contact-heading">
                   Let's build a website that<br />
-                  <em style={{ fontStyle: 'italic' }}>actually does justice to your business.</em>
+                  <em>actually does justice to your business.</em>
                 </h2>
               </Reveal>
               <Reveal delay={0.06}>
