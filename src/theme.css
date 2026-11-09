@@ -27,7 +27,6 @@
 
 html {
   color-scheme: dark;
-  scrollbar-color: rgba(255, 209, 102, 0.55) #071331;
 }
 
 ::selection {
@@ -906,6 +905,68 @@ body::before {
     font-size: 9rem;
     right: -2%;
     opacity: 0.5;
+  }
+}
+
+/* Refined heading scale and contrast */
+:root {
+  --accent: #FFC13B;
+  --accent-dim: #E7A91E;
+}
+
+.hero__headline {
+  font-size: clamp(2.25rem, 4.15vw, 4.1rem);
+  line-height: 0.98;
+}
+
+.reality-title,
+.work-section__title,
+.services-title,
+.why-title,
+.about-title,
+.process-title,
+.experience-title,
+.contact-title,
+.testimonials-title {
+  font-size: clamp(1.8rem, 3.45vw, 3.15rem);
+  line-height: 1.06;
+}
+
+.hero {
+  background-color: #020611;
+}
+
+.reality-section,
+.testimonials-band,
+.why-section,
+.about-section,
+.process-section,
+.experience-section,
+.contact-section,
+.site-footer {
+  background-color: rgba(2, 6, 17, 0.84);
+  background-image:
+    linear-gradient(rgba(219, 227, 247, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(219, 227, 247, 0.018) 1px, transparent 1px),
+    linear-gradient(rgba(255, 193, 59, 0.024) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 193, 59, 0.024) 1px, transparent 1px);
+}
+
+@media (max-width: 899px) {
+  .hero__headline {
+    font-size: clamp(2rem, 8.7vw, 2.8rem);
+  }
+
+  .reality-title,
+  .work-section__title,
+  .services-title,
+  .why-title,
+  .about-title,
+  .process-title,
+  .experience-title,
+  .contact-title,
+  .testimonials-title {
+    font-size: clamp(1.7rem, 7vw, 2.35rem);
   }
 }
 
@@ -1916,5 +1977,67 @@ body::before {
   .services-section,
   .contact-cta-strip::before {
     background-attachment: scroll;
+  }
+}
+
+/* Final heading and contrast pass */
+:root {
+  --accent: #FFC13B;
+  --accent-dim: #E7A91E;
+}
+
+.hero__headline {
+  font-size: clamp(2.25rem, 4.15vw, 4.1rem);
+  line-height: 0.98;
+}
+
+.reality-title,
+.work-section__title,
+.services-title,
+.why-title,
+.about-title,
+.process-title,
+.experience-title,
+.contact-title,
+.testimonials-title {
+  font-size: clamp(1.8rem, 3.45vw, 3.15rem);
+  line-height: 1.06;
+}
+
+.hero {
+  background-color: #020611;
+}
+
+.reality-section,
+.testimonials-band,
+.why-section,
+.about-section,
+.process-section,
+.experience-section,
+.contact-section,
+.site-footer {
+  background-color: rgba(2, 6, 17, 0.84);
+  background-image:
+    linear-gradient(rgba(219, 227, 247, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(219, 227, 247, 0.018) 1px, transparent 1px),
+    linear-gradient(rgba(255, 193, 59, 0.024) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 193, 59, 0.024) 1px, transparent 1px);
+}
+
+@media (max-width: 899px) {
+  .hero__headline {
+    font-size: clamp(2rem, 8.7vw, 2.8rem);
+  }
+
+  .reality-title,
+  .work-section__title,
+  .services-title,
+  .why-title,
+  .about-title,
+  .process-title,
+  .experience-title,
+  .contact-title,
+  .testimonials-title {
+    font-size: clamp(1.7rem, 7vw, 2.35rem);
   }
 }

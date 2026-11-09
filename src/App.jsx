@@ -54,19 +54,19 @@ const TRUST_ITEMS = [
 const PROBLEMS = [
   {
     num: '01',
-    title: 'Broken templates hurt trust',
-    body: 'When a prospective client visits your site on their phone and runs into broken layouts, slow loading, or confusing menus, they don’t email you to complain—they quietly leave for a competitor.',
+    title: 'Broken Templates Hurt Trust.',
+    body: 'When a prospective client visits your site on their phone and runs into broken layouts or slow loading, they don’t email you to complain—they quietly leave for a competitor.',
     icon: ShieldCheck,
   },
   {
     num: '02',
-    title: 'Pretty design without direction fails',
-    body: 'A website shouldn’t just sit there looking like a digital brochure. If visitors cannot tell what you offer within 5 seconds or find an obvious way to contact you, you are leaking leads every single day.',
+    title: 'Social Media Isn’t Enough.',
+    body: 'Relying entirely on Facebook or Instagram makes you look like a beginner. If high-value clients can’t find your dedicated, professional website, you are leaking leads every single day.',
     icon: Target,
   },
   {
     num: '03',
-    title: 'Built from scratch for real outcomes',
+    title: 'Built From Scratch for Real Outcomes.',
     body: 'I strip away clunky templates and build custom, high-speed frontend websites tailored to your brand—guiding your visitors smoothly from their first click straight to your inquiry inbox.',
     icon: Code2,
   },
@@ -75,30 +75,30 @@ const PROBLEMS = [
 const WHY_PILLARS = [
   {
     num: '01',
-    title: '100% custom execution',
+    title: '100% Custom Execution.',
     tag: 'Zero lazy templates',
-    body: 'Every layout is crafted specifically for your brand goals, your audience, and your mobile users.',
+    body: 'Zero lazy templates. Every layout is crafted specifically for your brand goals and your mobile users.',
     icon: Gem,
   },
   {
     num: '02',
-    title: 'Designed for business outcomes',
+    title: 'Designed for Business Outcomes.',
     tag: 'Not just code',
-    body: 'Your customers don’t care about code syntax—they care about how fast your page loads and how easy it is to work with you. I build with your buyer’s journey in mind.',
+    body: 'Your customers don’t care about code syntax—they care about how fast your page loads and how easy it is to contact you. I build with your buyer’s journey in mind.',
     icon: Gauge,
   },
   {
     num: '03',
-    title: 'Transparent, honest scope',
+    title: 'Transparent, Honest Scope.',
     tag: 'No overpromising',
-    body: 'I specialize strictly in high-impact web design and frontend development. I never overpromise things outside my lane, and I deliver exactly what we agree on—on time.',
+    body: 'I specialize strictly in high-impact web design and frontend development. I never overpromise backend engineering, and I deliver exactly what we agree on.',
     icon: Handshake,
   },
   {
     num: '04',
-    title: 'Fast, written-first communication',
+    title: 'Fast, Written-First Communication.',
     tag: 'No time-wasting meetings',
-    body: 'No endless meetings required. We can scope your project, review live preview links, and launch smoothly with clear, fast written updates.',
+    body: 'No endless, time-wasting meetings required. We can scope your project, review live preview links, and launch smoothly with clear written updates.',
     icon: MessagesSquare,
   },
 ]
@@ -106,25 +106,25 @@ const WHY_PILLARS = [
 const SERVICES = [
   {
     number: '01',
-    title: 'Custom website design & frontend development',
+    title: 'Custom Website Design (From Scratch)',
     tag: 'Primary',
-    detail: 'Complete websites built from scratch using React, Tailwind CSS, and modern web standards. Fast, mobile-responsive, and structured to convert visitors into leads without bloated templates.',
+    detail: 'Ready to move off social media? I build complete, professional business websites from scratch using modern web standards. Fast, mobile-responsive, and structured to convert.',
     scope: 'Website strategy · UI design · React & Tailwind build',
     icon: Monitor,
     deliverables: ['Custom React & Tailwind build', 'Mobile-first responsive UI', 'Conversion-focused page structure'],
   },
   {
     number: '02',
-    title: 'Website redesigns & frontend modernization',
-    detail: 'Already have a site or a SaaS web app with an outdated public landing page? I rebuild your customer-facing frontend from the ground up while linking seamlessly into your existing portals or workflows.',
+    title: 'Website Redesigns & Frontend Modernization',
+    detail: 'Already have a site with an outdated public landing page? I rebuild your customer-facing frontend from the ground up while linking seamlessly into your existing portals or workflows.',
     scope: 'Audit · Redesign · Frontend rebuild',
     icon: RefreshCw,
     deliverables: ['UX & content audit', 'Modern frontend rebuild', 'Seamless portal & workflow links'],
   },
   {
     number: '03',
-    title: 'High-converting landing pages & visual assets',
-    detail: 'Focused landing pages, brand graphics, and promotional visuals designed with clear visual hierarchy so your marketing campaigns actually turn clicks into customer inquiries.',
+    title: 'High-Converting Landing Pages',
+    detail: 'Focused landing pages and promotional visuals designed with clear visual hierarchy so your marketing campaigns actually turn clicks into customer inquiries.',
     scope: 'Offer strategy · Landing page · Campaign visuals',
     icon: Layers,
     deliverables: ['Single-action page structure', 'Campaign graphics & visual assets', 'Analytics-ready build'],
@@ -208,38 +208,45 @@ const TECH_ICONS = {
 const TESTIMONIALS = [
   {
     quote:
-      'Smart turned a list of logistics services into a site our customers actually understand. Enquiries now arrive with the right details, and it holds up on a phone.',
-    name: 'Daniel E.',
-    role: 'Operations Lead, Rayto Prolog',
-    initials: 'DE',
+      'Godswill understood what we wanted and delivered a website that gives our business a more professional online presence. The design was clean, well-structured and aligned with our brand. We appreciated his commitment to bringing the project together.',
+    name: 'Dennis Ubi',
+    role: 'Management, Rayto Prolog',
+    initials: 'DU',
   },
   {
     quote:
-      'He worked straight from our Figma file and the build matched it almost exactly — spacing, type, the small interactions. Very little back-and-forth.',
-    name: 'Amina O.',
-    role: 'Product Designer, Vista MFB',
-    initials: 'AO',
+      'We appreciated the creativity and attention to detail that went into our website. Smart Moses was able to translate our ideas into a clean digital experience with a modern look and straightforward presentation.',
+    name: 'Emmanuel Onyo',
+    role: 'Founder & CEO, Azawire Africa',
+    initials: 'EO',
   },
   {
     quote:
-      'What stood out was how quickly he understood the difference between our personal and business audiences. The journeys finally make sense to visitors.',
-    name: 'Tunde A.',
-    role: 'Frontend Lead, Azawire Africa',
-    initials: 'TA',
+      'The website project gave us a more organized and professional digital presentation. Godswill paid attention to the visual structure and overall user experience, making sure the website reflected the direction of our brand.',
+    name: 'Abamson Maxwell',
+    role: 'Management, Vista MFB',
+    initials: 'AM',
   },
   {
     quote:
-      'Clear updates, no chasing. The landing page shipped when he said it would, and it still looks sharp a year later.',
-    name: 'Chiamaka N.',
-    role: 'Founder, retail brand',
-    initials: 'CN',
+      'We liked the direction and ideas presented for our business website. Smart Moses demonstrated an understanding of how a business website should communicate its services and make it easier for potential customers to connect with us.',
+    name: 'Perculia Emaje',
+    role: 'Founder, PECs Ventures',
+    initials: 'PE',
   },
   {
     quote:
-      'He asks better questions than most people I have hired. The finished site is simpler than what we started with, and it explains the business in one screen.',
-    name: 'Michael B.',
-    role: 'Marketing Manager, B2B services',
-    initials: 'MB',
+      'Smart Moses brought creativity and a practical approach to digital projects. His understanding of visual presentation and web design made it easier to communicate ideas and develop a professional online experience.',
+    name: 'Emmanuel Chukwuemeka Agbo',
+    role: 'Founder, Disolnet Technologies',
+    initials: 'EA',
+  },
+  {
+    quote:
+      'Working on our digital presence has reinforced the importance of combining good design with functionality. Godswill approaches website development with attention to brand identity, presentation and the needs of the people using the website.',
+    name: 'Godwin Ekwelisi',
+    role: 'Management, Smotiva Digital',
+    initials: 'GE',
   },
 ]
 
@@ -404,8 +411,8 @@ function IntroSequence({ onComplete }) {
               <p className="intro__index">01 / 04 — Pattern interrupt</p>
               <p className="intro__line">
                 <StaggerWords
-                  text="You’re probably here because your business needs more customers, stronger trust, and higher sales."
-                  highlights={['more', 'customers', 'stronger', 'trust', 'higher', 'sales']}
+                  text="You want more clients and higher sales."
+                  highlights={['more', 'clients', 'higher', 'sales']}
                 />
               </p>
             </div>
@@ -416,10 +423,7 @@ function IntroSequence({ onComplete }) {
               <span className="intro__slide-num" aria-hidden="true">02</span>
               <p className="intro__index">02 / 04 — The core truth</p>
               <p className="intro__line">
-                Trust me — I won’t waste your time. Every business owner who hires me wants
-                one thing:<br />
-                <span className="intro__conversions">CONVERSIONS</span>, not just another pretty{' '}
-                <span className="intro__strike">static page</span>.
+                But a broken template—or having no website at all—is costing you.
               </p>
             </div>
           )}
@@ -429,11 +433,8 @@ function IntroSequence({ onComplete }) {
               <span className="intro__slide-num" aria-hidden="true">03</span>
               <p className="intro__index">03 / 04 — The introduction</p>
               <p className="intro__line">
-                Hey there, I’m <strong>Godswill Okoi</strong>, founder of Smart Moses Creative. I design and build fast,
-                modern frontend websites from scratch that turn casual clicks into paying clients.
-              </p>
-              <p className="intro__badge">
-                Web Designer &amp; Frontend Developer <span aria-hidden="true">•</span> React &amp; Tailwind CSS
+                You need a digital presence that actually{' '}
+                <span className="intro__conversions">CONVERTS</span>.
               </p>
             </div>
           )}
@@ -442,8 +443,10 @@ function IntroSequence({ onComplete }) {
             <div className={`intro__slide${slide === 3 ? ' is-active' : ''}`} key="intro-4" aria-hidden={slide !== 3}>
               <span className="intro__slide-num" aria-hidden="true">04</span>
               <p className="intro__index">04 / 04 — The proof</p>
-              <p className="intro__line intro__line--xl">Let’s look at the proof.</p>
-              <p className="intro__sub">Selected work · Live builds · Real business outcomes</p>
+              <p className="intro__line intro__line--xl">
+                I’m <strong>Godswill Okoi</strong>.<br />
+                Let’s look at the proof.
+              </p>
             </div>
           )}
           </motion.div>
@@ -492,62 +495,6 @@ function Preloader({ onDone }) {
       </div>
       <div className="preloader__bar" />
     </motion.div>
-  )
-}
-
-/* ─── CUSTOM CURSOR ─────────────────────────────────────────────────────────── */
-function CustomCursor() {
-  const cursorRef = useRef(null)
-  const [state, setState] = useState('default') // default | hover | view
-
-  useEffect(() => {
-    if (REDUCED_MOTION) return
-    const cursor = cursorRef.current
-    if (!cursor) return
-
-    let raf = null
-    let mx = -100, my = -100
-
-    let finePointer = false
-    const move = (e) => {
-      mx = e.clientX; my = e.clientY
-      if (!finePointer && window.matchMedia('(pointer: fine)').matches) {
-        finePointer = true
-        document.body.classList.add('has-custom-cursor')
-      }
-      cursor.style.opacity = '1'
-      if (raf) return
-      raf = requestAnimationFrame(() => {
-        cursor.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`
-        raf = null
-      })
-    }
-
-    const over = (e) => {
-      const el = e.target.closest('a, button, [role="button"]')
-      if (!el) { setState('default'); return }
-      setState(el.dataset.cursorView ? 'view' : 'hover')
-    }
-
-    document.addEventListener('mousemove', move)
-    document.addEventListener('mouseover', over)
-
-    return () => {
-      document.removeEventListener('mousemove', move)
-      document.removeEventListener('mouseover', over)
-      document.body.classList.remove('has-custom-cursor')
-      if (raf) cancelAnimationFrame(raf)
-    }
-  }, [])
-
-  if (REDUCED_MOTION) return null
-
-  return (
-    <div
-      ref={cursorRef}
-      className={`cursor${state === 'hover' ? ' cursor--hover' : state === 'view' ? ' cursor--view' : ''}`}
-      aria-hidden="true"
-    />
   )
 }
 
@@ -679,7 +626,7 @@ function SiteHeader({ onNavigate }) {
 function Hero() {
   const headlineRef = useRef(null)
 
-  const headline = ['Websites built', 'to earn trust', 'and bring in', 'better enquiries.']
+  const headline = ['Stop Losing', 'High-Paying Clients', 'to a Bad Website', 'or None at all.']
 
   useEffect(() => {
     if (REDUCED_MOTION) return
@@ -736,7 +683,7 @@ function Hero() {
             animate={{ opacity: 1 }}
             transition={{ delay: REDUCED_MOTION ? 0 : 1.1, duration: 0.7, ease: EASE }}
           >
-            Fast, modern websites built from scratch in React and Tailwind — no bloated templates. Just a credible presence that turns visitors into inquiries.
+            Whether you are stuck with a bloated template or relying strictly on social media, I build fast, custom frontend websites in React and Tailwind CSS that instantly earn trust and turn visitors into solid inquiries.
           </motion.p>
 
           <motion.div
@@ -804,11 +751,11 @@ function RealityCheck() {
     <section className="reality-section section-pad" id="reality" aria-labelledby="reality-title">
       <div className="wrap">
         <div className="reality-head">
-          <Reveal><SectionLabel num="01" label="The real problem" /></Reveal>
+          <Reveal><SectionLabel num="01" label="The Real Problem" /></Reveal>
           <Reveal delay={0.05}>
             <h2 className="reality-title" id="reality-title">
-              Your business is great in real life.<br />
-              <em>Does your website show it?</em>
+              Your Business Is Great in Real Life.<br />
+              <em>Does Your Digital Presence Show It?</em>
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
@@ -1089,8 +1036,8 @@ function Work({ onNavigate }) {
           <div>
             <SectionLabel num="02" label="Selected Work & Live Builds" />
             <h2 className="work-section__title" id="work-heading">
-              Don’t just take my word for it.<br />
-              <em>Inspect the live code and designs.</em>
+              Don’t Just Take My Word for It.<br />
+              <em>Inspect the Live Code and Designs.</em>
             </h2>
           </div>
           <p className="work-section__sub">
@@ -1126,8 +1073,8 @@ function Services() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-5)' }}>
             <SectionLabel num="03" label="Services & Capabilities" />
             <h2 className="services-title" id="services-title">
-              Everything you need for a sharp,{' '}
-              <span className="text-nowrap">high-converting</span> public web presence.
+              Everything You Need for a Sharp,{' '}
+              <span className="text-nowrap">High-Converting</span> Public Web Presence.
             </h2>
           </div>
           <p className="services-sub">
@@ -1182,10 +1129,10 @@ function WhyHireMe() {
       <div className="wrap">
         <div className="why-intro">
           <Reveal>
-            <SectionLabel num="04" label="Why work with me" />
+            <SectionLabel num="04" label="Why Work With Me" />
             <h2 className="why-title" id="why-title">
-              Why businesses choose<br />
-              <em>to build with me.</em>
+              Why Businesses Choose<br />
+              <em>to Build With Me.</em>
             </h2>
           </Reveal>
           <Reveal delay={0.08}>
@@ -1562,17 +1509,17 @@ function Contact() {
         <div className="wrap">
           <div className="contact-cta">
             <div className="contact-cta__copy">
-              <span className="contact-cta__kicker"><span>08</span> Ready to upgrade your site?</span>
+              <span className="contact-cta__kicker"><span>08</span> Ready to upgrade your online presence?</span>
               <Reveal>
                 <h2 className="contact-cta-headline" id="contact-heading">
-                  Let's build a website that<br />
-                  <em>actually does justice to your business.</em>
+                  Let’s Build a Website That<br />
+                  <em>Actually Does Justice to Your Business.</em>
                 </h2>
               </Reveal>
               <Reveal delay={0.06}>
                 <p className="contact-cta__sub">
-                  You don't need a sales call to get started. Send your website link or project idea,
-                  and I'll get back to you quickly with a clear next step.
+                  You don't need to jump on a 45-minute sales call to get started. Drop your current link or
+                  project idea below, and I’ll reply with a clear plan ASAP.
                 </p>
               </Reveal>
               <Reveal delay={0.1} className="contact-cta__actions">
@@ -1900,7 +1847,6 @@ function AppContent() {
       <AnimatePresence>
         {!loaded && <Preloader onDone={() => setLoaded(true)} key="preloader" />}
       </AnimatePresence>
-      <CustomCursor />
       <div
         className={`site-shell${revealing ? ' is-revealing' : ''}`}
         inert={introOpen ? true : undefined}
