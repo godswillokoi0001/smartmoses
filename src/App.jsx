@@ -8,7 +8,8 @@ import {
 import {
   siReact, siTypescript, siVite, siTailwindcss, siFramer, siResend,
   siReactrouter, siGithub, siWhatsapp, siHtml5, siCss,
-  siJavascript, siFigma, siGit, siVercel,
+  siJavascript, siFigma, siGit, siVercel, siLucide,
+  siNextdotjs, siSupabase, siPostgresql, siZod,
 } from 'simple-icons'
 import ProjectCaseStudy from './ProjectCaseStudy.jsx'
 import PricingPage from './PricingPage.jsx'
@@ -203,6 +204,11 @@ const TECH_ICONS = {
   GitHub: siGithub,
   Vite: siVite,
   Vercel: siVercel,
+  'Lucide React': siLucide,
+  'Next.js': siNextdotjs,
+  Supabase: siSupabase,
+  PostgreSQL: siPostgresql,
+  Zod: siZod,
 }
 
 const TESTIMONIALS = [
